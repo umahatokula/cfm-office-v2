@@ -14,7 +14,7 @@ class LifeCoachController extends Controller
      */
     public function index()
     {
-        //
+        //begin here
     }
 
     /**
