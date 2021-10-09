@@ -23,10 +23,6 @@ class LifeCoachFactory extends Factory
     {
         return [
             //
-            'fname' => $this->faker->name(),
-            'lname' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'phone' => $this->faker->phoneNumber(),
         ];
     }
 }

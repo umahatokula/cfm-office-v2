@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
-use App\Models\Member;
+use App\Member;
 
 class MembersTableSeeder extends Seeder
 {
@@ -21,7 +20,7 @@ class MembersTableSeeder extends Seeder
 
     	for ($i = 0; $i < $limit; $i++) {
 
-    		$member = new Member();
+    		$member = new Member;
             $member->unique_id      = $member->generateUniqueId();
     		$member->fname         	= $faker->firstName;
     		$member->lname         	= $faker->lastName;

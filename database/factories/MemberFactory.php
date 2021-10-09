@@ -12,7 +12,7 @@ class MemberFactory extends Factory
      *
      * @var string
      */
-    protected $model = Member::class;
+    protected $model = =Member::class;
 
     /**
      * Define the model's default state.
@@ -25,7 +25,7 @@ class MemberFactory extends Factory
             'fname' => $this->faker->name(),
             'lname' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'phone' => $this->faker->phoneNumber(),
+            'phone' => $this->faker->phone(),
             'address' => $this->faker->address(),
         ];
     }

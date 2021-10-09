@@ -1,9 +1,6 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LifeCoachController;
 use Illuminate\Support\Facades\Route;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -16,15 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/d', function () {
+Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
-
-Route::get('/test', [LifeCoachController::class, 'index']);
-Route::get('/', [DashboardController::class, 'index']);
 
 require __DIR__.'/auth.php';
