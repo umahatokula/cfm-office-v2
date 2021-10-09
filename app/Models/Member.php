@@ -35,8 +35,37 @@ class Member extends Model
 			'members.lname' => 10,
 			'members.phone' => 10,
 			'members.email' => 10
-		]
+        ],
 	];
+
+    protected $fillable = [
+        'unique_id',
+        'fname',
+        'lname',
+        'mname',
+        'full_name',
+        'gender_id',
+        'email',
+        'phone',
+        'dob',
+        'address',
+        'local_id',
+        'state_id',
+        'country_id',
+        'age_profile_id',
+        'marital_id',
+        'cell_id',
+        'service_team_id',
+        'occupation',
+        'facebook',
+        'whatsapp',
+        'twitter',
+        'instagram',
+        'picture_path',
+        'church_id',
+        'region_id',
+        'status_id',
+    ];
 
     /**
      * Get the options for generating the slug.
@@ -50,52 +79,52 @@ class Member extends Model
 
 
 	public function generateUniqueId() {
-    	// The length we want the unique reference number to be  
-		$unique_ref_length = 7;  
+    	// The length we want the unique reference number to be
+		$unique_ref_length = 7;
 
-		// A true/false variable that lets us know if we've found a unique reference number or not  
-		$unique_ref_found = false;  
+		// A true/false variable that lets us know if we've found a unique reference number or not
+		$unique_ref_found = false;
 
-		// Define possible characters. Characters that may be confused such as the letter 'O' and the number zero aren't included  
-		$possible_chars = "1234567890";  
+		// Define possible characters. Characters that may be confused such as the letter 'O' and the number zero aren't included
+		$possible_chars = "1234567890";
 
-		// Until we find a unique reference, keep generating new ones  
+		// Until we find a unique reference, keep generating new ones
 		while (!$unique_ref_found) {
 
-    		// Start with a blank reference number  
-			$unique_ref = "";  
+    		// Start with a blank reference number
+			$unique_ref = "";
 
-			// Set up a counter to keep track of how many characters have currently been added  
-			$i = 0;  
+			// Set up a counter to keep track of how many characters have currently been added
+			$i = 0;
 
-    		// Add random characters from $possible_chars to $unique_ref until $unique_ref_length is reached  
-			while ($i < $unique_ref_length) {  
+    		// Add random characters from $possible_chars to $unique_ref until $unique_ref_length is reached
+			while ($i < $unique_ref_length) {
 
-        		// Pick a random character from the $possible_chars list  
-				$char = substr($possible_chars, mt_rand(0, strlen($possible_chars)-1), 1);  
+        		// Pick a random character from the $possible_chars list
+				$char = substr($possible_chars, mt_rand(0, strlen($possible_chars)-1), 1);
 
-				$unique_ref .= $char;  
+				$unique_ref .= $char;
 
-				$i++;  
+				$i++;
 
-			}  
+			}
 
-    		// Our new unique reference number is generated. Lets check if it exists or not  
-			// $query = "SELECT `order_ref_no` FROM `orders` 
-			// WHERE `order_ref_no`='".$unique_ref."'";  
-			// $result = mysql_query($query) or die(mysql_error().' '.$query);  
+    		// Our new unique reference number is generated. Lets check if it exists or not
+			// $query = "SELECT `order_ref_no` FROM `orders`
+			// WHERE `order_ref_no`='".$unique_ref."'";
+			// $result = mysql_query($query) or die(mysql_error().' '.$query);
 			$result = Member::where('unique_id', $unique_ref)->first();
 			// dd($result);
-			if (is_null($result)) { 
+			if (is_null($result)) {
 
-        		// We've found a unique number. Lets set the $unique_ref_found variable to true and exit the while loop  
-				$unique_ref_found = true;  
+        		// We've found a unique number. Lets set the $unique_ref_found variable to true and exit the while loop
+				$unique_ref_found = true;
 
 			}
 
 			return $unique_ref;
 
-		}  
+		}
 	}
 
 	/**
@@ -109,7 +138,7 @@ class Member extends Model
     public function getUniqueIdAttribute($value) {
         return str_pad($value, 7, '0', STR_PAD_LEFT);
     }
-	
+
     // Every user BELONGS TO (ie is) a person
 	public function church(){
 		return $this->belongsTo(Church::class);
@@ -121,7 +150,7 @@ class Member extends Model
 
 	public function country(){
 		return $this->belongsTo(Country::class);
-	} 
+	}
 
 	public function state(){
 		return $this->belongsTo(State::class);
@@ -166,6 +195,14 @@ class Member extends Model
 	public function user(){
 		return $this->hasOne(User::class);
 	}
+
+    /**
+     * The life-coaches that belong to the member.
+     */
+    public function lifecoaches()
+    {
+        return $this->belongsToMany(LifeCoach::class, 'life_coach_targets');
+    }
 
     /**
      * add a member to a cell
