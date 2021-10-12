@@ -19,9 +19,9 @@ class LifeCoach extends Model
      /**
      * The members that belong to the life coaches.
      */
-    public function members()
+    public function followUpTargets()
     {
-        return $this->belongsToMany(Member::class, 'life_coach_targets');
+        return $this->belongsToMany(FollowupTarget::class, 'life_coach_targets');
     }
 
 }

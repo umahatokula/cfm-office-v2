@@ -11,4 +11,9 @@ class DashboardController extends Controller
 		// dd(request->all());
         return view('frontend.pages.dashboard.views.index');
     }
+
+    function create() {
+		// dd(request->all());
+        return view('frontend.pages.dashboard.views.create');
+    }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FollowupTarget;
 use App\Models\LifeCoach;
 use App\Models\Member;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,20 +19,20 @@ class LifeCoachController extends Controller
     public function index()
     {
         //begin here
-        // $member = Member::find(2);
+        $user = User::find(1);
         // $lifeCoach = [1, 2];
         // $member->lifecoaches()->attach($lifeCoach);
 
-        // dd($member->lifecoaches);
+        // dd('life id: '.$member->life_coach_id);
 
         //Get authenticated user id
-        $userId = Auth::user()->id;
-        //Get authenticated user's list of lifeCoach's and paginate it
-        $lifeCoaches = LifeCoach::where(['user_id' => $userId])->paginate(5);
-        $members = Member::where(['user_id' => $userId])->paginate(5);
-        $lifeCoach = LifeCoach::where(['user_id' => $userId])->paginate(5);
+        $life_coach_id = $user->life_coach_id;
 
-        return view('frontend.pages.dashboard.views.index', ['lifeCoaches' => $lifeCoaches]);
+        $lifeCoach = LifeCoach::where(['id' => $life_coach_id])->first();
+
+        $followupTargets = $lifeCoach->followUpTargets;
+
+        return view('frontend.pages.dashboard.views.index', ['lifeCoaches' => $lifeCoach, 'followupTargets' => $followupTargets]);
     }
 
     /**
@@ -41,7 +43,7 @@ class LifeCoachController extends Controller
     public function create()
     {
         //
-        return view('todo.add');
+        return view('frontend.pages.dashboard.views.index');
     }
 
     /**
