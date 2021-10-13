@@ -15,6 +15,9 @@ class FollowUpReportController extends Controller
     public function index()
     {
         //
+        $followUpReports = FollowUpReport::all()->paginate(5);
+
+        return view('frontend.pages.dashboard.views.index', ['followUpReport' => $followUpReports]);
     }
 
     /**
@@ -36,6 +39,20 @@ class FollowUpReportController extends Controller
     public function store(Request $request)
     {
         //
+        // $userId = Auth::user()->id;
+        $input = $request->input();
+        // $input['user_id'] = $userId;
+        $followUpReport = FollowUpReport::create($input);
+
+        //check if followUpReport was created successfully or not and send a notification
+        if ($followUpReport) {
+            $request->session()->flash('success', 'FollowUpReport successfully added');
+        } else {
+            $request->session()->flash('error', 'Oops something went wrong, FollowUpReport not saved');
+        }
+
+        return redirect('todo');
+
     }
 
     /**
@@ -47,6 +64,14 @@ class FollowUpReportController extends Controller
     public function show(FollowUpReport $followUpReport)
     {
         //
+        //Get authenticated user and display a single FollowUpReport
+
+        $followUpReport = FollowUpReport::where(['id' => $followUpReport->id])->first();
+        if (!$followUpReport) {
+            return redirect('todo')->with('error', 'FollowUpReport not found');
+        }
+        return view('todo.view', ['todo' => $followUpReport]);
+
     }
 
     /**
@@ -58,6 +83,15 @@ class FollowUpReportController extends Controller
     public function edit(FollowUpReport $followUpReport)
     {
         //
+        ////Get authenticated user and display FollowUpReport to edit
+
+        $followUpReport = FollowUpReport::where(['id' => $followUpReport->id])->first();
+        if ($followUpReport) {
+            return view('todo.edit', [ 'todo' => $followUpReport ]);
+        } else {
+            return redirect('todo')->with('error', 'FollowUpReport not found');
+        }
+
     }
 
     /**
@@ -70,6 +104,20 @@ class FollowUpReportController extends Controller
     public function update(Request $request, FollowUpReport $followUpReport)
     {
         //
+        //Get authenticated user and update FollowUpReport
+        $followUpReport = FollowUpReport::find($followUpReport->id);
+        if (!$followUpReport) {
+            return redirect('todo')->with('error', 'FollowUpReport not found.');
+        }
+        $input = $request->input();
+
+        $followUpReport = $followUpReport->update($input);
+        if ($followUpReport) {
+            return redirect('todo')->with('success', 'FollowUpReport successfully updated.');
+        } else {
+            return redirect('todo')->with('error', 'Oops something went wrong. FollowUpReport not updated');
+        }
+
     }
 
     /**
@@ -81,5 +129,23 @@ class FollowUpReportController extends Controller
     public function destroy(FollowUpReport $followUpReport)
     {
         //
+        //Get authenticated user and delete a specific FollowUpReport
+
+        $followUpReport = FollowUpReport::where(['id' => $followUpReport->id])->first();
+        $respStatus = $respMsg = '';
+        if (!$followUpReport) {
+            $respStatus = 'error';
+            $respMsg = 'FollowUpReport not found';
+        }
+        $followUpReportDelStatus = $followUpReport->delete();
+        if ($followUpReportDelStatus) {
+            $respStatus = 'success';
+            $respMsg = 'FollowUpReport deleted successfully';
+        } else {
+            $respStatus = 'error';
+            $respMsg = 'Oops something went wrong. FollowUpReport not deleted successfully';
+        }
+        return redirect('todo')->with($respStatus, $respMsg);
+
     }
 }
