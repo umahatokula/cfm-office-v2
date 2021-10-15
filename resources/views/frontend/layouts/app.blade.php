@@ -19,16 +19,16 @@
 <body>
     <div class="app align-content-stretch d-flex flex-wrap">
         {{-- sidebar start --}}
-        @include('frontend.pages.dashboard.partials.sidebar')
+        @include('frontend.pages.partials.sidebar')
         {{-- sidebar end --}}
 
         <div class="app-container">
             {{-- searchbar start --}}
-            @include('frontend.pages.dashboard.partials.searchbar')
+            @include('frontend.pages.partials.searchbar')
             {{-- searchbar end --}}
 
             {{-- header start --}}
-            @include('frontend.pages.dashboard.partials.header')
+            @include('frontend.pages.partials.header')
             {{-- header end --}}
 
             {{-- page content start --}}

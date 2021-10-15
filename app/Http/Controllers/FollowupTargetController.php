@@ -14,7 +14,20 @@ class FollowupTargetController extends Controller
      */
     public function index()
     {
-        //
+        /*
+        $member = FollowupTarget::find(2);
+        $followupTarget = [1, 2];
+        $member->lifecoaches()->attach($followupTarget);
+
+        dd($member->lifecoaches);
+        */
+
+        //Get authenticated user id
+        // $userId = Auth::user()->id;
+
+        $followupTarget = FollowupTarget::all()->paginate(5);
+
+        return view('frontend.pages.dashboard.views.index', ['followupTarget' => $followupTarget]);
     }
 
     /**
@@ -25,6 +38,7 @@ class FollowupTargetController extends Controller
     public function create()
     {
         //
+        return view('todo.add');
     }
 
     /**
@@ -36,6 +50,19 @@ class FollowupTargetController extends Controller
     public function store(Request $request)
     {
         //
+        // $userId = Auth::user()->id;
+        $input = $request->input();
+        // $input['user_id'] = $userId;
+        $followupTarget = FollowupTarget::create($input);
+
+        //check if follow_up_target was created successfully or not and send a notification
+        if ($followupTarget) {
+            $request->session()->flash('success', 'FollowupTarget successfully added');
+        } else {
+            $request->session()->flash('error', 'Oops something went wrong, FollowupTarget not saved');
+        }
+
+        return redirect('todo');
     }
 
     /**
@@ -47,6 +74,13 @@ class FollowupTargetController extends Controller
     public function show(FollowupTarget $followupTarget)
     {
         //
+        //Get authenticated user and display a single follow_up_target
+
+        $follow_up_target = FollowupTarget::where(['id' => $followupTarget->id])->first();
+        if (!$follow_up_target) {
+            return redirect('todo')->with('error', 'FollowupTarget not found');
+        }
+        return view('todo.view', ['follow_up_target' => $follow_up_target]);
     }
 
     /**
@@ -58,6 +92,14 @@ class FollowupTargetController extends Controller
     public function edit(FollowupTarget $followupTarget)
     {
         //
+        ////Get authenticated user and display follow_up_target to edit
+
+        $follow_up_target = FollowupTarget::where(['id' => $followupTarget->id])->first();
+        if ($follow_up_target) {
+            return view('todo.edit', [ 'todo' => $follow_up_target ]);
+        } else {
+            return redirect('todo')->with('error', 'FollowupTarget not found');
+        }
     }
 
     /**
@@ -70,6 +112,19 @@ class FollowupTargetController extends Controller
     public function update(Request $request, FollowupTarget $followupTarget)
     {
         //
+        //Get authenticated user and update follow_up_target
+
+        $follow_up_target = FollowupTarget::find($followupTarget->id);
+        if (!$follow_up_target) {
+            return redirect('todo')->with('error', 'FollowupTarget not found.');
+        }
+        $input = $request->input();
+        $todoStatus = $follow_up_target->update($input);
+        if ($todoStatus) {
+            return redirect('todo')->with('success', 'FollowupTarget successfully updated.');
+        } else {
+            return redirect('todo')->with('error', 'Oops something went wrong. FollowupTarget not updated');
+        }
     }
 
     /**
@@ -81,5 +136,21 @@ class FollowupTargetController extends Controller
     public function destroy(FollowupTarget $followupTarget)
     {
         //
+        //Get authenticated user and delete a specific follow_up_target
+        $follow_up_target = FollowupTarget::where(['id' => $followupTarget->id])->first();
+        $respStatus = $respMsg = '';
+        if (!$follow_up_target) {
+            $respStatus = 'error';
+            $respMsg = 'FollowupTarget not found';
+        }
+        $todoDelStatus = $follow_up_target->delete();
+        if ($todoDelStatus) {
+            $respStatus = 'success';
+            $respMsg = 'FollowupTarget deleted successfully';
+        } else {
+            $respStatus = 'error';
+            $respMsg = 'Oops something went wrong. FollowupTarget not deleted successfully';
+        }
+        return redirect('todo')->with($respStatus, $respMsg);
     }
 }

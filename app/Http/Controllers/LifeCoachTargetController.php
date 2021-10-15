@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FollowupTarget;
+use App\Models\LifeCoach;
 use App\Models\LifeCoachTarget;
 use App\Models\Member;
 use Illuminate\Http\Request;
@@ -17,16 +19,16 @@ class LifeCoachTargetController extends Controller
     public function index()
     {
         //begin here
-        // $member = Member::find(2);
-        // $lifeCoach = [1, 2];
-        // $member->lifecoaches()->attach($lifeCoach);
+        $member = FollowupTarget::find(2);
+        $lifeCoach = [1, 2];
+        $member->lifecoaches()->attach($lifeCoach);
 
-        // dd($member->lifecoaches);
+        dd($member->lifecoaches);
 
         //Get authenticated user id
-        $userId = Auth::user()->id;
+        // $userId = Auth::user()->id;
 
-        $members = Member::where(['user_id' => $userId])->paginate(5);
+        $members = FollowupTarget::where(['user_id' => $userId])->paginate(5);
         $lifeCoach = LifeCoach::where(['user_id' => $userId])->paginate(5);
 
         return view('frontend.pages.dashboard.views.index', ['lifeCoaches' => $lifeCoaches]);

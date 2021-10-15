@@ -196,13 +196,7 @@ class Member extends Model
 		return $this->hasOne(User::class);
 	}
 
-    /**
-     * The life-coaches that belong to the member.
-     */
-    public function lifecoaches()
-    {
-        return $this->belongsToMany(LifeCoach::class, 'life_coach_targets');
-    }
+
 
     /**
      * add a member to a cell

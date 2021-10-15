@@ -26,5 +26,6 @@ Route::get('/dashboard', function () {
 
 Route::get('/test', [LifeCoachController::class, 'index']);
 Route::get('/', [DashboardController::class, 'index']);
+Route::get('/create', [DashboardController::class, 'create']);
 
 require __DIR__.'/auth.php';

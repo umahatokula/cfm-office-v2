@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\FollowupTarget;
 use App\Models\LifeCoach;
 use App\Models\Member;
 use Illuminate\Database\Seeder;
@@ -21,8 +22,9 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $this->call([
-            MemberSeeder::class,
-            LifeCoach::class,
+            // MemberSeeder::class,
+            // LifeCoach::class,
+            FollowUpTargetSeeder::class,
         ]);
     }
 }
