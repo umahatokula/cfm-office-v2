@@ -49,6 +49,7 @@ class FollowupTargetController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         //
         // $userId = Auth::user()->id;
         $input = $request->input();
@@ -62,7 +63,7 @@ class FollowupTargetController extends Controller
             $request->session()->flash('error', 'Oops something went wrong, FollowupTarget not saved');
         }
 
-        return redirect('todo');
+        return redirect()->route('create-target');
     }
 
     /**

@@ -55,9 +55,9 @@ class LifeCoachController extends Controller
     public function store(Request $request)
     {
         //
-        $userId = Auth::user()->id;
+        // $userId = Auth::user()->id;
         $input = $request->input();
-        $input['user_id'] = $userId;
+        // $input['user_id'] = $userId;
         $lifeCoach = LifeCoach::create($input);
 
         //check if lifeCoach was created successfully or not and send a notification
@@ -67,7 +67,7 @@ class LifeCoachController extends Controller
             $request->session()->flash('error', 'Oops something went wrong, lifeCoach not saved');
         }
 
-        return redirect('todo');
+        return redirect()->route('create-life-coach');
     }
 
     /**

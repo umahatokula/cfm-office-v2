@@ -14,6 +14,11 @@ class DashboardController extends Controller
 
     function create() {
 		// dd(request->all());
-        return view('frontend.pages.dashboard.views.create');
+        return view('frontend.pages.dashboard.views.create-follow-up-target');
+    }
+
+    function createCoach() {
+		// dd(request->all());
+        return view('frontend.pages.dashboard.views.create-life-coach');
     }
 }
