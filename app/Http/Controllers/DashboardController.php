@@ -21,4 +21,9 @@ class DashboardController extends Controller
 		// dd(request->all());
         return view('frontend.pages.dashboard.views.create-life-coach');
     }
+
+    function showCoach() {
+		// dd(request->all());
+        return view('frontend.pages.dashboard.views.all-life-coach');
+    }
 }

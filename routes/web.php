@@ -26,13 +26,38 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/test', [LifeCoachController::class, 'index']);
-Route::get('/', [DashboardController::class, 'index']);
-Route::get('/create', [DashboardController::class, 'create'])->name('create-target');
+Route::get('/', [DashboardController::class, 'index'])->name('index');
+
+Route::get('/all-life-coach', [LifeCoachController::class, 'list'])->name('all-life-coach');
 
 Route::get('/create-life-coach', [DashboardController::class, 'createCoach'])->name('create-life-coach');
 
+Route::post('/store-life-coach', [LifeCoachController::class, 'store'])->name('store-life-coach');
+
+Route::get('/show-life-coach/{LifeCoach}', [LifeCoachController::class, 'show'])->name('show-life-coach');
+
+Route::get('/edit-life-coach/{LifeCoach}', [LifeCoachController::class, 'edit'])->name('edit-life-coach');
+
+Route::put('/update-life-coach/{LifeCoach}', [LifeCoachController::class, 'update'])->name('update-life-coach');
+
+Route::delete('/delete-life-coach/{LifeCoach}', [LifeCoachController::class, 'destroy'])->name('delete-life-coach');
+
+
+
+
+Route::get('/all-target', [FollowupTargetController::class, 'index'])->name('all-target');
+
+Route::get('/create-target', [FollowupTargetController::class, 'create'])->name('create-target');
+
 Route::post('/store-target', [FollowupTargetController::class, 'store'])->name('store-target');
 
-Route::post('/store-life-coach', [LifeCoachController::class, 'store'])->name('store-life-coach');
+Route::get('/show-target/{target}', [FollowupTargetController::class, 'show'])->name('show-target');
+
+Route::get('/edit-target/{target}', [FollowupTargetController::class, 'edit'])->name('edit-target');
+
+Route::put('/update-target/{target}', [FollowupTargetController::class, 'update'])->name('update-target');
+
+Route::delete('/delete-target/{target}', [FollowupTargetController::class, 'destroy'])->name('delete-target');
+
 
 require __DIR__.'/auth.php';

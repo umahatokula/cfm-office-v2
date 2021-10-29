@@ -35,6 +35,14 @@ class LifeCoachController extends Controller
         return view('frontend.pages.dashboard.views.index', ['lifeCoaches' => $lifeCoach, 'followupTargets' => $followupTargets]);
     }
 
+    public function list()
+    {
+
+        $coaches = LifeCoach::paginate(5);
+
+        return view('frontend.pages.dashboard.views.all-life-coach' , ['coaches' => $coaches]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -43,7 +51,7 @@ class LifeCoachController extends Controller
     public function create()
     {
         //
-        return view('frontend.pages.dashboard.views.index');
+        return view('frontend.pages.dashboard.views.create-life-coach');
     }
 
     /**
@@ -76,16 +84,15 @@ class LifeCoachController extends Controller
      * @param  \App\Models\LifeCoach  $lifeCoach
      * @return \Illuminate\Http\Response
      */
-    public function show(LifeCoach $lifeCoach)
+    public function show($lifeCoach)
     {
         //
         //Get authenticated user and display a single lifeCoach
-        $userId = Auth::user()->id;
-        $lifeCoach = LifeCoach::where(['id' => $lifeCoach->id])->first();
+        $lifeCoach = LifeCoach::where(['id' => $lifeCoach])->first();
         if (!$lifeCoach) {
-            return redirect('todo')->with('error', 'lifeCoach not found');
+            return redirect()->route('create-life-coach')->with('error', 'lifeCoach not found. Create missing coach');
         }
-        return view('todo.view', ['lifeCoach' => $lifeCoach]);
+        return view('frontend.pages.dashboard.views.show-life-coach', ['lifeCoach' => $lifeCoach]);
     }
 
     /**
@@ -94,16 +101,16 @@ class LifeCoachController extends Controller
      * @param  \App\Models\LifeCoach  $lifeCoach
      * @return \Illuminate\Http\Response
      */
-    public function edit(LifeCoach $lifeCoach)
+    public function edit($lifeCoach)
     {
         //
         ////Get authenticated user and display lifeCoach to edit
-        $userId = Auth::user()->id;
-        $lifeCoach = LifeCoach::where(['user_id' => $userId, 'id' => $lifeCoach->id])->first();
+        // $userId = Auth::user()->id;
+        $lifeCoach = LifeCoach::where(['id' => $lifeCoach])->first();
         if ($lifeCoach) {
-            return view('lifeCoach.edit', [ 'lifeCoach' => $lifeCoach ]);
+            return view('frontend.pages.dashboard.views.edit-life-coach', [ 'lifeCoach' => $lifeCoach ]);
         } else {
-            return redirect('todo')->with('error', 'lifeCoach not found');
+            return redirect('/')->with('error', 'lifeCoach not found');
         }
     }
 
@@ -114,22 +121,19 @@ class LifeCoachController extends Controller
      * @param  \App\Models\LifeCoach  $lifeCoach
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LifeCoach $lifeCoach)
+    public function update(Request $request, $lifeCoach)
     {
-        //
-        //Get authenticated user and update lifeCoach
-        $userId = Auth::user()->id;
-        $lifeCoach = LifeCoach::find($lifeCoach->id);
+
+        $lifeCoach = LifeCoach::find($lifeCoach);
         if (!$lifeCoach) {
-            return redirect('todo')->with('error', 'lifeCoach not found.');
+            return redirect('/')->with('error', 'lifeCoach not found.');
         }
         $input = $request->input();
-        $input['user_id'] = $userId;
         $lifeCoachStatus = $lifeCoach->update($input);
         if ($lifeCoachStatus) {
-            return redirect('todo')->with('success', 'lifeCoach successfully updated.');
+            return view('frontend.pages.dashboard.views.edit-life-coach' , [ 'lifeCoach' => $lifeCoach ])->with('success', 'lifeCoach successfully updated.');
         } else {
-            return redirect('todo')->with('error', 'Oops something went wrong. lifeCoach not updated');
+            return view('frontend.pages.dashboard.views.edit-life-coach', [ 'lifeCoach' => $lifeCoach ])->with('error', 'Oops something went wrong. lifeCoach not updated');
         }
     }
 
@@ -139,12 +143,11 @@ class LifeCoachController extends Controller
      * @param  \App\Models\LifeCoach  $lifeCoach
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LifeCoach $lifeCoach)
+    public function destroy($lifeCoach)
     {
         //
         //Get authenticated user and delete a specific lifeCoach
-        $userId = Auth::user()->id;
-        $lifeCoach = LifeCoach::where(['user_id' => $userId, 'id' => $lifeCoach->id])->first();
+        $lifeCoach = LifeCoach::where(['id' => $lifeCoach])->first();
         $respStatus = $respMsg = '';
         if (!$lifeCoach) {
             $respStatus = 'error';
@@ -158,6 +161,6 @@ class LifeCoachController extends Controller
             $respStatus = 'error';
             $respMsg = 'Oops something went wrong. lifeCoach not deleted successfully';
         }
-        return redirect('todo')->with($respStatus, $respMsg);
+        return redirect('/')->with($respStatus, $respMsg);
     }
 }

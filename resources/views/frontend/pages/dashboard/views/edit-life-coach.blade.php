@@ -22,27 +22,28 @@
                                         <h5 class="card-title"><span class="badge badge-light badge-style-light"> TODAY</span></h5>
                                     </div>
                                     <div class="card-body">
-                                        <form class="row g-3" method="POST" action=" {{ route('store-life-coach') }} ">
+                                        <form class="row g-3" method="POST" action=" {{ route('update-life-coach', [$lifeCoach]) }} ">
                                             @csrf
+                                            @method('PUT')
                                             <div class="col-md-6">
                                                 <label for="Email" class="form-label">Email</label>
-                                                <input type="email" class="form-control" id="Email" name="email">
+                                                <input type="email" class="form-control" id="Email" name="email" value=" {{ $lifeCoach->email }} ">
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="fname" class="form-label">First Name</label>
-                                                <input type="text" class="form-control" id="fname" name="fname">
+                                                <input type="text" class="form-control" id="fname" name="fname" value=" {{ $lifeCoach->fname }} ">
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="lname" class="form-label">Last Name</label>
-                                                <input type="text" class="form-control" id="lname" name="lname">
+                                                <input type="text" class="form-control" id="lname" name="lname" value=" {{ $lifeCoach->lname }} ">
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="phone" class="form-label">Phone Number</label>
-                                                <input type="text" class="form-control" id="phone" name="phone">
+                                                <input type="text" class="form-control" id="phone" name="phone" value=" {{ $lifeCoach->phone }} ">
                                             </div>
 
                                             <div class="col-12">
-                                                <button type="submit" class="btn btn-primary">Create</button>
+                                                <button type="submit" class="btn btn-primary">Update</button>
                                             </div>
                                         </form>
                                     </div>
