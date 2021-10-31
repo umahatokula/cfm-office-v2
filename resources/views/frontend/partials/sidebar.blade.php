@@ -18,6 +18,17 @@
                 <a href="{{ route('church-services.index') }}"><i class="material-icons-two-tone">done</i>Service Day</a>
             </li>
             <li>
+                <a href=""><i class="material-icons-two-tone">star</i>Members<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{ route('members.index') }}" class="item">All Members</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('members.create') }}" class="item">Add Member</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
                 <a href=""><i class="material-icons-two-tone">star</i>Reports<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                 <ul class="sub-menu">
                     <li>

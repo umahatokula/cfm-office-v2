@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Database\Seeders\MemberSeeder;
+use Database\Seeders\UsersTableSeeder;
+use Database\Seeders\ChurchTableSeeder;
 use Database\Seeders\FollowUpTargetSeeder;
 use Database\Seeders\RolesAndPermissionsTableSeeder;
 
@@ -25,6 +27,7 @@ class DatabaseSeeder extends Seeder
             // FollowUpTargetSeeder::class,
             RolesAndPermissionsTableSeeder::class,
             UsersTableSeeder::class,
+            ChurchTableSeeder::class,
         ]);
     }
 }

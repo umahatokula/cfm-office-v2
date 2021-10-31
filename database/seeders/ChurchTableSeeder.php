@@ -1,7 +1,10 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Church;
 use Illuminate\Database\Seeder;
+use DB;
 
 
 class ChurchTableSeeder extends Seeder

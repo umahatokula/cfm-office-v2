@@ -15,6 +15,8 @@
     <!-- Title -->
     <title>CFM OFFICE 2.0.0</title>
 
+    @livewireStyles
+
 </head>
 <body>
     <div class="app align-content-stretch d-flex flex-wrap">
@@ -46,6 +48,8 @@
     </div>
 
     @include('frontend.imports.javascripts')
+
+    @livewireScripts
 
 </body>
 </html>
