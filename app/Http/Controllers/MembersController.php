@@ -41,8 +41,9 @@ class MembersController extends Controller
     	$data['manage_members'] = 1;
 
         $data['members'] = Member::all();        
+        $data['churches'] = Church::all();        
 
-    	return view('members.index', $data);
+    	return view('frontend.pages.members.index', $data);
     }
 
     /**
@@ -75,7 +76,7 @@ class MembersController extends Controller
         }
         $data['months'] = $months ;
 
-    	return view('members.create', $data);
+    	return view('frontend.pages.members.create', $data);
     }
 
     /**
@@ -185,7 +186,7 @@ class MembersController extends Controller
     	$data['title'] = $data['profile']->fname;
     	$data['manage_members'] = 1;
 
-    	return view('members.show', $data);
+    	return view('frontend.pages.members.show', $data);
     }
 
     /**
@@ -221,7 +222,7 @@ class MembersController extends Controller
         }
         $data['months'] = $months ;
 
-    	return view('members.edit', $data);
+    	return view('frontend.pages.members.edit', $data);
     }
 
     /**

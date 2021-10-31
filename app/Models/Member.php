@@ -21,12 +21,14 @@ use App\Models\MemberServiceTeam;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Member extends Model
 {
 
 	use SearchableTrait;
     use HasSlug;
+	use HasFactory;
 
 	protected $searchable = [
 		'columns' => [
@@ -73,7 +75,7 @@ class Member extends Model
     public function getSlugOptions() : SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom('name')
+            ->generateSlugsFrom(['fname', 'lname'])
             ->saveSlugsTo('slug');
     }
 

@@ -24,9 +24,12 @@ class MemberFactory extends Factory
         return [
             'fname' => $this->faker->name(),
             'lname' => $this->faker->name(),
+            'unique_id' => (new \App\Models\Member)->generateUniqueId(),
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
+            'gender_id' => rand(1, 2),
+            'church_id' => rand(1, 6),
         ];
     }
 }

@@ -1,5 +1,5 @@
-@extends('master')
-@section('body')
+@extends('frontend.layouts.app')
+@section('content')
 
 <div class="content-wrapper">
   <div class="page-title">

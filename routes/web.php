@@ -47,28 +47,28 @@ Route::get('/d', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
 
 Route::get('/test', [LifeCoachController::class, 'index']);
-Route::get('/', [DashboardController::class, 'index']);
-Route::get('/create', [DashboardController::class, 'create']);
+// Route::get('/', [DashboardController::class, 'index']);
+// Route::get('/create', [DashboardController::class, 'create']);
 
 require __DIR__.'/auth.php';
 
 // MIGRATION FROM OLD
 
 //Dashboard
-Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 //Members
-Route::get('members/{id}/picture', 					[MembersController::class, 'getPicture']);
-Route::get('members/delete/{id}', 					[MembersController::class, 'delete']);
-Route::get('members/cell/{member_id}/{cell_id}', 	[MembersController::class, 'addTocell']);
-Route::get('members/search', 						[MembersController::class, 'search']);
-Route::post('members/autocomplete', 				[MembersController::class, 'search']);
-Route::post('members/service-teams', 				[MembersController::class, 'addToServiceTeam']);
+Route::get('members/{id}/picture', 					[MembersController::class, 'getPicture'])->name('members.picture');
+Route::get('members/delete/{id}', 					[MembersController::class, 'delete'])->name('members.delete');
+Route::get('members/cell/{member_id}/{cell_id}', 	[MembersController::class, 'addTocell'])->name('members.cell');
+Route::get('members/search', 						[MembersController::class, 'search'])->name('members.search');
+Route::post('members/autocomplete', 				[MembersController::class, 'search'])->name('members.search');
+Route::post('members/service-teams', 				[MembersController::class, 'addToServiceTeam'])->name('members.service-teams');
 Route::resource('members', MembersController::class);
 
 // Cells

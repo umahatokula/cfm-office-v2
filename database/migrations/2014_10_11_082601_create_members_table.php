@@ -18,8 +18,8 @@ class CreateMembersTable extends Migration
             $table->integer('unique_id');
             $table->string('fname');
             $table->string('lname');
+            $table->string('slug');
             $table->string('mname')->nullable();
-            $table->string('full_name');
             $table->integer('gender_id');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
