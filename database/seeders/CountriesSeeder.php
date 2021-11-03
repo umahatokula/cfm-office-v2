@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use DB;
 use Illuminate\Database\Seeder;
-use App\Country;
+use Webpatser\Countries\Countries;
 
 class CountriesSeeder extends Seeder {
 
@@ -41,16 +42,16 @@ class CountriesSeeder extends Seeder {
                 'timezone'    => '-1 GMT',
             ]);
 
-        foreach ($countries as $country) {
-            DB::table('countries')->insert([
-                'name'        => $country->name->official ? $country->name->official : '',
-                // 'region'      => $country->region ? $country->region : '',
-                // 'subregion'   => $country->subregion ? $country->subregion : '',
-                // 'currency'    => $country->currency[0]['title'] ? $country->currency[0]['title'] : '',
-                // 'ISO4217Code' => $country->currency[0]['ISO4217Code'] ? $country->currency[0]['ISO4217Code'] : '',
-                // 'callingCode' => $country->callingCode[0] ? $country->callingCode[0] : '',
-                // 'timezone'    => $country->timezone ? $country->timezone : '',
-            ]);
-        }
+        // foreach ($countries as $country) {
+        //     DB::table('countries')->insert([
+        //         'name'        => $country->name->official ? $country->name->official : '',
+        //         // 'region'      => $country->region ? $country->region : '',
+        //         // 'subregion'   => $country->subregion ? $country->subregion : '',
+        //         // 'currency'    => $country->currency[0]['title'] ? $country->currency[0]['title'] : '',
+        //         // 'ISO4217Code' => $country->currency[0]['ISO4217Code'] ? $country->currency[0]['ISO4217Code'] : '',
+        //         // 'callingCode' => $country->callingCode[0] ? $country->callingCode[0] : '',
+        //         // 'timezone'    => $country->timezone ? $country->timezone : '',
+        //     ]);
+        // }
     }
 }

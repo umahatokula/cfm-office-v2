@@ -20,23 +20,37 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-4">
-                        <form>
-                            <select wire:model="search" class="form-control">
-                                <option>Select one</option>
-                                @foreach ($churches as $church)
-                                    <option>{{ $church->name }}</option>
-                                @endforeach
-                            </select>
-                        </form>
+                            <form>
+                                <input wire:model="search" type="search" name="search" id="search" class="form-control mb-3" placeholder="Search...">
+                            </form>
                         </div>
-                        <div class="col-md-6 d-flex justify-content-end">
-                            <a href="{{ route('members.create') }}" class="btn btn-primary btn-lg">Add member</a>
+                        <div class="col-md-4">
+                            <form>
+                                <select wire:change.prevent="filterByCenter($event.target.value)"  class="form-control mb-3">
+                                    <option value="">Filter by Centre</option>
+                                    @foreach ($churches as $church)
+                                        <option value="{{ $church->id }}">{{ $church->name }}</option>
+                                    @endforeach
+                                </select>
+                            </form>
+                        </div>
+                        <div class="col-md-4 d-flex justify-content-end">
+                            <a href="{{ route('members.create') }}" class="btn btn-primary btn-lg btn-md-block mb-3">Add member</a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
+                    
+                    <div>
+                        @if (session()->has('message'))
+                            <div class="alert alert-success">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+                    </div>
+
                     <div class="example-container">
-                        <div class="example-content">
+                        <div class="example-content table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>

@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use DB;
+use App\Models\MaritalStatus;
 use Illuminate\Database\Seeder;
-use App\MaritalStatus;
 
 class MaritalStatusTableSeeder extends Seeder
 {
@@ -17,27 +18,27 @@ class MaritalStatusTableSeeder extends Seeder
         DB::table('marital_status')->truncate();
 
 		$single = new MaritalStatus;
-		$single->marital_status = "Single";
+		$single->name = "Single";
 		$single->save();
 
 		$married = new MaritalStatus;
-		$married->marital_status = "Married";
+		$married->name = "Married";
 		$married->save();
 
 		$divorced = new MaritalStatus;
-		$divorced->marital_status = "Divorced";
+		$divorced->name = "Divorced";
 		$divorced->save();
 
 		$seperated = new MaritalStatus;
-		$seperated->marital_status = "Seperated";
+		$seperated->name = "Seperated";
 		$seperated->save();
 
 		$widowed = new MaritalStatus;
-		$widowed->marital_status = "Widowed";
+		$widowed->name = "Widowed";
 		$widowed->save();
 
 		$others = new MaritalStatus;
-		$others->marital_status = "Others";
+		$others->name = "Others";
 		$others->save();
     }
 }

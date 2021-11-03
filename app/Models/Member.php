@@ -22,9 +22,12 @@ use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Member extends Model
+class Member extends Model implements HasMedia
 {
+    use InteractsWithMedia;
 
 	use SearchableTrait;
     use HasSlug;

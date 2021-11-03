@@ -15,7 +15,7 @@ class CreateMaritalStatusesTable extends Migration
     {
         Schema::create('marital_status', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('marital_status');
+            $table->string('name');
             $table->softDeletes();
             $table->timestamps();
         });

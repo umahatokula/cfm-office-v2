@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\State;
 use Illuminate\Database\Seeder;
-use App\State;
+use DB;
 
 class StateTableSeeder extends Seeder
 {
@@ -14,45 +15,50 @@ class StateTableSeeder extends Seeder
      */
     public function run()
     {
-	 	// DB::table('states')->delete();
-	 	DB::table('states')->truncate();
 
-		State::insert(['name' => 'Abia State']);
-        State::insert(['name' => 'Adamawa State']);
-        State::insert(['name' => 'Akwa Ibom State']);
-        State::insert(['name' => 'Anambra State']);
-        State::insert(['name' => 'Bauchi State']);
-        State::insert(['name' => 'Bayelsa State']);
-        State::insert(['name' => 'Benue State']);
-        State::insert(['name' => 'Borno State']);
-        State::insert(['name' => 'Cross River State']);
-        State::insert(['name' => 'Delta State']);
-        State::insert(['name' => 'Ebonyi State']);
-        State::insert(['name' => 'Edo State']);
-        State::insert(['name' => 'Ekiti State']);
-        State::insert(['name' => 'Enugu State']);
-        State::insert(['name' => 'FCT']);
-        State::insert(['name' => 'Gombe State']);
-        State::insert(['name' => 'Imo State']);
-        State::insert(['name' => 'Jigawa State']);
-        State::insert(['name' => 'Kaduna State']);
-        State::insert(['name' => 'Kano State']);
-        State::insert(['name' => 'Katsina State']);
-        State::insert(['name' => 'Kebbi State']);
-        State::insert(['name' => 'Kogi State']);
-        State::insert(['name' => 'Kwara State']);
-        State::insert(['name' => 'Lagos State']);
-        State::insert(['name' => 'Nasarawa State']);
-        State::insert(['name' => 'Niger State']);
-        State::insert(['name' => 'Ogun State']);
-        State::insert(['name' => 'Ondo State']);
-        State::insert(['name' => 'Osun State']);
-        State::insert(['name' => 'Oyo State']);
-        State::insert(['name' => 'Plateau State']);
-        State::insert(['name' => 'Rivers State']);
-        State::insert(['name' => 'Sokoto State']);
-        State::insert(['name' => 'Taraba State']);
-        State::insert(['name' => 'Yobe State']);
-        State::insert(['name' => 'Zamfara State']);
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        State::truncate();   
+
+        \DB::statement("INSERT INTO `states` (`id`, `country_id`, `name`) VALUES
+        (1, 47, 'Abia'),
+        (2, 47, 'Adamawa'),
+        (3, 47, 'Akwa Ibom'),
+        (4, 47, 'Anambra'),
+        (5, 47, 'Bauchi'),
+        (6, 47, 'Bayelsa'),
+        (7, 47, 'Benue'),
+        (8, 47, 'Borno'),
+        (9, 47, 'Cross River'),
+        (10, 47, 'Delta'),
+        (11, 47, 'Ebonyi'),
+        (12, 47, 'Edo'),
+        (13, 47, 'Ekiti'),
+        (14, 47, 'Enugu'),
+        (15, 47, 'FCT'),
+        (16, 47, 'Gombe'),
+        (17, 47, 'Imo'),
+        (18, 47, 'Jigawa'),
+        (19, 47, 'Kaduna'),
+        (20, 47, 'Kano'),
+        (21, 47, 'Katsina'),
+        (22, 47, 'Kebbi'),
+        (23, 47, 'Kogi'),
+        (24, 47, 'Kwara'),
+        (25, 47, 'Lagos'),
+        (26, 47, 'Nasarawa'),
+        (27, 47, 'Niger'),
+        (28, 47, 'Ogun'),
+        (29, 47, 'Ondo'),
+        (30, 47, 'Osun'),
+        (31, 47, 'Oyo'),
+        (32, 47, 'Plateau'),
+        (33, 47, 'Rivers'),
+        (34, 47, 'Sokoto'),
+        (35, 47, 'Taraba'),
+        (36, 47, 'Yobe'),
+        (37, 47, 'Zamfara');");
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 	}
 }

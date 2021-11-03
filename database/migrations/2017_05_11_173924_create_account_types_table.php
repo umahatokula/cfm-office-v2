@@ -16,7 +16,7 @@ class CreateAccountTypesTable extends Migration
         Schema::create('account_types', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('church_id')->nullable();
-            $table->string('account_type');
+            $table->string('name');
             $table->decimal('account_balance', 15, 2)->default(0.00);
             $table->integer('percentage')->nullable()->comment('% to be deducted from total offering after every service');
             $table->softDeletes();

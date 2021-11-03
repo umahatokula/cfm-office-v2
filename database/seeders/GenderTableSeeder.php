@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Gender;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
-use App\Gender;
 
 class GenderTableSeeder extends Seeder {
 
@@ -14,12 +15,12 @@ public function run(){
 	 	DB::table('gender')->truncate();
 
 		$male = Gender::create(array(
-		            'gender'         => 'Male'
-		        ));
+			'name' => 'Male'
+		));
 
 		$female = Gender::create(array(
-		            'gender'         => 'Female'
-		        ));
+			'name' => 'Female'
+		));
 	}
 	
 }

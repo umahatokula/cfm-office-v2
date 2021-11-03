@@ -22,8 +22,8 @@ class MemberFactory extends Factory
     public function definition()
     {
         return [
-            'fname' => $this->faker->name(),
-            'lname' => $this->faker->name(),
+            'fname' => $this->faker->firstName(),
+            'lname' => $this->faker->lastName(),
             'unique_id' => (new \App\Models\Member)->generateUniqueId(),
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->phoneNumber(),

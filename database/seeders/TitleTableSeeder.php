@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use DB;
+use App\Models\Title;
 use Illuminate\Database\Seeder;
-use App\Title;
 
 class TitleTableSeeder extends Seeder
 {
@@ -17,39 +18,39 @@ class TitleTableSeeder extends Seeder
         DB::table('titles')->truncate();
 
 		Title::create(array(
-		            'title'         => 'Mr.'
+		            'name'         => 'Mr.'
 		        ));
 
 		Title::create(array(
-		            'title'         => 'Mrs.'
+		            'name'         => 'Mrs.'
 		        ));
 
 		Title::create(array(
-		            'title'         => 'Miss.'
+		            'name'         => 'Miss.'
 		        ));
 
 		Title::create(array(
-		            'title'         => 'Rev.'
+		            'name'         => 'Rev.'
 		        ));
 
 		Title::create(array(
-		            'title'         => 'Pastor'
+		            'name'         => 'Pastor'
 		        ));
 
 		Title::create(array(
-		            'title'         => 'Apostle'
+		            'name'         => 'Apostle'
 		        ));
 
 		Title::create(array(
-		            'title'         => 'Evang.'
+		            'name'         => 'Evang.'
 		        ));
 
 		Title::create(array(
-		            'title'         => 'Prophet'
+		            'name'         => 'Prophet'
 		        ));
 
 		Title::create(array(
-		            'title'         => 'Prophetess'
+		            'name'         => 'Prophetess'
 		        ));
     }
 }
