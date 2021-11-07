@@ -82,6 +82,16 @@ class Member extends Model implements HasMedia
             ->saveSlugsTo('slug');
     }
 
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
 
 	public function generateUniqueId() {
     	// The length we want the unique reference number to be

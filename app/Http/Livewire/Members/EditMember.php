@@ -16,7 +16,7 @@ use App\Models\AgeProfile;
 use App\Models\ServiceTeam;
 use Livewire\WithFileUploads;
 
-class AddMember extends Component
+class EditMember extends Component
 {
     use WithFileUploads;
     
@@ -57,24 +57,50 @@ class AddMember extends Component
     public $twitter;
     public $instagram;
 
+    public Member $member;
+
     protected $rules = [
         'fname' => 'required',
         'lname' => 'required',
         'email' => 'email',
     ];
 
-    public function mount()
-    {
-        $this->genders = Gender::all();
-        $this->states = State::all();
-        $this->ageProfiles    = AgeProfile::all();
-        $this->states         = State::all();
-        $this->locals         = Local::orderBy('name', 'asc')->get();
-        $this->countries      = Country::orderBy('name', 'asc')->get();
-        $this->churches       = Church::get();
-        $this->cells          = Cell::where('church_id', auth()->user()->member->church_id)->get();
-        $this->serviceTeams   = ServiceTeam::where('church_id', auth()->user()->member->church_id)->get();
-        $this->regions        = Region::where('church_id', auth()->user()->member->church_id)->get();
+    public function mount(Member $member) {
+
+        $this->fname          = $member->fname;
+        $this->lname          = $member->lname;
+        $this->mname          = $member->mname;
+        $this->gender_id      = $member->gender_id;
+        $this->email          = $member->email;
+        $this->phone          = $member->phone;
+        $this->occupation     = $member->occupation;
+        $this->country_id     = $member->country_id;
+        $this->state_id       = $member->state_id;
+        $this->local_id       = $member->local_id;
+        $this->day            = $member->day;
+        $this->month          = $member->month;
+        $this->year           = $member->year;
+        $this->age_profile_id = $member->age_profile_id;
+        $this->church_id      = $member->church_id;
+        $this->address        = $member->address;
+        $this->region_id      = $member->region_id;
+        $this->picture        = $member->picture;
+        $this->cell_id        = $member->cell_id;
+        $this->facebook       = $member->facebook;
+        $this->whatsapp       = $member->whatsapp;
+        $this->twitter        = $member->twitter;
+        $this->instagram      = $member->instagram;
+        
+        $this->genders      = Gender::all();
+        $this->states       = State::all();
+        $this->ageProfiles  = AgeProfile::all();
+        $this->states       = State::all();
+        $this->locals       = Local::orderBy('name', 'asc')->get();
+        $this->countries    = Country::orderBy('name', 'asc')->get();
+        $this->churches     = Church::get();
+        $this->cells        = Cell::where('church_id', auth()->user()->member->church_id)->get();
+        $this->serviceTeams = ServiceTeam::where('church_id', auth()->user()->member->church_id)->get();
+        $this->regions      = Region::where('church_id', auth()->user()->member->church_id)->get();
 
         $days = [];
         for ($i=1; $i <= 31; $i++) { 
@@ -148,7 +174,6 @@ class AddMember extends Component
 
     public function render()
     {
-        return view('livewire.members.add-member');
+        return view('livewire.members.edit-member');
     }
-
 }

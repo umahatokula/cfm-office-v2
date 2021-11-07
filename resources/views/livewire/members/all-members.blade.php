@@ -72,15 +72,20 @@
                                         <td class="text-left"> {{ $member->church ? $member->church->name : null }} </td>
                                         <td class="text-left"> {{$member->phone}} </td>
                                         <td class="text-center">
-                                            <a href="{{ route('members.show', array($member->id)) }}" class="btn btn-primary btn-sm"> View Profile </a>
-                                            <a href="{{ route('members.delete', $member->id) }}" class="btn btn-danger btn-sm"> Delete </a>
+                                            <a href="{{ route('members.show', $member) }}" class="btn btn-primary btn-sm"> View Profile </a>
+                                            <a href="{{ route('members.delete', $member) }}" class="btn btn-danger btn-sm"> Delete </a>
                                         </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
 
-                            {{ $members->links() }}
+                            <div class="row my-5">
+                                <div class="col-12 d-flex justify-content-center">
+                                    {{ $members->links() }}
+                                </div>
+                            </div>
+                            
 
                         </div>
                     </div>

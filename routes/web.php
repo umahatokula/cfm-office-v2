@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SMSController;
 use App\Http\Controllers\CellsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\RegionsController;
 use App\Http\Controllers\ReportsController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FollowupTargetController;
 use App\Http\Controllers\LifeCoachController;
+use App\Http\Controllers\GrowthPathController;
 use App\Http\Controllers\MinistriesController;
 use App\Http\Controllers\AgeProfilesController;
 use App\Http\Controllers\CellMembersController;
@@ -156,22 +158,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('church-role', ChurchRolesController::class);
 
     //Growth Paths
-    // Route::post('members/growth-path', [GrowthPathController::class, 'addMembersToGrowthPath'])->name('members.growth-path');
-    // Route::resource('growth-path', GrowthPathControllerC::class);
+    Route::post('members/growth-path', [GrowthPathController::class, 'addMembersToGrowthPath'])->name('members.growth-path');
+    Route::resource('growth-path', GrowthPathController::class);
 
     //Family
     Route::post('family/find-member', [FamilyController::class, 'findMember'])->name('family.find-member');
     Route::post('family/add-member', [FamilyController::class, 'addMemberToFamily'])->name('family.add-member');
     Route::post('family/delete-member', [FamilyController::class, 'deleteFamilyMember'])->name('family.delete-member');
     Route::resource('family', FamilyController::class);
-
-    // follow up
-    Route::post('follow-up/search', [FollowupController::class, 'search'])->name('follow-up.search');
-    Route::get('follow-up/search-need-attention', [FollowupController::class, 'needAttention'])->name('follow-up.search-need-attention');
-    Route::get('follow-up/search-added-last-week', [FollowupController::class, 'addedLastWeek'])->name('follow-up.search-added-last-week');
-    Route::get('follow-up/search-updated-last-week', [FollowupController::class, 'updatedLastWeek'])->name('follow-up.search-updated-last-week');
-    Route::get('follow-up/{id}/delete', [FollowupController::class, 'delete'])->name('follow-up.delete');
-    Route::resource('follow-up', FollowupController::class);
 
     // follow up reasons
     Route::post('follow-up-reasons/delete', [FollowUpReasonsController::class, 'delete'])->name('follow-up-reasons.delete');
