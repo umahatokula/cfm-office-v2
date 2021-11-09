@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FollowupTargetController;
 use App\Http\Controllers\LifeCoachController;
+use App\Http\Controllers\LifeCoachTargetController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -42,7 +43,9 @@ Route::put('/update-life-coach/{LifeCoach}', [LifeCoachController::class, 'updat
 
 Route::delete('/delete-life-coach/{LifeCoach}', [LifeCoachController::class, 'destroy'])->name('delete-life-coach');
 
+Route::get('/assign-target', [LifeCoachTargetController::class, 'create'])->name('assign-target-form');
 
+Route::post('/assign-target/save', [LifeCoachTargetController::class, 'store'])->name('assign-target');
 
 
 Route::get('/all-target', [FollowupTargetController::class, 'index'])->name('all-target');

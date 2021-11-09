@@ -42,7 +42,9 @@ class LifeCoachTargetController extends Controller
     public function create()
     {
         //
-        return view('todo.add');
+        $followUpTargets = FollowupTarget::all();
+        $lifeCoaches = LifeCoach::all();
+        return view('frontend.pages.dashboard.views.follow-up-targets.assign-target', ['followUpTargets'=>$followUpTargets, 'lifeCoaches'=>$lifeCoaches]);
     }
 
     /**
@@ -53,32 +55,10 @@ class LifeCoachTargetController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $userId = Auth::user()->id;
-        $input = $request->input();
-        $input['user_id'] = $userId;
-        $todoStatus = Todo::create($input);
-
-        //check if todo was created successfully or not and send a notification
-        if ($todoStatus) {
-            $request->session()->flash('success', 'Todo successfully added');
-        } else {
-            $request->session()->flash('error', 'Oops something went wrong, Todo not saved');
-        }
-
-        return redirect('todo');        $userId = Auth::user()->id;
-        $input = $request->input();
-        $input['user_id'] = $userId;
-        $todoStatus = Todo::create($input);
-
-        //check if todo was created successfully or not and send a notification
-        if ($todoStatus) {
-            $request->session()->flash('success', 'Todo successfully added');
-        } else {
-            $request->session()->flash('error', 'Oops something went wrong, Todo not saved');
-        }
-
-        return redirect('todo');
+        $target = FollowupTarget::find($request->input('targets'))->first();
+        $coach = LifeCoach::find($request->input('coaches'))->first();
+        $coach->followUpTargets()->attach($target);
+        return view('frontend.pages.dashboard.views.follow-up-targets.assign-target')->with('success', 'Assigned successfully.');
     }
 
     /**
