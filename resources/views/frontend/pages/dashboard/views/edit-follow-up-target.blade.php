@@ -51,7 +51,7 @@
                                                     <option value="4">Age Profile 4</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-4">
+                                      <div class="col-md-4">
                                                 <label for="status" class="form-label">State</label>
                                                 <select id="status" class="form-select" name="status">
                                                     <option selected value=" {{ $followupTarget->status }} ">Status {{ $followupTarget->status }}</option>
