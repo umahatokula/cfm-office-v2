@@ -19,19 +19,28 @@ class LifeCoachTargetController extends Controller
     public function index()
     {
         //begin here
-        $member = FollowupTarget::find(2);
-        $lifeCoach = [1, 2];
-        $member->lifecoaches()->attach($lifeCoach);
+        // $member = FollowupTarget::find(2);
+        // $lifeCoach = [10, 7];
+        // // $member->lifecoaches()->attach($lifeCoach);
 
-        dd($member->lifecoaches);
+        // $folks = $member->lifecoaches;
+        // // dd($folks[1]->fname);
 
-        //Get authenticated user id
-        // $userId = Auth::user()->id;
+        $coach = LifeCoach::find(1);
+        // $target = [10, 7];
+        // $coach->followuptargets()->attach($target);
 
-        $members = FollowupTarget::where(['user_id' => $userId])->paginate(5);
-        $lifeCoach = LifeCoach::where(['user_id' => $userId])->paginate(5);
+        $folks = $coach->followuptargets;
+        // dd($folks);
 
-        return view('frontend.pages.dashboard.views.index', ['lifeCoaches' => $lifeCoaches]);
+
+        // //Get authenticated user id
+        // // $userId = Auth::user()->id;
+
+        // $members = FollowupTarget::where(['user_id' => $userId])->paginate(5);
+        $coaches = LifeCoach::limit(5)->get();
+
+        return view('frontend.pages.dashboard.views.life-coach.coach-targets', ['coaches'=>$coaches, 'folks'=>$folks]);
     }
 
     /**
