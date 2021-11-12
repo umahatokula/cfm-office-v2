@@ -15,29 +15,41 @@
     <!-- Title -->
     <title>CFM OFFICE 2.0.0</title>
 
+    @livewireStyles
+
 </head>
 <body>
     <div class="app align-content-stretch d-flex flex-wrap">
         {{-- sidebar start --}}
-        @include('frontend.pages.partials.sidebar')
+        @include('frontend.partials.sidebar')
         {{-- sidebar end --}}
 
         <div class="app-container">
             {{-- searchbar start --}}
-            @include('frontend.pages.partials.searchbar')
+            @include('frontend.partials.searchbar')
             {{-- searchbar end --}}
 
             {{-- header start --}}
-            @include('frontend.pages.partials.header')
+            @include('frontend.partials.header')
             {{-- header end --}}
 
             {{-- page content start --}}
-            @yield('content')
+            <div class="app-content">
+                <div class="content-wrapper">
+                    <div class="container-fluid">
+
+                        @yield('content')
+                        
+                    </div>
+                </div>
+            </div>
             {{-- page content end --}}
         </div>
     </div>
 
     @include('frontend.imports.javascripts')
+
+    @livewireScripts
 
 </body>
 </html>

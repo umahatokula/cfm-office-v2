@@ -1,7 +1,10 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use App\AccountType;
+use DB;
 
 class AccountTypesTableSeeder extends Seeder
 {
@@ -16,25 +19,25 @@ class AccountTypesTableSeeder extends Seeder
 
 		$tithes                   = new AccountType;
 		$tithes->church_id        = 1;
-		$tithes->account_type     = 'Tithes';
+		$tithes->name     = 'Tithes';
 		$tithes->percentage       = 10;
 		$tithes->save();
 		
 		$welfare                  = new AccountType;
 		$welfare->church_id        = 1;
-		$welfare->account_type    = 'Welfare';
+		$welfare->name    = 'Welfare';
 		$welfare->percentage       = 25;
 		$welfare->save();
 		
 		$savings                  = new AccountType;
 		$savings->church_id        = 1;
-		$savings->account_type    = 'Savings';
+		$savings->name    = 'Savings';
 		$savings->percentage       = 25;
 		$savings->save();
 		
 		$operations               = new AccountType;
 		$operations->church_id        = 1;
-		$operations->account_type = 'Operations';
+		$operations->name = 'Operations';
 		$operations->percentage       = 40;
 		$operations->save();
     }

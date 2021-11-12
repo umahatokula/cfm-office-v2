@@ -16,7 +16,7 @@ class CreateLocalsTable extends Migration
             $table->increments('id');
             $table->integer('local_id');
             $table->integer('state_id');
-            $table->string('local_name');
+            $table->string('name');
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ class CreateAgeProfilesTable extends Migration
     {
         Schema::create('age_profiles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('age_profile');
+            $table->string('name');
             $table->integer('lower_bound');
             $table->integer('upper_bound');
             $table->integer('church_id');
