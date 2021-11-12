@@ -10,7 +10,7 @@
     <meta name="author" content="stacks">
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    @include('frontend.imports.stylesheets')
+    @include('frontend.imports.sommerstyles')
 
     <!-- Title -->
     <title>CFM OFFICE 2.0.0</title>
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    @include('frontend.imports.javascripts')
+    @include('frontend.imports.sommernote')
     @yield('javascript')
 </body>
 </html>

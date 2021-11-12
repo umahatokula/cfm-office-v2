@@ -70,17 +70,17 @@ Route::delete('/delete-target/{target}', [FollowupTargetController::class, 'dest
 
 Route::get('life-coach/coach-targets/{target}/reports', [ReportController::class, 'index'])->name('all-reports');
 
-Route::get('life-coach/coach-targets/reports/create', [ReportController::class, 'create'])->name('create-report');
+Route::get('life-coach/coach-targets/{target}/reports/create', [ReportController::class, 'create'])->name('create-report');
 
-Route::post('life-coach/coach-targets/reports/store', [ReportController::class, 'store'])->name('store-report');
+Route::post('life-coach/coach-targets/{target}/reports/store', [ReportController::class, 'store'])->name('store-report');
 
-Route::get('life-coach/coach-targets/reports/show', [ReportController::class, 'show'])->name('show-report');
+Route::get('life-coach/coach-targets/{target}/reports/show', [ReportController::class, 'show'])->name('show-report');
 
-Route::get('life-coach/coach-targets/reports/edit', [ReportController::class, 'edit'])->name('edit-report');
+Route::get('life-coach/coach-targets/{target}/reports/edit', [ReportController::class, 'edit'])->name('edit-report');
 
-Route::put('life-coach/coach-targets/reports/update', [ReportController::class, 'update'])->name('update-report');
+Route::put('life-coach/coach-targets/{target}/reports/update', [ReportController::class, 'update'])->name('update-report');
 
-Route::delete('life-coach/coach-targets/reports/delete', [ReportController::class, 'destroy'])->name('delete-report');
+Route::delete('life-coach/coach-targets/{target}/reports/delete', [ReportController::class, 'destroy'])->name('delete-report');
 
 
 require __DIR__.'/auth.php';

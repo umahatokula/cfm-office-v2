@@ -19,7 +19,7 @@
                                         <li><a href="#"><i class="material-icons-outlined">pending</i>In Progress</a></li>
                                         <li><a href="#"><i class="material-icons-outlined">delete</i>Deleted</a></li>
                                     </ul> --}}
-                                    <a href="#" class="btn btn-primary d-block m-b-lg">Create new</a>
+                                    <a href="{{ route('create-report', $folk)}}" class="btn btn-primary d-block m-b-lg">Create new report</a>
 
                                     <h5 class="todo-menu-title">Search</h5>
                                     <input type="text" class="form-control form-control-solid m-b-lg" placeholder="Type here..">
@@ -74,15 +74,19 @@
                                                     <span class="todo-item-subtitle">{{$report->report}}</span>
                                                 </div>
                                                 <div class="todo-item-actions">
-                                                    <a href="#" class="todo-item-done"><i class="material-icons-outlined no-m">preview</i></a>
-                                                    <a href="#" class="todo-item-done"><i class="material-icons-outlined no-m">edit</i></a>
-                                                    <a href="#" class="todo-item-delete"><i class="material-icons-outlined no-m">delete_outline</i></a>
+                                                    <a href="{{ route('show-report', $report)}}" class="todo-item-done"><i class="material-icons-outlined no-m">preview</i></a>
+                                                    <a href="{{ route('edit-report', $report)}}" class="todo-item-done"><i class="material-icons-outlined no-m">edit</i></a>
+                                                    <form id="deleteReport" action="{{ route('delete-report', $report)}}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <a href="javascript:void()" class="todo-item-delete" onclick="document.getElementById('deleteReport').submit()"><i class="material-icons-outlined no-m">delete_outline</i></a>
+                                                    </form>
                                                 </div>
 
                                             @empty
                                                 <div class="todo-item-content">
                                                     <span class="todo-item-title">NO reports available<span class="badge badge-style-light rounded-pill badge-warning">other</span></span>
-                                                    <span class="todo-item-subtitle">Donec ultricies est vel tellus molestie volutpat. Duis at cursus risus.</span>
+                                                    <span class="todo-item-subtitle">No report for this target</span>
                                                 </div>
                                             </li>
 
@@ -97,4 +101,12 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('javascript')
+    <script>
+        function submitForm() {
+            document.deleteReport.submit()
+        }
+    </script>
 @endsection
