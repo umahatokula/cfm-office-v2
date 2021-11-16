@@ -40,7 +40,7 @@ class LifeCoachController extends Controller
 
         $coaches = LifeCoach::paginate(5);
 
-        return view('frontend.pages.dashboard.views.all-life-coach' , ['coaches' => $coaches]);
+        return view('frontend.pages.dashboard.views.life-coach.all-life-coach' , ['coaches' => $coaches]);
     }
 
     /**
