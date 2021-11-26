@@ -18,6 +18,6 @@ class ServiceTeam extends Model
 
 
     public function ServiceTeamleader() {
-    	return $this->belongsTo('App\Member', 'leader', 'id', 'members');
+    	return $this->belongsTo('App\Models\Member', 'leader', 'id', 'members');
     }
 }

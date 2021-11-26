@@ -1,7 +1,10 @@
 <?php
 
+namespace Database\Seeders;
+
+use DB;
+use App\Models\ServiceTeam;
 use Illuminate\Database\Seeder;
-use App\ServiceTeam;
 
 class ServiceTeamsTableSeeder extends Seeder
 {

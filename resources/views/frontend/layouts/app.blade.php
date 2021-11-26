@@ -15,6 +15,8 @@
     <!-- Title -->
     <title>CFM OFFICE 2.0.0</title>
 
+    @livewireStyles
+
 </head>
 <body>
     <div class="app align-content-stretch d-flex flex-wrap">
@@ -32,12 +34,23 @@
             {{-- header end --}}
 
             {{-- page content start --}}
-            @yield('content')
+            <div class="app-content">
+                <div class="content-wrapper">
+                    <div class="container-fluid">
+
+                        @yield('content')
+                        
+                    </div>
+                </div>
+            </div>
             {{-- page content end --}}
         </div>
     </div>
 
     @include('frontend.imports.javascripts')
+
+
+    @livewireScripts
     @yield('javascript')
 </body>
 </html>

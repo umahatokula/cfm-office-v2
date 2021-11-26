@@ -1,7 +1,10 @@
 <?php
 
+namespace Database\Seeders;
+
+use DB;
+use App\Models\Cell;
 use Illuminate\Database\Seeder;
-use App\Cell;
 
 class CellsTableSeeder extends Seeder
 {

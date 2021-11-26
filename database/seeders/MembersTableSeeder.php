@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
 use App\Models\Member;
@@ -26,7 +28,6 @@ class MembersTableSeeder extends Seeder
     		$member->fname         	= $faker->firstName;
     		$member->lname         	= $faker->lastName;
             $member->mname          = $faker->lastName;
-    		$member->full_name      = $member->fname.' '.$member->mname.' '.$member->lname;
     		$member->email         	= $faker->email;
     		$member->phone         	= $faker->e164PhoneNumber;
     		$member->address      	= $faker->address;

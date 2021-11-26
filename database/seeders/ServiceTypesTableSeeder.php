@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Database\Seeder;
+namespace Database\Seeders;
 
-use \App\ServiceType;
+use DB;
+
+use App\Models\ServiceType;
+use Illuminate\Database\Seeder;
 
 class ServiceTypesTableSeeder extends Seeder
 {
@@ -16,32 +19,32 @@ class ServiceTypesTableSeeder extends Seeder
         DB::table('service_types')->truncate();
 
 		$power_worship_service = ServiceType::create(array(
-		            'service_type' 		=> 'Total Life Prosperity Service',
+		            'name' 		=> 'Total Life Prosperity Service',
 		            'status'         	=> 1
 		        ));
 
 		$mid_week_service = ServiceType::create(array(
-		            'service_type' 		=> 'Connect To Life Service',
+		            'name' 		=> 'Connect To Life Service',
 		            'status'         	=> 1
 		        ));
 
 		$faith_adventure = ServiceType::create(array(
-		            'service_type' 		=> 'Tiv Conect To Life Service',
+		            'name' 		=> 'Tiv Conect To Life Service',
 		            'status'         	=> 1
 		        ));
 
 		$faith_adventure = ServiceType::create(array(
-		            'service_type' 		=> 'Believers\' Service',
+		            'name' 		=> 'Believers\' Service',
 		            'status'         	=> 1
 		        ));
 
 		$faith_adventure = ServiceType::create(array(
-		            'service_type' 		=> 'Baptism Service',
+		            'name' 		=> 'Baptism Service',
 		            'status'         	=> 1
 		        ));
 
 		$special_service = ServiceType::create(array(
-		            'service_type' 		=> 'Special Service',
+		            'name' 		=> 'Special Service',
 		            'status'         	=> 1
 		        ));
     }
