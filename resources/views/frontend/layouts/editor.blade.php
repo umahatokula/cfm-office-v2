@@ -10,12 +10,10 @@
     <meta name="author" content="stacks">
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    @include('frontend.imports.stylesheets')
+    @include('frontend.imports.sommerstyles')
 
     <!-- Title -->
     <title>CFM OFFICE 2.0.0</title>
-
-    @livewireStyles
 
 </head>
 <body>
@@ -34,23 +32,12 @@
             {{-- header end --}}
 
             {{-- page content start --}}
-            <div class="app-content">
-                <div class="content-wrapper">
-                    <div class="container-fluid">
-
-                        @yield('content')
-                        
-                    </div>
-                </div>
-            </div>
+            @yield('content')
             {{-- page content end --}}
         </div>
     </div>
 
-    @include('frontend.imports.javascripts')
-
-
-    @livewireScripts
+    @include('frontend.imports.sommernote')
     @yield('javascript')
 </body>
 </html>

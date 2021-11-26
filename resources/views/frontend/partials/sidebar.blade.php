@@ -14,6 +14,31 @@
             <li class="sidebar-title">
                 Church Admin
             </li>
+            <li class="{{ url()->current() == route('index') ? 'active-page' : '' }}">
+                <a href="{{route('index')}}" class="active"><i class="material-icons-two-tone">dashboard</i>Dashboard</a>
+            </li>
+            <li class="{{ url()->current() == route('all-life-coach') ? 'active-page' : '' }}">
+                <a href="{{route('all-life-coach')}}" class="active"><i class="material-icons-two-tone">dashboard</i>All Coaches</a>
+            </li>
+            <li class="{{ url()->current() == route('create-life-coach') ? 'active-page' : '' }}">
+                <a href="{{route('create-life-coach')}}" class="active"><i class="material-icons-two-tone">dashboard</i>Create Coach</a>
+            </li>
+            <li class="{{ url()->current() == route('all-target') ? 'active-page' : '' }}">
+                <a href="{{route('all-target')}}" class="active"><i class="material-icons-two-tone">dashboard</i>All Targets</a>
+            </li>
+            <li class="{{ url()->current() == route('create-target') ? 'active-page' : '' }}">
+                <a href="{{route('create-target')}}" class="active"><i class="material-icons-two-tone">dashboard</i>Create Target</a>
+            </li>
+
+            <li class="{{ url()->current() == route('index') ? 'active-page' : '' }}">
+                <a href="{{route('index')}}" class="active"><i class="material-icons-two-tone">dashboard</i>All Love</a>
+            </li>
+            <li>
+                <a href="#"><i class="material-icons-two-tone">bookmark</i>Documentation</a>
+            </li>
+            <li>
+                <a href="#"><i class="material-icons-two-tone">access_time</i>Change Log</a>
+            </li>
             <li>
                 <a href="{{ route('church-services.index') }}"><i class="material-icons-two-tone">done</i>Service Day</a>
             </li>
