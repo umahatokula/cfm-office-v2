@@ -148,7 +148,7 @@ class EditMember extends Component
         $member->country_id     = $this->country_id;
         $member->state_id       = $this->state_id;
         $member->local_id       = $this->local_id;
-        $member->dob            = $dob;
+        $member->dob            = $dob ?? null;
         $member->age_profile_id = $this->age_profile_id;
         $member->church_id      = $this->church_id;
         $member->address        = $this->address;

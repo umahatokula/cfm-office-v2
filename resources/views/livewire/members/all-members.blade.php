@@ -73,7 +73,7 @@
                                         <td class="text-left"> {{$member->phone}} </td>
                                         <td class="text-center">
                                             <a href="{{ route('members.show', $member) }}" class="btn btn-primary btn-sm"> View Profile </a>
-                                            <a href="{{ route('members.delete', $member) }}" class="btn btn-danger btn-sm"> Delete </a>
+                                            <a wire:click.prevent="destroy({{ $member->id }})" onclick="confirm('Are you sure?') || event.stopImmediatePropagation()"  class="btn btn-danger btn-sm"> Delete </a>
                                         </td>
                                     </tr>
                                     @endforeach

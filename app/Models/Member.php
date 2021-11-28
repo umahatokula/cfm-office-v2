@@ -156,47 +156,47 @@ class Member extends Model implements HasMedia
 
     // Every user BELONGS TO (ie is) a person
 	public function church(){
-		return $this->belongsTo(Church::class);
+		return $this->belongsTo(Church::class)->withDefault();
 	}
 
 	public function gender(){
-		return $this->belongsTo(Gender::class);
+		return $this->belongsTo(Gender::class)->withDefault();
 	}
 
 	public function country(){
-		return $this->belongsTo(Country::class);
+		return $this->belongsTo(Country::class)->withDefault();
 	}
 
 	public function state(){
-		return $this->belongsTo(State::class);
+		return $this->belongsTo(State::class)->withDefault();
 	}
 
 	public function local(){
-		return $this->belongsTo(Local::class);
+		return $this->belongsTo(Local::class)->withDefault();
 	}
 
 	public function ageProfile(){
-		return $this->belongsTo(AgeProfile::class);
+		return $this->belongsTo(AgeProfile::class)->withDefault();
 	}
 
 	public function cell(){
-		return $this->belongsTo(Cell::class);
+		return $this->belongsTo(Cell::class)->withDefault();
 	}
 
 	public function serviceTeam(){
-		return $this->belongsTo(ServiceTeam::class);
+		return $this->belongsTo(ServiceTeam::class)->withDefault();
 	}
 
 	public function memberFamily() {
-		return $this->hasOne(MemberFamily::class);
+		return $this->hasOne(MemberFamily::class)->withDefault();
 	}
 
 	public function followUp(){
-		return $this->hasOne(FollowUp::class);
+		return $this->hasOne(FollowUp::class)->withDefault();
 	}
 
 	public function memberRegion(){
-		return $this->belongsTo(Region::class, 'region_id', 'id', 'regions');
+		return $this->belongsTo(Region::class, 'region_id', 'id', 'regions')->withDefault();
 	}
 
 	public function serviceTeams(){
@@ -204,11 +204,11 @@ class Member extends Model implements HasMedia
 	}
 
 	public function requisitions(){
-		return $this->hasMany(Requisition::class);
+		return $this->hasMany(Requisition::class)->withDefault();
 	}
 
 	public function user(){
-		return $this->hasOne(User::class);
+		return $this->hasOne(User::class)->withDefault();
 	}
 
 

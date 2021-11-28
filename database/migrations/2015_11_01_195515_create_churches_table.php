@@ -19,7 +19,8 @@ class CreateChurchesTable extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->integer('pastor')->comment('The resident pastor of this church');
-            $table->integer('status_id')->default(1);
+            $table->boolean('status_id')->default(1)->nullable();
+            $table->boolean('is_active')->default(1)->nullable();
             $table->timestamps();
         });
     }

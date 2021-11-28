@@ -92,16 +92,16 @@ Route::delete('life-coach/coach-targets/{target}/reports/delete', [ReportControl
 Route::group(['middleware' => 'auth'], function() {
 
     //Dashboard
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     //Members
     Route::get('members/{id}/picture', 					[MembersController::class, 'getPicture'])->name('members.picture');
-    Route::get('members/delete/{id}', 					[MembersController::class, 'delete'])->name('members.delete');
+    // Route::get('members/delete/{id}', 					[MembersController::class, 'delete'])->name('members.delete');
     Route::get('members/cell/{member_id}/{cell_id}', 	[MembersController::class, 'addTocell'])->name('members.cell');
     Route::get('members/search', 						[MembersController::class, 'search'])->name('members.search');
     Route::post('members/autocomplete', 				[MembersController::class, 'search'])->name('members.search');
     Route::post('members/service-teams', 				[MembersController::class, 'addToServiceTeam'])->name('members.service-teams');
-    Route::resource('members', MembersController::class);    
+    Route::resource('members', MembersController::class); 
 
     // Cells
     Route::get('cells/leader-profile/{id}', 	[CellsController::class, 'leaderProfile'])->name('cell.leader-profile');

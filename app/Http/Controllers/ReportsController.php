@@ -128,13 +128,13 @@ class ReportsController extends Controller
         $data['second_date_to'] = $second_date_to;
         $data['service_type_id'] = $service_type_id;
         $data['service_type'] = ServiceType::find($service_type_id);
-        $data['serviceTypes'] = ServiceType::pluck('service_type', 'id');
+        $data['serviceTypes'] = ServiceType::pluck('name', 'id');
 
 
         // dd($data);
 
 
-        return view('reports.serviceDays', $data);
+        return view('frontend.pages.reports.serviceDays', $data);
     }
 
 
