@@ -27,7 +27,7 @@ class FollowupTargetController extends Controller
 
         $followupTargets = FollowupTarget::paginate(5);
 
-        return view('frontend.pages.dashboard.views.all-follow-up-target', ['followupTargets' => $followupTargets]);
+        return view('frontend.pages.follow-up-targets.all-follow-up-target', ['followupTargets' => $followupTargets]);
     }
 
     /**
@@ -38,7 +38,7 @@ class FollowupTargetController extends Controller
     public function create()
     {
         //
-        return view('frontend.pages.dashboard.views.create-life-coach');
+        return view('frontend.pages.follow-up-targets.create-life-coach');
     }
 
     /**
@@ -81,7 +81,7 @@ class FollowupTargetController extends Controller
         if (!$follow_up_target) {
             return redirect('/')->with('error', 'FollowupTarget not found');
         }
-        return view('frontend.pages.dashboard.views.show-follow-up-target', ['followupTarget' => $follow_up_target]);
+        return view('frontend.pages.follow-up-targets.show-follow-up-target', ['followupTarget' => $follow_up_target]);
     }
 
     /**
@@ -97,7 +97,7 @@ class FollowupTargetController extends Controller
 
         $follow_up_target = FollowupTarget::where(['id' => $followupTarget])->first();
         if ($follow_up_target) {
-            return view('frontend.pages.dashboard.views.edit-follow-up-target', [ 'followupTarget' => $follow_up_target ]);
+            return view('frontend.pages.follow-up-targets.edit-follow-up-target', [ 'followupTarget' => $follow_up_target ]);
         } else {
             return redirect('/')->with('error', 'FollowupTarget not found');
         }

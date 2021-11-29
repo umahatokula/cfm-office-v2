@@ -40,7 +40,7 @@ class LifeCoachTargetController extends Controller
         // $members = FollowupTarget::where(['user_id' => $userId])->paginate(5);
         $coaches = LifeCoach::limit(5)->get();
 
-        return view('frontend.pages.dashboard.views.life-coach.coach-targets', ['coaches'=>$coaches, 'folks'=>$folks]);
+        return view('frontend.pages.life-coach.coach-targets', ['coaches'=>$coaches, 'folks'=>$folks]);
     }
 
     /**
@@ -53,7 +53,7 @@ class LifeCoachTargetController extends Controller
         //
         $followUpTargets = FollowupTarget::all();
         $lifeCoaches = LifeCoach::all();
-        return view('frontend.pages.dashboard.views.follow-up-targets.assign-target', ['followUpTargets'=>$followUpTargets, 'lifeCoaches'=>$lifeCoaches]);
+        return view('frontend.pages.follow-up-targets.assign-target', ['followUpTargets'=>$followUpTargets, 'lifeCoaches'=>$lifeCoaches]);
     }
 
     /**
@@ -67,7 +67,7 @@ class LifeCoachTargetController extends Controller
         $target = FollowupTarget::find($request->input('targets'))->first();
         $coach = LifeCoach::find($request->input('coaches'))->first();
         $coach->followUpTargets()->attach($target);
-        return view('frontend.pages.dashboard.views.follow-up-targets.assign-target')->with('success', 'Assigned successfully.');
+        return view('frontend.pages.follow-up-targets.assign-target')->with('success', 'Assigned successfully.');
     }
 
     /**
@@ -80,12 +80,12 @@ class LifeCoachTargetController extends Controller
     {
         //
         //Get authenticated user and display a single todo
-        $userId = Auth::user()->id;
+/*         $userId = Auth::user()->id;
         $todo = Todo::where(['user_id' => $userId, 'id' => $todo->id])->first();
         if (!$todo) {
             return redirect('todo')->with('error', 'Todo not found');
         }
-        return view('todo.view', ['todo' => $todo]);
+        return view('todo.view', ['todo' => $todo]);*/
     }
 
     /**
@@ -98,13 +98,13 @@ class LifeCoachTargetController extends Controller
     {
         //
         ////Get authenticated user and display todo to edit
-        $userId = Auth::user()->id;
+/*         $userId = Auth::user()->id;
         $todo = Todo::where(['user_id' => $userId, 'id' => $todo->id])->first();
         if ($todo) {
             return view('todo.edit', [ 'todo' => $todo ]);
         } else {
             return redirect('todo')->with('error', 'Todo not found');
-        }
+        } */
     }
 
     /**
@@ -118,19 +118,19 @@ class LifeCoachTargetController extends Controller
     {
         //
         //Get authenticated user and update todo
-        $userId = Auth::user()->id;
-        $todo = Todo::find($todo->id);
-        if (!$todo) {
-            return redirect('todo')->with('error', 'Todo not found.');
-        }
-        $input = $request->input();
-        $input['user_id'] = $userId;
-        $todoStatus = $todo->update($input);
-        if ($todoStatus) {
-            return redirect('todo')->with('success', 'Todo successfully updated.');
-        } else {
-            return redirect('todo')->with('error', 'Oops something went wrong. Todo not updated');
-        }
+        // $userId = Auth::user()->id;
+        // $todo = Todo::find($todo->id);
+        // if (!$todo) {
+        //     return redirect('todo')->with('error', 'Todo not found.');
+        // }
+        // $input = $request->input();
+        // $input['user_id'] = $userId;
+        // $todoStatus = $todo->update($input);
+        // if ($todoStatus) {
+        //     return redirect('todo')->with('success', 'Todo successfully updated.');
+        // } else {
+        //     return redirect('todo')->with('error', 'Oops something went wrong. Todo not updated');
+        // }
     }
 
     /**
@@ -143,7 +143,7 @@ class LifeCoachTargetController extends Controller
     {
         //
         //Get authenticated user and delete a specific todo
-        $userId = Auth::user()->id;
+        /* $userId = Auth::user()->id;
         $todo = Todo::where(['user_id' => $userId, 'id' => $todo->id])->first();
         $respStatus = $respMsg = '';
         if (!$todo) {
@@ -158,6 +158,6 @@ class LifeCoachTargetController extends Controller
             $respStatus = 'error';
             $respMsg = 'Oops something went wrong. Todo not deleted successfully';
         }
-        return redirect('todo')->with($respStatus, $respMsg);
+        return redirect('todo')->with($respStatus, $respMsg); */
     }
 }

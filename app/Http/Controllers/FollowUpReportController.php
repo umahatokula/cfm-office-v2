@@ -17,7 +17,7 @@ class FollowUpReportController extends Controller
         //
         $followUpReports = FollowUpReport::all()->paginate(5);
 
-        return view('frontend.pages.dashboard.views.index', ['followUpReport' => $followUpReports]);
+        return view('frontend.pages.follow-up-reports.index', ['followUpReport' => $followUpReports]);
     }
 
     /**

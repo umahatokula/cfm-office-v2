@@ -32,7 +32,7 @@ class LifeCoachController extends Controller
 
         $followupTargets = $lifeCoach->followUpTargets;
 
-        return view('frontend.pages.dashboard.views.index', ['lifeCoaches' => $lifeCoach, 'followupTargets' => $followupTargets]);
+        return view('frontend.pages.life-coach.index', ['lifeCoaches' => $lifeCoach, 'followupTargets' => $followupTargets]);
     }
 
     public function list()
@@ -40,7 +40,7 @@ class LifeCoachController extends Controller
 
         $coaches = LifeCoach::paginate(5);
 
-        return view('frontend.pages.dashboard.views.life-coach.all-life-coach' , ['coaches' => $coaches]);
+        return view('frontend.pages.life-coach.all-life-coach' , ['coaches' => $coaches]);
     }
 
     /**
@@ -51,7 +51,7 @@ class LifeCoachController extends Controller
     public function create()
     {
         //
-        return view('frontend.pages.dashboard.views.create-life-coach');
+        return view('frontend.pages.life-coach.create-life-coach');
     }
 
     /**
@@ -92,7 +92,7 @@ class LifeCoachController extends Controller
         if (!$lifeCoach) {
             return redirect()->route('create-life-coach')->with('error', 'lifeCoach not found. Create missing coach');
         }
-        return view('frontend.pages.dashboard.views.show-life-coach', ['lifeCoach' => $lifeCoach]);
+        return view('frontend.pages.life-coach.show-life-coach', ['lifeCoach' => $lifeCoach]);
     }
 
     /**
@@ -108,7 +108,7 @@ class LifeCoachController extends Controller
         // $userId = Auth::user()->id;
         $lifeCoach = LifeCoach::where(['id' => $lifeCoach])->first();
         if ($lifeCoach) {
-            return view('frontend.pages.dashboard.views.edit-life-coach', [ 'lifeCoach' => $lifeCoach ]);
+            return view('frontend.pages.life-coach.edit-life-coach', [ 'lifeCoach' => $lifeCoach ]);
         } else {
             return redirect('/')->with('error', 'lifeCoach not found');
         }
@@ -131,9 +131,9 @@ class LifeCoachController extends Controller
         $input = $request->input();
         $lifeCoachStatus = $lifeCoach->update($input);
         if ($lifeCoachStatus) {
-            return view('frontend.pages.dashboard.views.edit-life-coach' , [ 'lifeCoach' => $lifeCoach ])->with('success', 'lifeCoach successfully updated.');
+            return view('frontend.pages.life-coach.edit-life-coach' , [ 'lifeCoach' => $lifeCoach ])->with('success', 'lifeCoach successfully updated.');
         } else {
-            return view('frontend.pages.dashboard.views.edit-life-coach', [ 'lifeCoach' => $lifeCoach ])->with('error', 'Oops something went wrong. lifeCoach not updated');
+            return view('frontend.pages.life-coach.edit-life-coach', [ 'lifeCoach' => $lifeCoach ])->with('error', 'Oops something went wrong. lifeCoach not updated');
         }
     }
 
