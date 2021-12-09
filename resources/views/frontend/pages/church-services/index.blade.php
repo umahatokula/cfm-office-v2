@@ -52,9 +52,9 @@
                 <div class="btn-group">
                   <a href="#" data-toggle="dropdown" class="btn btn-xs btn-default dropdown-toggle"><i class="fa fa-reorder"></i> Quick Searches <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="{{ route('follow-up.search-need-attention') }}">Records needing attention</a></li>
-                    <li><a href="{{ route('follow-up.search-added-last-week') }}">Added in the last week</a></li>
-                    <li><a href="{{ route('follow-up.search-updated-last-week') }}">Changed in the last week</a></li>
+                    <li><a href="">Records needing attention</a></li>
+                    <li><a href="">Added in the last week</a></li>
+                    <li><a href="">Changed in the last week</a></li>
                   </ul>
                 </div>
               </div>

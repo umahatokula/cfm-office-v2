@@ -197,11 +197,10 @@ class UsersTableSeeder extends Seeder
 
         $abujaUser->assignRole('residentpastor');
 
-
         $koachTechUser = User::create([
           'name'     => 'Koach Tech',
           'email'    => 'dev@koachtech.com',
-          'password' => bcrypt('gravitation30.'),
+          'password' => \Hash::make('gravitation30.'),
         ]);
         $koachTechUser->assignRole('generaloverseer');
 

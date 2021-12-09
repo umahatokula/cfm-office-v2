@@ -57,10 +57,11 @@ class MembersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Member $member)
     {
+        $data['member'] = $member;
 
-    	return view('frontend.pages.members.show');
+    	return view('frontend.pages.members.show', $data);
     }
 
     /**
@@ -69,10 +70,11 @@ class MembersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Member $member)
     {
+        $data['member'] = $member;
 
-    	return view('frontend.pages.members.edit');
+    	return view('frontend.pages.members.edit', $data);
     }
 
 

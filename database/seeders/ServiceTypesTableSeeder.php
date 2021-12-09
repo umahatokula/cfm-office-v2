@@ -19,32 +19,32 @@ class ServiceTypesTableSeeder extends Seeder
         DB::table('service_types')->truncate();
 
 		$power_worship_service = ServiceType::create(array(
-		            'name' 		=> 'Total Life Prosperity Service',
+		            'service_type' 		=> 'Total Life Prosperity Service',
 		            'status'         	=> 1
 		        ));
 
 		$mid_week_service = ServiceType::create(array(
-		            'name' 		=> 'Connect To Life Service',
+		            'service_type' 		=> 'Connect To Life Service',
 		            'status'         	=> 1
 		        ));
 
 		$faith_adventure = ServiceType::create(array(
-		            'name' 		=> 'Tiv Conect To Life Service',
+		            'service_type' 		=> 'Tiv Conect To Life Service',
 		            'status'         	=> 1
 		        ));
 
 		$faith_adventure = ServiceType::create(array(
-		            'name' 		=> 'Believers\' Service',
+		            'service_type' 		=> 'Believers\' Service',
 		            'status'         	=> 1
 		        ));
 
 		$faith_adventure = ServiceType::create(array(
-		            'name' 		=> 'Baptism Service',
+		            'service_type' 		=> 'Baptism Service',
 		            'status'         	=> 1
 		        ));
 
 		$special_service = ServiceType::create(array(
-		            'name' 		=> 'Special Service',
+		            'service_type' 		=> 'Special Service',
 		            'status'         	=> 1
 		        ));
     }

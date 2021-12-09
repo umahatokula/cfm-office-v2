@@ -52,5 +52,9 @@ class Church extends Model
     	return $this->hasManyThrough('User', 'Person');
     }
 
+	public function scopeIsActive($query) {
+		$query->where('is_active', 1);
+	}
+
 
 }

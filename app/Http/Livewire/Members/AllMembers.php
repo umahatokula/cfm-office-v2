@@ -26,6 +26,14 @@ class AllMembers extends Component
         $this->churchId = $churchId;
     }
 
+    public function destroy($id) {
+        Member::findOrFail($id)->delete();
+
+        session('message', 'Member deleted successfully');
+
+        redirect()->route('members.index');
+    }
+
     public function render()
     {
         if ($this->churchId) {

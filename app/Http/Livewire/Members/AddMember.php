@@ -76,7 +76,6 @@ class AddMember extends Component
         $this->serviceTeams   = ServiceTeam::where('church_id', auth()->user()->member->church_id)->get();
         $this->regions        = Region::where('church_id', auth()->user()->member->church_id)->get();
 
-        
         $days = [];
         for ($i=1; $i <= 31; $i++) { 
             $days[] = $i;
