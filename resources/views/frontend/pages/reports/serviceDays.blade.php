@@ -1,5 +1,5 @@
-@extends('layouts.app')
-@section('body')
+@extends('frontend.layouts.app')
+@section('content')
 
 <style type="text/css">
     td{

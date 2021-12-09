@@ -53,7 +53,7 @@ class Church extends Model
     }
 
 	public function scopeIsActive($query) {
-		$query->where('is_active');
+		$query->where('is_active', 1);
 	}
 
 

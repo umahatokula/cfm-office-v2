@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "..\\.."
+		},
+		{
+			"path": "..\\..\\..\\cfm_office_V1"
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\..\\..\\laragon\\www\\cfm-wordshop-backend-v2"
+		}
+	],
+	"settings": {}
+}

@@ -29,4 +29,16 @@ class CreateMediaTable extends Migration
             $table->nullableTimestamps();
         });
     }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        if (env('APP_ENV' == 'local')) {
+            Schema::dropIfExists('media');
+        }
+    }
 }

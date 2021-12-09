@@ -1,5 +1,5 @@
-@extends('layouts.app')
-@section('body')
+@extends('frontend.layouts.app')
+@section('content')
 
 <style type="text/css">
     td{
@@ -32,7 +32,9 @@
                                 'id' => 'date_to', 'placeholder' => 'To')) !!}
                             </div>
                             <div class="col-md-3 mb-1">
-                                <button class="btn btn-primary btn-block">Filter</button>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-lg btn-primary btn-block">Filter</button>
+                                </div>
                             </div>
                     </div>
                     {!! Form::close() !!}
