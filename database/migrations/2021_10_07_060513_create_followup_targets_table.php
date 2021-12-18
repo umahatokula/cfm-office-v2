@@ -17,12 +17,12 @@ class CreateFollowupTargetsTable extends Migration
             $table->id();
             $table->string('fname')->nullable()->comment('First name of the person who needs to be followed up');
             $table->string('lname')->nullable()->comment('Last name of the person who needs to be followed up');
-            $table->string('phone')->nullable()->comment('Last name of the person who needs to be followed up');
-            $table->string('email')->nullable()->comment('Last name of the person who needs to be followed up');
+            $table->string('phone')->nullable()->comment('Phone number of the person who needs to be followed up');
+            $table->string('email')->nullable()->comment('Email the person who needs to be followed up');
+            $table->string('notes')->nullable();
             $table->integer('age_profile_id')->nullable();
             $table->string('status')->nullable();
-            $table->integer('church_id')->nullable();
-            $table->integer('assigned_by')->nullable();
+            $table->foreignId('church_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

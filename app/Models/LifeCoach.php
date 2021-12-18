@@ -16,6 +16,27 @@ class LifeCoach extends Model
         'email',
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['name'];
+
+
+    /**
+     * Determine if the user is an administrator.
+     *
+     * @return bool
+     */
+    public function getNameAttribute()
+    {
+        $fname = isset($this->attributes['fname']) ? $this->attributes['fname'] : '';
+        $lname = isset($this->attributes['lname']) ? $this->attributes['lname'] : '';
+        
+        return $fname .' '.$lname;
+    }
+
      /**
      * The members that belong to the life coaches.
      */

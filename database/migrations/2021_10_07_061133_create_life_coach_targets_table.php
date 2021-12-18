@@ -18,6 +18,7 @@ class CreateLifeCoachTargetsTable extends Migration
             $table->integer('followup_target_id')->nullable()->comment('Person to be followed up');
             $table->integer('reason_id')->nullable()->comment('Reason for follow up');
             $table->string('status')->nullable();
+            $table->foreignId('assigned_by')->nullable();
             $table->timestamps();
         });
     }

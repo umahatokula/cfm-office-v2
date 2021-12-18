@@ -2,8 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FollowupTarget;
+use App\Models\Church;
+use App\Models\LifeCoach;
+use App\Models\AgeProfile;
 use Illuminate\Http\Request;
+use App\Models\FollowupReason;
+use App\Models\LifeCoachTarget;
+use App\Models\FollowupTarget;
+use App\Http\Requests\FollowupTarget\Store;
+use App\Http\Requests\FollowupTarget\Update;
+use App\Http\Requests\FollowupTarget\StoreAssign;
 
 class FollowupTargetController extends Controller
 {
@@ -14,20 +22,9 @@ class FollowupTargetController extends Controller
      */
     public function index()
     {
-        /*
-        $member = FollowupTarget::find(2);
-        $followupTarget = [1, 2];
-        $member->lifecoaches()->attach($followupTarget);
+        $data['followupTargets'] = FollowupTarget::paginate(5);
 
-        dd($member->lifecoaches);
-        */
-
-        //Get authenticated user id
-        // $userId = Auth::user()->id;
-
-        $followupTargets = FollowupTarget::paginate(5);
-
-        return view('frontend.pages.dashboard.views.all-follow-up-target', ['followupTargets' => $followupTargets]);
+        return view('pages.follow-up.targets.index', $data);
     }
 
     /**
@@ -37,8 +34,14 @@ class FollowupTargetController extends Controller
      */
     public function create()
     {
-        //
-        return view('frontend.pages.dashboard.views.create-life-coach');
+        $data['ageProfiles'] = AgeProfile::pluck('name', 'id');
+        $data['churches'] = Church::pluck('name', 'id');
+
+        if(request()->ajax()) {
+            return view('pages.follow-up.targets.create-modal', $data);
+        }
+
+        return view('pages.follow-up.targets.create', $data);
     }
 
     /**
@@ -47,23 +50,14 @@ class FollowupTargetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Store $request)
     {
-        // dd($request);
-        //
-        // $userId = Auth::user()->id;
         $input = $request->input();
-        // $input['user_id'] = $userId;
+
         $followupTarget = FollowupTarget::create($input);
 
-        //check if follow_up_target was created successfully or not and send a notification
-        if ($followupTarget) {
-            $request->session()->flash('success', 'FollowupTarget successfully added');
-        } else {
-            $request->session()->flash('error', 'Oops something went wrong, FollowupTarget not saved');
-        }
-
-        return redirect()->route('create-target');
+        session()->flash('FollowupTarget successfully added.');
+        return redirect()->route('followup-targets.index');
     }
 
     /**
@@ -74,14 +68,13 @@ class FollowupTargetController extends Controller
      */
     public function show($followupTarget)
     {
-        //
-        //Get authenticated user and display a single follow_up_target
+        $data['followupTarget'] = FollowupTarget::findOrFail($followupTarget);
 
-        $follow_up_target = FollowupTarget::where(['id' => $followupTarget])->first();
-        if (!$follow_up_target) {
-            return redirect('/')->with('error', 'FollowupTarget not found');
+        if (request()->ajax()) {
+            return view('pages.follow-up.targets.show-modal', $data);
         }
-        return view('frontend.pages.dashboard.views.show-follow-up-target', ['followupTarget' => $follow_up_target]);
+
+        return view('pages.follow-up.targets.show', $data);
     }
 
     /**
@@ -92,15 +85,11 @@ class FollowupTargetController extends Controller
      */
     public function edit($followupTarget)
     {
-        //
-        ////Get authenticated user and display follow_up_target to edit
+        $data['followUpTarget'] = FollowupTarget::findOrFail($followupTarget);
+        $data['ageProfiles'] = AgeProfile::pluck('name', 'id');
+        $data['churches'] = Church::pluck('name', 'id');
 
-        $follow_up_target = FollowupTarget::where(['id' => $followupTarget])->first();
-        if ($follow_up_target) {
-            return view('frontend.pages.dashboard.views.edit-follow-up-target', [ 'followupTarget' => $follow_up_target ]);
-        } else {
-            return redirect('/')->with('error', 'FollowupTarget not found');
-        }
+        return view('pages.follow-up.targets.edit', $data);
     }
 
     /**
@@ -110,22 +99,15 @@ class FollowupTargetController extends Controller
      * @param  \App\Models\FollowupTarget  $followupTarget
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $followupTarget)
+    public function update(Update $request, $followupTarget)
     {
-        //
-        //Get authenticated user and update follow_up_target
+        $follow_up_target = FollowupTarget::findOrFail($followupTarget);
 
-        $follow_up_target = FollowupTarget::find($followupTarget);
-        if (!$follow_up_target) {
-            return redirect('/')->with('error', 'FollowupTarget not found.');
-        }
         $input = $request->input();
         $followupTarget = $follow_up_target->update($input);
-        if ($followupTarget) {
-            return redirect()->route('edit-target' ,[$followupTarget])->with('success', 'FollowupTarget successfully updated.');
-        } else {
-            return redirect('/')->with('error', 'Oops something went wrong. FollowupTarget not updated');
-        }
+
+        session()->flash('Followup Target successfully updated.');
+        return redirect()->route('followup-targets.index');
     }
 
     /**
@@ -134,24 +116,39 @@ class FollowupTargetController extends Controller
      * @param  \App\Models\FollowupTarget  $followupTarget
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FollowupTarget $followupTarget)
-    {
-        //
-        //Get authenticated user and delete a specific follow_up_target
-        $follow_up_target = FollowupTarget::where(['id' => $followupTarget])->first();
-        $respStatus = $respMsg = '';
-        if (!$follow_up_target) {
-            $respStatus = 'error';
-            $respMsg = 'FollowupTarget not found';
-        }
-        $todoDelStatus = $follow_up_target->delete();
-        if ($todoDelStatus) {
-            $respStatus = 'success';
-            $respMsg = 'FollowupTarget deleted successfully';
-        } else {
-            $respStatus = 'error';
-            $respMsg = 'Oops something went wrong. FollowupTarget not deleted successfully';
-        }
-        return redirect('/')->with($respStatus, $respMsg);
+    public function delete(FollowupTarget $followupTarget) {
+        $follow_up_target = FollowupTarget::findOrFail($followupTarget->id)->delete();
+
+        session()->flash('FollowupTarget deleted successfully');
+        return redirect()->route('followup-targets.index');
+    }
+
+    /**
+     * assign
+     *
+     * @return void
+     */
+    public function assign(FollowupTarget $followupTarget) {
+
+        $data['target'] = FollowupTarget::findOrFail($followupTarget->id);
+        $data['lifeCoaches'] = LifeCoach::all();
+        $data['followupReasons'] = FollowupReason::all();
+
+        return view('pages.follow-up.targets.assign-target-modal', $data);
+    }
+
+    /**
+     * assign
+     *
+     * @return void
+     */
+    public function assignStore(StoreAssign $request) {
+
+        $target = FollowupTarget::findOrFail($request->target_id);
+
+        LifeCoachTarget::where('followup_target_id', $request->target_id)->delete(); // delete existing attachments
+        $target->lifecoaches()->attach($request->coach_id, ['reason_id' => $request->reason_id]);
+
+        return redirect()->route('followup-targets.index');
     }
 }

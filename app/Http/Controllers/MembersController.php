@@ -37,7 +37,7 @@ class MembersController extends Controller
      */
     public function index() {      
 
-    	return view('frontend.pages.members.index');
+    	return view('pages.members.index');
         
     }
 
@@ -48,7 +48,7 @@ class MembersController extends Controller
      */
     public function create() {
 
-    	return view('frontend.pages.members.create');
+    	return view('pages.members.create');
     }
 
     /**
@@ -61,7 +61,7 @@ class MembersController extends Controller
     {
         $data['member'] = $member;
 
-    	return view('frontend.pages.members.show', $data);
+    	return view('pages.members.show', $data);
     }
 
     /**
@@ -74,7 +74,7 @@ class MembersController extends Controller
     {
         $data['member'] = $member;
 
-    	return view('frontend.pages.members.edit', $data);
+    	return view('pages.members.edit', $data);
     }
 
 

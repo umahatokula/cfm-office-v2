@@ -78,8 +78,9 @@ class ChurchServicesController extends Controller
         $data['date_from'] = $date_from;
         $data['date_to'] = $date_to;
         // dd($data['churchServices']->take(3));
+        
 
-    	return view('frontend.pages.church-services.index', $data);
+        return view('pages.church-services.index', $data);
     }
 
     /**
@@ -93,7 +94,7 @@ class ChurchServicesController extends Controller
         $data['churchServiceInfoMenu']            = 1;
         $data['service_types']                    = ServiceType::pluck('service_type', 'id');
 
-        return view('church-services.create', $data);
+        return view('pages.church-services.create', $data);
     }
 
     /**
@@ -333,7 +334,7 @@ class ChurchServicesController extends Controller
     {
         $data['churchService'] = ChurchService::find($id);
 
-        return view('church-services.show', $data);
+        return view('pages.church-services.show', $data);
     }
 
     /**
@@ -349,7 +350,7 @@ class ChurchServicesController extends Controller
         $data['service_types']                    = ServiceType::pluck('service_type', 'id');
         $data['churchService']                    = ChurchService::find($id);
         
-        return view('church-services.edit', $data);
+        return view('pages.church-services.edit', $data);
     }
 
     /**
@@ -525,7 +526,7 @@ class ChurchServicesController extends Controller
         }
         
 
-        return redirect()->route('church-services.index')->with('churchServices', $churchServices);
+        return redirect()->route('pages.church-services.index')->with('churchServices', $churchServices);
         // return view('church-services.search-results', $data);
     }
 

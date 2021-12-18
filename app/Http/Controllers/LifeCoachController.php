@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FollowupTarget;
-use App\Models\LifeCoach;
-use App\Models\Member;
 use App\Models\User;
+use App\Models\Member;
+use App\Models\LifeCoach;
+use App\Models\FollowupReason;
+use App\Models\LifeCoachTarget;
 use Illuminate\Http\Request;
+use App\Models\FollowupTarget;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LifeCoach\Store;
+use App\Http\Requests\LifeCoach\Update;
+use App\Http\Requests\LifeCoach\StoreAssign;
 
 class LifeCoachController extends Controller
 {
@@ -18,29 +23,9 @@ class LifeCoachController extends Controller
      */
     public function index()
     {
-        //begin here
-        $user = User::find(1);
-        // $lifeCoach = [1, 2];
-        // $member->lifecoaches()->attach($lifeCoach);
+        $data['coaches'] = LifeCoach::paginate(10);
 
-        // dd('life id: '.$member->life_coach_id);
-
-        //Get authenticated user id
-        $life_coach_id = $user->life_coach_id;
-
-        $lifeCoach = LifeCoach::where(['id' => $life_coach_id])->first();
-
-        $followupTargets = $lifeCoach->followUpTargets;
-
-        return view('frontend.pages.dashboard.views.index', ['lifeCoaches' => $lifeCoach, 'followupTargets' => $followupTargets]);
-    }
-
-    public function list()
-    {
-
-        $coaches = LifeCoach::paginate(5);
-
-        return view('frontend.pages.dashboard.views.life-coach.all-life-coach' , ['coaches' => $coaches]);
+        return view('pages.life-coaches.index', $data);
     }
 
     /**
@@ -51,7 +36,7 @@ class LifeCoachController extends Controller
     public function create()
     {
         //
-        return view('frontend.pages.dashboard.views.create-life-coach');
+        return view('pages.life-coaches.create');
     }
 
     /**
@@ -60,22 +45,14 @@ class LifeCoachController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Store $request)
     {
-        //
-        // $userId = Auth::user()->id;
+
         $input = $request->input();
-        // $input['user_id'] = $userId;
+
         $lifeCoach = LifeCoach::create($input);
 
-        //check if lifeCoach was created successfully or not and send a notification
-        if ($lifeCoach) {
-            $request->session()->flash('success', 'Life Coach successfully added');
-        } else {
-            $request->session()->flash('error', 'Oops something went wrong, lifeCoach not saved');
-        }
-
-        return redirect()->route('create-life-coach');
+        return redirect()->route('life-coaches.index');
     }
 
     /**
@@ -92,7 +69,7 @@ class LifeCoachController extends Controller
         if (!$lifeCoach) {
             return redirect()->route('create-life-coach')->with('error', 'lifeCoach not found. Create missing coach');
         }
-        return view('frontend.pages.dashboard.views.show-life-coach', ['lifeCoach' => $lifeCoach]);
+        return view('pages.life-coaches.show', ['lifeCoach' => $lifeCoach]);
     }
 
     /**
@@ -101,17 +78,8 @@ class LifeCoachController extends Controller
      * @param  \App\Models\LifeCoach  $lifeCoach
      * @return \Illuminate\Http\Response
      */
-    public function edit($lifeCoach)
-    {
-        //
-        ////Get authenticated user and display lifeCoach to edit
-        // $userId = Auth::user()->id;
-        $lifeCoach = LifeCoach::where(['id' => $lifeCoach])->first();
-        if ($lifeCoach) {
-            return view('frontend.pages.dashboard.views.edit-life-coach', [ 'lifeCoach' => $lifeCoach ]);
-        } else {
-            return redirect('/')->with('error', 'lifeCoach not found');
-        }
+    public function edit(LifeCoach $lifeCoach) {
+        return view('pages.life-coaches.edit' , [ 'lifeCoach' => $lifeCoach ]);
     }
 
     /**
@@ -121,20 +89,15 @@ class LifeCoachController extends Controller
      * @param  \App\Models\LifeCoach  $lifeCoach
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $lifeCoach)
-    {
+    public function update(Update $request, $lifeCoach) {
 
-        $lifeCoach = LifeCoach::find($lifeCoach);
-        if (!$lifeCoach) {
-            return redirect('/')->with('error', 'lifeCoach not found.');
-        }
+        $lifeCoach = LifeCoach::findOrFail($lifeCoach);
+
         $input = $request->input();
         $lifeCoachStatus = $lifeCoach->update($input);
-        if ($lifeCoachStatus) {
-            return view('frontend.pages.dashboard.views.edit-life-coach' , [ 'lifeCoach' => $lifeCoach ])->with('success', 'lifeCoach successfully updated.');
-        } else {
-            return view('frontend.pages.dashboard.views.edit-life-coach', [ 'lifeCoach' => $lifeCoach ])->with('error', 'Oops something went wrong. lifeCoach not updated');
-        }
+
+        session()->flash('message', 'LifeCoach successfully updated.');
+        return redirect()->route('life-coaches.index');
     }
 
     /**
@@ -162,5 +125,34 @@ class LifeCoachController extends Controller
             $respMsg = 'Oops something went wrong. lifeCoach not deleted successfully';
         }
         return redirect('/')->with($respStatus, $respMsg);
+    }
+
+    /**
+     * assign
+     *
+     * @return void
+     */
+    public function assign(FollowupTarget $lifeCoach) {
+
+        $data['lifeCoach'] = $lifeCoach;
+        $data['followupTargets'] = FollowupTarget::all();
+        $data['followupReasons'] = FollowupReason::all();
+
+        return view('pages.life-coaches.assign-target-modal', $data);
+    }
+
+    /**
+     * assign
+     *
+     * @return void
+     */
+    public function assignStore(StoreAssign $request) {
+
+        $lifeCoach = LifeCoach::findOrFail($request->coach_id);
+
+        LifeCoachTarget::where('followup_target_id', $request->target_id)->delete(); // delete existing attachments
+        $lifeCoach->followuptargets()->attach($request->target_id, ['reason_id' => $request->reason_id]);
+
+        return redirect()->route('life-coaches.index');
     }
 }

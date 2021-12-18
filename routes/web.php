@@ -48,7 +48,7 @@ use App\Http\Controllers\ReportController;
 |
 */
 
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';
 
 Route::get('/', function () {
     return redirect('dashboard');
@@ -57,27 +57,18 @@ Route::get('/', function () {
 
 
 // ==================================MIGRATION FROM OLD==================================
-Route::get('/test', [LifeCoachController::class, 'index']);
-Route::get('/', [DashboardController::class, 'index'])->name('index');
 
-Route::get('/all-life-coach', [LifeCoachController::class, 'list'])->name('all-life-coach');
-Route::get('/create-life-coach', [DashboardController::class, 'createCoach'])->name('create-life-coach');
-Route::post('/store-life-coach', [LifeCoachController::class, 'store'])->name('store-life-coach');
-Route::get('/show-life-coach/{LifeCoach}', [LifeCoachController::class, 'show'])->name('show-life-coach');
-Route::get('/edit-life-coach/{LifeCoach}', [LifeCoachController::class, 'edit'])->name('edit-life-coach');
-Route::put('/update-life-coach/{LifeCoach}', [LifeCoachController::class, 'update'])->name('update-life-coach');
-Route::delete('/delete-life-coach/{LifeCoach}', [LifeCoachController::class, 'destroy'])->name('delete-life-coach');
-Route::get('/assign-target', [LifeCoachTargetController::class, 'create'])->name('assign-target-form');
-Route::post('/assign-target/save', [LifeCoachTargetController::class, 'store'])->name('assign-target');
-Route::get('life-coach/coach-targets', [LifeCoachTargetController::class, 'index'])->name('coach-targets');
+// life choaches
+Route::get('life-coaches/assign-target/{lifeCoach}', [LifeCoachController::class, 'assign'])->name('life-coaches.assign');
+Route::post('life-coaches/assign-target/save', [LifeCoachController::class, 'assignStore'])->name('life-coaches.assign.store');
+Route::get('life-coaches/coach-targets', [LifeCoachController::class, 'index'])->name('coach-targets');
+Route::resource('life-coaches', LifeCoachController::class);
 
-Route::get('/all-target', [FollowupTargetController::class, 'index'])->name('all-target');
-Route::get('/create-target', [FollowupTargetController::class, 'create'])->name('create-target');
-Route::post('/store-target', [FollowupTargetController::class, 'store'])->name('store-target');
-Route::get('/show-target/{target}', [FollowupTargetController::class, 'show'])->name('show-target');
-Route::get('/edit-target/{target}', [FollowupTargetController::class, 'edit'])->name('edit-target');
-Route::put('/update-target/{target}', [FollowupTargetController::class, 'update'])->name('update-target');
-Route::delete('/delete-target/{target}', [FollowupTargetController::class, 'destroy'])->name('delete-target');
+// followup targets
+Route::get('followup-targets/assign/{followupTarget}', [FollowupTargetController::class, 'assign'])->name('followup-targets.assign');
+Route::post('followup-targets/assign', [FollowupTargetController::class, 'assignStore'])->name('followup-targets.assign.store');
+Route::get('followup-targets/{followupTarget}/delete', [FollowupTargetController::class, 'delete'])->name('followup-targets.delete');
+Route::resource('followup-targets', FollowupTargetController::class);
 
 Route::get('life-coach/coach-targets/{target}/reports', [ReportController::class, 'index'])->name('all-reports');
 Route::get('life-coach/coach-targets/{target}/reports/create', [ReportController::class, 'create'])->name('create-report');
@@ -89,6 +80,7 @@ Route::put('life-coach/coach-targets/{target}/reports/update', [ReportController
 
 
 Route::delete('life-coach/coach-targets/{target}/reports/delete', [ReportController::class, 'destroy'])->name('delete-report');
+
 Route::group(['middleware' => 'auth'], function() {
 
     //Dashboard
@@ -101,7 +93,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('members/search', 						[MembersController::class, 'search'])->name('members.search');
     Route::post('members/autocomplete', 				[MembersController::class, 'search'])->name('members.search');
     Route::post('members/service-teams', 				[MembersController::class, 'addToServiceTeam'])->name('members.service-teams');
-    Route::resource('members', MembersController::class); 
+    Route::resource('members', MembersController::class);
 
     // Cells
     Route::get('cells/leader-profile/{id}', 	[CellsController::class, 'leaderProfile'])->name('cell.leader-profile');
@@ -265,8 +257,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('reports/general', [ReportsController::class, 'general'])->name('reportsGeneral');
 
 });
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 

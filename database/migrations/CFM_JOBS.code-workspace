@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "..\\..\\..\\..\\..\\..\\..\\laragon\\www\\cfm-wordshop-backend-v2"
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\..\\..\\laragon\\www\\cfm"
 		}
 	],
 	"settings": {}

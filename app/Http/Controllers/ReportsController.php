@@ -134,7 +134,7 @@ class ReportsController extends Controller
         // dd($data);
 
 
-        return view('frontend.pages.reports.serviceDays', $data);
+        return view('pages.reports.serviceDays', $data);
     }
 
 
@@ -393,6 +393,6 @@ class ReportsController extends Controller
         $data['service_type_id'] = $service_type_id;
         $data['selectedService'] = ServiceType::find($service_type_id);
         
-        return view('frontend.pages.reports.general', $data);
+        return view('pages.reports.general', $data);
     }
 }
