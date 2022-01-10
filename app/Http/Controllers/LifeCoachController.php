@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Church;
 use App\Models\Member;
 use App\Models\LifeCoach;
-use App\Models\FollowupReason;
-use App\Models\LifeCoachTarget;
+use App\Models\AgeProfile;
 use Illuminate\Http\Request;
+use App\Models\FollowupReason;
 use App\Models\FollowupTarget;
+use App\Models\LifeCoachTarget;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LifeCoach\Store;
 use App\Http\Requests\LifeCoach\Update;
@@ -63,9 +67,10 @@ class LifeCoachController extends Controller
      */
     public function show($lifeCoach)
     {
-        //
         //Get authenticated user and display a single lifeCoach
-        $lifeCoach = LifeCoach::where(['id' => $lifeCoach])->first();
+        $lifeCoach = LifeCoach::with('followuptargets')->where(['id' => $lifeCoach])->first();
+        // dd($lifeCoach);
+
         if (!$lifeCoach) {
             return redirect()->route('create-life-coach')->with('error', 'lifeCoach not found. Create missing coach');
         }
@@ -126,16 +131,57 @@ class LifeCoachController extends Controller
         }
         return redirect('/')->with($respStatus, $respMsg);
     }
+    
+    /**
+     * createTarget
+     *
+     * @param  mixed $coachId
+     * @return void
+     */
+    public function createTarget($coachId) {
+        $data['ageProfiles'] = AgeProfile::pluck('name', 'id');
+        $data['churches'] = Church::pluck('name', 'id');
+        $data['coach'] = LifeCoach::findOrfail($coachId);
+
+        return view('pages.life-coaches.create-modal', $data);
+    }
+    
+    /**
+     * createTargetStore
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function createTargetStore(Store $request) {
+
+        $input = $request->input();
+
+        $target = FollowupTarget::create($input);
+
+        LifeCoachTarget::where('followup_target_id', $request->target_id)->delete(); // delete existing attachments
+        $target->lifecoaches()->attach($request->coach_id, ['reason_id' => $request->reason_id]);
+
+        session()->flash('Followup Target successfully added and assigned.');
+
+        return redirect()->back();
+    }
 
     /**
      * assign
      *
      * @return void
      */
-    public function assign(FollowupTarget $lifeCoach) {
+    public function assign(LifeCoach $lifeCoach) {
 
         $data['lifeCoach'] = $lifeCoach;
-        $data['followupTargets'] = FollowupTarget::all();
+
+        $data['followupTargets'] = FollowupTarget::whereNotIn('id', function ($query) {
+            $query->select('followup_target_id')
+                ->from('life_coach_targets')
+                ->pluck('followup_target_id')
+                ->toArray();
+        })->get();
+
         $data['followupReasons'] = FollowupReason::all();
 
         return view('pages.life-coaches.assign-target-modal', $data);
@@ -151,8 +197,19 @@ class LifeCoachController extends Controller
         $lifeCoach = LifeCoach::findOrFail($request->coach_id);
 
         LifeCoachTarget::where('followup_target_id', $request->target_id)->delete(); // delete existing attachments
-        $lifeCoach->followuptargets()->attach($request->target_id, ['reason_id' => $request->reason_id]);
+        $res = $lifeCoach->followuptargets()->attach($request->target_id, ['reason_id' => $request->reason_id]);
+        
+        // DB::table('life_coach_targets')->insert([
+        //     'life_coach_id'      => $request->coach_id,
+        //     'followup_target_id' => $request->target_id,
+        //     'reason_id'          => $request->reason_id,
+        //     'status'             => 1,
+        //     'assigned_by'        => auth()->user()->id,
+        //     'created_at'         => Carbon::now(),
+        //     'updated_at'         => Carbon::now(),
+        // ]);
+        // dd($res);
 
-        return redirect()->route('life-coaches.index');
+        return redirect()->route('life-coaches.show', $lifeCoach);
     }
 }

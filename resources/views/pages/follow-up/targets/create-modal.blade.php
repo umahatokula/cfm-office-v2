@@ -1,5 +1,6 @@
 {!! Form::open(['route' => 'followup-targets.store', 'class' => 'row g-3']) !!}
     @csrf
+
     <div class="col-md-6">
         <label for="fname" class="form-label">First Name</label>
         {!! Form::text('fname', null, ['class' => 'form-control', 'id' => 'fname']) !!}

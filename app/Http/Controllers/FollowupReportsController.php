@@ -4,21 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use Illuminate\Http\Request;
+use App\Models\FollowUpReport;
+use App\Models\FollowupTarget;
 
-class ReportController extends Controller
+class FollowupReportsController extends Controller
 {
     public $folk;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($folk)
+    public function index(FollowupTarget $target)
     {
-        // dd($folk);
-        $reports = Report::where('follow_up_target_id',$folk)->get();
-        // dd($reports);
-        return view('frontend.pages.dashboard.views.follow-up-reports.index', ['reports'=>$reports, 'folk'=>$folk]);
+        return view('pages.follow-up.reports.create-report', [
+            'target' => $target,
+            'reports' => $target->reports,
+            'lifeCoach' => $target->lifeCoaches[0],
+        ]);
     }
 
     /**
@@ -26,10 +30,12 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($folk)
+    public function create(FollowupTarget $target)
     {
-        // dd($reports);
-        return view('frontend.pages.dashboard.views.follow-up-reports.create-report', ['folk'=>$folk]);
+        return view('pages.follow-up.reports.create-report', [
+            'target' => $target,
+            'lifeCoach' => $target->lifeCoaches[0],
+        ]);
 
     }
 
@@ -39,16 +45,9 @@ class ReportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $folk)
+    public function store(Request $request)
     {
-        dd($folk);
-        $report = new Report();
-        $report->report = $request->report;
-        $report->follow_up_target_id = $folk;
-        $report->life_coach_id = 2; #The coach id will be gotten from authenticated user id
-        $report->save();
-
-        redirect()->route('all-reports', ['folk'=>$folk]);
+        //
     }
 
     /**
@@ -57,12 +56,9 @@ class ReportController extends Controller
      * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function show($report)
+    public function show(FollowUpReport $report)
     {
-        //
-        $report = Report::where('id',$report)->first();
-        // dd($reports);
-        return view('frontend.pages.dashboard.views.follow-up-reports.view-report', ['report'=>$report]);
+        return view('pages.follow-up.reports.view-report', ['report'=>$report]);
     }
 
     /**
@@ -74,8 +70,8 @@ class ReportController extends Controller
     public function edit($report)
     {
         $report = Report::where('id',$report)->first();
-        // dd($reports);
-        return view('frontend.pages.dashboard.views.follow-up-reports.edit-report', ['report'=>$report]);
+
+        return view('pages.follow-up.reports.edit-report', ['report'=>$report]);
 
     }
 
@@ -88,7 +84,7 @@ class ReportController extends Controller
      */
     public function update(Request $request, $report)
     {
-        $report = Report::find($report)->first();
+        $report = Report::find($report);
         $report->report = $request->report;
         // $report->follow_up_target_id = $folk;
         // $report->life_coach_id = 2; #The coach id will be gotten from authenticated user id

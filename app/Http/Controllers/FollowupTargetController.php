@@ -57,7 +57,8 @@ class FollowupTargetController extends Controller
         $followupTarget = FollowupTarget::create($input);
 
         session()->flash('FollowupTarget successfully added.');
-        return redirect()->route('followup-targets.index');
+        // return redirect()->route('followup-targets.index');
+        return redirect()->back();
     }
 
     /**

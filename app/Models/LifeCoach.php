@@ -42,7 +42,7 @@ class LifeCoach extends Model
      */
     public function followuptargets()
     {
-        return $this->belongsToMany(FollowupTarget::class, 'life_coach_targets');
+        return $this->belongsToMany(FollowupTarget::class, 'life_coach_targets', 'life_coach_id', 'followup_target_id');
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Church;
 use App\Models\AgeProfile;
+use App\Models\FollowUpReport;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -62,5 +63,12 @@ class FollowupTarget extends Model
      */
     public function lifecoaches() {
         return $this->belongsToMany(LifeCoach::class, 'life_coach_targets');
+    }
+
+    /**
+     * The life-coaches that belong to the target.
+     */
+    public function reports() {
+        return $this->hasMany(FollowUpReport::class, 'followup_target_id', 'id');
     }
 }

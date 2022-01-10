@@ -34,7 +34,7 @@ use App\Http\Controllers\CfcKidsWeeklyReportController;
 use App\Http\Controllers\PostServiceAccountsController;
 use App\Http\Controllers\SpecialRequisitionsController;
 use App\Http\Controllers\LifeCoachTargetController;
-use App\Http\Controllers\ReportController;
+use App\Http\Controllers\FollowupReportsController;
 
 
 /*
@@ -59,6 +59,8 @@ Route::get('/', function () {
 // ==================================MIGRATION FROM OLD==================================
 
 // life choaches
+Route::get('life-coaches/create-target/{lifeCoach}', [LifeCoachController::class, 'createTarget'])->name('life-coaches.create-target');
+Route::post('life-coaches/create-target', [LifeCoachController::class, 'createTargetStore'])->name('life-coaches.create-target.store');
 Route::get('life-coaches/assign-target/{lifeCoach}', [LifeCoachController::class, 'assign'])->name('life-coaches.assign');
 Route::post('life-coaches/assign-target/save', [LifeCoachController::class, 'assignStore'])->name('life-coaches.assign.store');
 Route::get('life-coaches/coach-targets', [LifeCoachController::class, 'index'])->name('coach-targets');
@@ -70,12 +72,12 @@ Route::post('followup-targets/assign', [FollowupTargetController::class, 'assign
 Route::get('followup-targets/{followupTarget}/delete', [FollowupTargetController::class, 'delete'])->name('followup-targets.delete');
 Route::resource('followup-targets', FollowupTargetController::class);
 
-Route::get('life-coach/coach-targets/{target}/reports', [ReportController::class, 'index'])->name('all-reports');
-Route::get('life-coach/coach-targets/{target}/reports/create', [ReportController::class, 'create'])->name('create-report');
-Route::post('life-coach/coach-targets/{target}/reports/store', [ReportController::class, 'store'])->name('store-report');
-Route::get('life-coach/coach-targets/{target}/reports/show', [ReportController::class, 'show'])->name('show-report');
-Route::get('life-coach/coach-targets/{target}/reports/edit', [ReportController::class, 'edit'])->name('edit-report');
-Route::put('life-coach/coach-targets/{target}/reports/update', [ReportController::class, 'update'])->name('update-report');
+Route::get('followup-reports/{target}', [FollowupReportsController::class, 'index'])->name('followup-reports.all-reports');
+Route::get('followup-reports/{target}/create', [FollowupReportsController::class, 'create'])->name('followup-reports.create');
+Route::post('followup-reports/store', [FollowupReportsController::class, 'store'])->name('followup-reports.store');
+Route::get('followup-reports/{report}/show', [FollowupReportsController::class, 'show'])->name('followup-reports.show');
+Route::get('followup-reports/{target}/edit', [FollowupReportsController::class, 'edit'])->name('followup-reports.edit');
+Route::put('followup-reports/{target}/update', [FollowupReportsController::class, 'update'])->name('followup-reports.update');
 
 
 
