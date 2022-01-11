@@ -25,13 +25,7 @@ class RequisitionsController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Requisitions';
-
-        $data['manageRequisitions'] = 1;
-        $data['requisitions'] = Requisition::where(['church_id' => \Auth::user()->member->church_id])->get();
-        $data['operationsAccbalance'] = AccountType::where(['id' => 4, 'church_id' => \Auth::user()->member->church_id])->first();
-
-        return view('requisitions.index', $data);
+        return view('accounting.requisitions.index');
     }
 
     /**
@@ -41,10 +35,7 @@ class RequisitionsController extends Controller
      */
     public function create()
     {
-        $data['title'] = 'Requisitions';
-        $data['expenseHeads'] = ExpenseHead::where(['status_id' => 1, 'church_id' => \Auth::user()->member->church_id])->pluck('title', 'id');
-
-        return view('requisitions.create', $data);
+        return view('accounting.requisitions.create');
     }
 
     /**
@@ -55,54 +46,7 @@ class RequisitionsController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
-        $rules=[
-        'expense_head_id' => 'required', 
-        'description'     => 'required', 
-        'qty'             => 'required', 
-        'unit_cost'       => 'required',
-        'total_cost'      => 'required',
-        ];
-
-        // $this->validate($request, $rules);
-        $validator = \Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-
-            if ($request->ajax()) {
-                return response()->json(['success' => FALSE, 'message' => $validator->errors() ]);
-            }
-
-            return redirect()->back()->withInput()->withErrors($validator);
-        }
-
-        // ExpenseHead::create($request->all())->save();
-        $requisition                     = new Requisition;
-        $requisition->requisition_number = $requisition->generateRequisitionNumber();
-        $requisition->church_id          = \Auth::user()->member->church_id;
-        $requisition->requested_amount   = array_sum($request->total_cost);
-        $requisition->requisition_by     = \Auth::user()->member->id;
-        $requisition->save();
-        
-        for ($i=0; $i < count($request->expense_head_id); $i++) { 
-            $requisitionItem                  = new RequisitionItem;
-            $requisitionItem->requisition_id  = $requisition->id;
-            $requisitionItem->expense_head_id = $request->expense_head_id[$i];
-            $requisitionItem->description     = $request->description[$i];
-            $requisitionItem->qty             = $request->qty[$i];
-            $requisitionItem->unit_cost       = $request->unit_cost[$i];
-            $requisitionItem->total_cost      = $request->total_cost[$i];
-            $requisitionItem->save();
-        }
-
-        session()->flash('successMessage', 'Requisition submitted successfully');
-
-        if ($request->ajax()) {
-            return response()->json(['success' => true, 'message' => 'Requisition submitted successfully.' ]);
-        }
-
-        return redirect('requisitions');
-        
+        //        
     }
 
     /**
@@ -111,13 +55,11 @@ class RequisitionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Requisition $requisition)
     {
-        $data['title'] = 'Requisitions';
-        $data['manageRequisitions'] = 1;
-        $data['requisition'] = Requisition::find($id);
+        $data['requisition'] = $requisition;
 
-        return view('requisitions.show', $data);
+        return view('accounting.requisitions.show', $data);
     }
 
     /**
@@ -128,11 +70,10 @@ class RequisitionsController extends Controller
      */
     public function edit($id)
     {
-        $data['title'] = 'Requisitions';
         $data['expenseHeads'] = ExpenseHead::where('status_id', 1)->pluck('title', 'id');
         $data['requisition'] = Requisition::find($id);
 
-        return view('requisitions.edit', $data);
+        return view('accounting.requisitions.edit', $data);
     }
 
     /**
@@ -210,7 +151,7 @@ class RequisitionsController extends Controller
     public function process($id) {
         $data['requisition'] = Requisition::find($id);
 
-        return view('requisitions.process', $data);
+        return view('accounting.requisitions.process', $data);
     }
 
     public function approve(Request $request, $id) {
@@ -256,7 +197,7 @@ class RequisitionsController extends Controller
         $data['approved'] = [1 => 'Approved', 0 => 'Unapproved', -1 => 'All'];
         $data['status'] = [1 => 'Paid', 0 => 'Unpaid', -1 => 'All'];
 
-        return view('requisitions.pay', $data);
+        return view('accounting.requisitions.pay', $data);
     }
 
     /**

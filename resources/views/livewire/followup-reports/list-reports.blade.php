@@ -3,11 +3,12 @@
         <div class="col">
             <div class="page-description d-flex align-items-center">
                 <div class="page-description-content flex-grow-1">
-                    <h1>Life Coaches</h1>
-                    <span>List of all Life Coaches</span>
+                    <h1>Target Reports</h1>
+                    <span>List of all Target Reports</span>
                 </div>
                 <div class="page-description-actions">
-                    <button wire:click="$toggle('showReportForm')" href="#" class="btn btn-primary"><i class="material-icons">add</i>Create Report</button>
+                    <button wire:click="onClickPastorReportForm" href="#" class="btn btn-dark"><i class="material-icons">add</i>Pastor's Comment</button>
+                    <button wire:click="onClickCoachReportForm" href="#" class="btn btn-primary"><i class="material-icons">add</i>Life Coach's Comment</button>
                 </div>
             </div>
         </div>
@@ -29,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($target->reports as $report)
+                            @forelse ($reports as $report)
                                 <tr>
                                     <td scope="row">{{ $loop->iteration }}</td>
                                     <td>{{ $report->created_at ? $report->created_at->toFormattedDateString() : null }}</td>
@@ -41,7 +42,7 @@
                                         <a wire:click="editReport({{ $report->id }})" href="#" class="text-success p-0" data-original-title="" title="Edit">
                                             <span class="material-icons-outlined">edit</span>
                                         </a>
-                                        <a href="{{ route('followup-reports.show', $report)}}" class="text-danger p-0" data-original-title="" title="Delete">
+                                        <a wire:click.prevent="destroy({{ $report->id }})" onclick="confirm('Are you sure?') || event.stopImmediatePropagation()" href="#" class="text-danger p-0" data-original-title="" title="Delete">
                                             <span class="material-icons-outlined">delete</span>
                                         </a>
                                     </td>
@@ -59,21 +60,49 @@
         <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">{{ $editReport ? 'Edit' : 'New' }} Report</h5>
+                    <h5 class="card-title">{{ $showPastorReportForm ? 'Pastor\'s Comment' :  ($editReport ? 'Edit Report' : 'Coach\'s Report') }} </h5>
                 </div>
                 <div class="card-body">
 
-                    @if ($showReportForm)
+                    @if ($showCoachReportForm)
                     <form wire:submit.prevent="save">
                         @csrf
                         <div class="row">
                             <div class="col-md-12 mb-4">
                                 <textarea wire:model="report_content" id="summernote" class="form-control" rows="5" placeholder="Enter report..."></textarea>
+                                @error('report_content') <small class="text-danger">This field is required</small>  @enderror
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <button class="btn btn-success" type="submit"><i class="material-icons-outlined no-m">edit</i>  SUBMIT</button>
+                            </div>
+                        </div>
+                    </form>  
+                    @endif
+
+                    @if ($showPastorReportForm)
+                    <form wire:submit.prevent="savePastorComment">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <select wire:model.lazy="reportIdForPastorComment" wire:change="onSelectReport($event.target.value)" class="form-select form-control"
+                                    required>
+                                    <option value="">Please select one</option>
+                                    @foreach ($reports as $report)
+                                    <option value="{{ $report->id }}">{{ $report->created_at ? $report->created_at->toFormattedDateString() : null }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <textarea wire:model="pastor_report_content" id="summernote" class="form-control" rows="5" placeholder="Enter report..."></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-dark" type="submit"><i class="material-icons-outlined no-m">edit</i>  SUBMIT</button>
                             </div>
                         </div>
                     </form>  

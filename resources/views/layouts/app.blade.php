@@ -13,7 +13,10 @@
     @include('imports.stylesheets')
 
     <!-- Title -->
-    <title>CFM OFFICE 2.0.0</title>
+    <title>{{ config('app.name', 'Real Estate App') }}</title>
+
+    <!-- Toastr -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     @livewireStyles
 
@@ -49,11 +52,6 @@
 
     @include('imports.javascripts')
 
-
-    @livewireScripts
-    @yield('javascript')
-
-    
     <script>
         $(document).ready(function () {
 
@@ -68,7 +66,35 @@
             });
 
         });
+
+        window.addEventListener('showToastr', event => {
+            console.log(event)
+            toastr[event.detail.type](event.detail.message)
+        })
+
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "3000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
     </script>
+
+    @livewireScripts
+
+    @stack('scripts')
 </body>
 </html>
 

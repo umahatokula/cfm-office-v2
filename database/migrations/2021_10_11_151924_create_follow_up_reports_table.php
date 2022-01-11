@@ -17,6 +17,7 @@ class CreateFollowUpReportsTable extends Migration
             $table->id();
             $table->longText('report')->nullable();
             $table->longText('pastors_comment')->nullable();
+            $table->integer('pastor_id')->nullable();
             $table->foreignId('life_coach_id')->nullable();
             $table->foreignId('followup_target_id')->nullable();
             $table->timestamps();

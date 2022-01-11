@@ -54,7 +54,11 @@
                                 @forelse ($lifeCoach->followuptargets as $target)
                                 <tr>
                                     <td scope="row">{{ $loop->iteration }}</td>
-                                    <td>{{ $target->name }}</td>
+                                    <td>
+                                        <a data-toggle="modal" data-keyboard="false" data-remote="{{ route('followup-targets.show', $target) }}" href="#" class="text-primary p-0" data-bs-toggle="modal" data-bs-target="#modal-large">
+                                            {{ $target->name }}
+                                        </a>
+                                    </td>
                                     <td class="text-right">
                                         <a href="{{ route('followup-reports.create', $target) }}" class="text-primary p-0" title="Report">
                                             <span class="material-icons-sharp">edit_note</span>

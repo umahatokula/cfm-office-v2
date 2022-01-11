@@ -59,6 +59,29 @@
                     </li>
                 </ul>
             </li>
+
+            <li>
+                <a href="#"><i class="material-icons-two-tone">star</i>Accounting<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="settings.html">Settings</a>
+                    </li>
+                    <li>
+                        <a href="#">Requisitions<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ route('requisitions.index') }}">View Requisitions</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('requisitions.create') }}">New Requisition</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="error.html">Error</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
 </div>

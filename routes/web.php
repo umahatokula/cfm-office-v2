@@ -58,31 +58,6 @@ Route::get('/', function () {
 
 // ==================================MIGRATION FROM OLD==================================
 
-// life choaches
-Route::get('life-coaches/create-target/{lifeCoach}', [LifeCoachController::class, 'createTarget'])->name('life-coaches.create-target');
-Route::post('life-coaches/create-target', [LifeCoachController::class, 'createTargetStore'])->name('life-coaches.create-target.store');
-Route::get('life-coaches/assign-target/{lifeCoach}', [LifeCoachController::class, 'assign'])->name('life-coaches.assign');
-Route::post('life-coaches/assign-target/save', [LifeCoachController::class, 'assignStore'])->name('life-coaches.assign.store');
-Route::get('life-coaches/coach-targets', [LifeCoachController::class, 'index'])->name('coach-targets');
-Route::resource('life-coaches', LifeCoachController::class);
-
-// followup targets
-Route::get('followup-targets/assign/{followupTarget}', [FollowupTargetController::class, 'assign'])->name('followup-targets.assign');
-Route::post('followup-targets/assign', [FollowupTargetController::class, 'assignStore'])->name('followup-targets.assign.store');
-Route::get('followup-targets/{followupTarget}/delete', [FollowupTargetController::class, 'delete'])->name('followup-targets.delete');
-Route::resource('followup-targets', FollowupTargetController::class);
-
-Route::get('followup-reports/{target}', [FollowupReportsController::class, 'index'])->name('followup-reports.all-reports');
-Route::get('followup-reports/{target}/create', [FollowupReportsController::class, 'create'])->name('followup-reports.create');
-Route::post('followup-reports/store', [FollowupReportsController::class, 'store'])->name('followup-reports.store');
-Route::get('followup-reports/{report}/show', [FollowupReportsController::class, 'show'])->name('followup-reports.show');
-Route::get('followup-reports/{target}/edit', [FollowupReportsController::class, 'edit'])->name('followup-reports.edit');
-Route::put('followup-reports/{target}/update', [FollowupReportsController::class, 'update'])->name('followup-reports.update');
-
-
-
-Route::delete('life-coach/coach-targets/{target}/reports/delete', [ReportController::class, 'destroy'])->name('delete-report');
-
 Route::group(['middleware' => 'auth'], function() {
 
     //Dashboard
@@ -191,39 +166,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('first-timers/autocomplete', [FirstTimersController::class, 'autocomplete'])->name('first-timers.autocomplete');
     Route::resource('first-timers', FirstTimersController::class);
 
-    // Post Service Accounts
-    Route::resource('post-service-accounts', PostServiceAccountsController::class);
-
-    // Expense Heads
-    Route::get('expense-heads/{id}/activate', [ExpenseHeadsController::class, 'activate'])->name('expense-heads.activate');
-    Route::get('expense-heads/{id}/deactivate', [ExpenseHeadsController::class, 'deactivate'])->name('expense-heads.deactivate');
-    Route::resource('expense-heads', ExpenseHeadsController::class);
-
-    // Requisitions
-    Route::get('requisitions/{id}/process', [RequisitionsController::class, 'process'])->name('requisitions.process');
-    Route::put('requisitions/{id}/approve', [RequisitionsController::class, 'approve'])->name('requisitions.approve');
-    Route::get('requisitions/{id}/decline', [RequisitionsController::class, 'decline'])->name('requisitions.decline');
-    Route::get('requisitions/show-pay', [RequisitionsController::class, 'pay'])->name('requisitions.show-pay');
-    Route::put('requisitions/{id}/pay', [RequisitionsController::class, 'payStore'])->name('requisitions.pay');
-    Route::post('requisitions/pay/filter', [RequisitionsController::class, 'payFilter'])->name('requisitions.pay.filter');
-    Route::post('requisitions/filter', [RequisitionsController::class, 'filter'])->name('requisitions.filter');
-    Route::resource('requisitions', RequisitionsController::class);
-
-    // Retire Requisitions
-    Route::post('retire-requisitions/autocomplete', [RetireRequisitionsController::class, 'autocomplete'])->name('retire-requisitions.search');
-    Route::post('retire-requisitions/search', [RetireRequisitionsController::class, 'search'])->name('retire-requisitions.search');
-    Route::resource('retire-requisitions', RetireRequisitionsController::class);
-
-    // Special Requisitions
-    Route::get('special-requisitions/{id}/process', [SpecialRequisitionsController::class, 'process'])->name('special-requisitions.process');
-    Route::put('special-requisitions/{id}/approve', [SpecialRequisitionsController::class, 'approve'])->name('special-requisitions.approve');
-    Route::get('special-requisitions/{id}/decline', [SpecialRequisitionsController::class, 'decline'])->name('special-requisitions.decline');
-    Route::get('special-requisitions/show-pay', [SpecialRequisitionsController::class, 'pay'])->name('special-requisitions.show-pay');
-    Route::put('special-requisitions/{id}/pay', [SpecialRequisitionsController::class, 'payStore'])->name('special-requisitions.pay');
-    Route::post('special-requisitions/pay/filter', [SpecialRequisitionsController::class, 'payFilter'])->name('special-requisitions.pay.filter');
-    Route::post('special-requisitions/filter', [SpecialRequisitionsController::class, 'filter'])->name('special-requisitions.filter');
-    Route::resource('special-requisitions', SpecialRequisitionsController::Class);
-
     // Accounts
     Route::resource('accounts', AccountsController::class);
 
@@ -257,6 +199,70 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('reports/service-days/', [ReportsController::class, 'serviceDays'])->name('reportsServiceDays');
     Route::get('reports/service-days/pdf/{first_date_from}/{first_date_to}/{second_date_from?}/{second_date_to?}', [ReportsController::class, 'reportsChurchServicesPdf'])->name('reportsChurchServicesPdf');
     Route::get('reports/general', [ReportsController::class, 'general'])->name('reportsGeneral');
+
+    // ========================================================================================================
+
+    // life choaches
+    Route::get('life-coaches/create-target/{lifeCoach}', [LifeCoachController::class, 'createTarget'])->name('life-coaches.create-target');
+    Route::post('life-coaches/create-target', [LifeCoachController::class, 'createTargetStore'])->name('life-coaches.create-target.store');
+    Route::get('life-coaches/assign-target/{lifeCoach}', [LifeCoachController::class, 'assign'])->name('life-coaches.assign');
+    Route::post('life-coaches/assign-target/save', [LifeCoachController::class, 'assignStore'])->name('life-coaches.assign.store');
+    Route::get('life-coaches/coach-targets', [LifeCoachController::class, 'index'])->name('coach-targets');
+    Route::resource('life-coaches', LifeCoachController::class);
+    Route::delete('life-coach/coach-targets/{target}/reports/delete', [ReportController::class, 'destroy'])->name('delete-report');
+
+    // followup targets
+    Route::get('followup-targets/assign/{followupTarget}', [FollowupTargetController::class, 'assign'])->name('followup-targets.assign');
+    Route::post('followup-targets/assign', [FollowupTargetController::class, 'assignStore'])->name('followup-targets.assign.store');
+    Route::get('followup-targets/{followupTarget}/delete', [FollowupTargetController::class, 'delete'])->name('followup-targets.delete');
+    Route::resource('followup-targets', FollowupTargetController::class);
+
+    Route::get('followup-reports/{target}', [FollowupReportsController::class, 'index'])->name('followup-reports.all-reports');
+    Route::get('followup-reports/{target}/create', [FollowupReportsController::class, 'create'])->name('followup-reports.create');
+    Route::post('followup-reports/store', [FollowupReportsController::class, 'store'])->name('followup-reports.store');
+    Route::get('followup-reports/{report}/show', [FollowupReportsController::class, 'show'])->name('followup-reports.show');
+    Route::get('followup-reports/{target}/edit', [FollowupReportsController::class, 'edit'])->name('followup-reports.edit');
+    Route::put('followup-reports/{target}/update', [FollowupReportsController::class, 'update'])->name('followup-reports.update');
+
+
+
+
+    // =========================================Accounting==============================================
+    Route::prefix('accounting')->group(function () {
+
+        // Post Service Accounts
+        Route::resource('post-service-accounts', PostServiceAccountsController::class);
+
+        // Expense Heads
+        Route::get('expense-heads/{id}/activate', [ExpenseHeadsController::class, 'activate'])->name('expense-heads.activate');
+        Route::get('expense-heads/{id}/deactivate', [ExpenseHeadsController::class, 'deactivate'])->name('expense-heads.deactivate');
+        Route::resource('expense-heads', ExpenseHeadsController::class);
+
+        // Requisitions
+        Route::get('requisitions/{id}/process', [RequisitionsController::class, 'process'])->name('requisitions.process');
+        Route::put('requisitions/{id}/approve', [RequisitionsController::class, 'approve'])->name('requisitions.approve');
+        Route::get('requisitions/{id}/decline', [RequisitionsController::class, 'decline'])->name('requisitions.decline');
+        Route::get('requisitions/show-pay', [RequisitionsController::class, 'pay'])->name('requisitions.show-pay');
+        Route::put('requisitions/{id}/pay', [RequisitionsController::class, 'payStore'])->name('requisitions.pay');
+        Route::post('requisitions/pay/filter', [RequisitionsController::class, 'payFilter'])->name('requisitions.pay.filter');
+        Route::post('requisitions/filter', [RequisitionsController::class, 'filter'])->name('requisitions.filter');
+        Route::resource('requisitions', RequisitionsController::class);
+
+        // Retire Requisitions
+        Route::post('retire-requisitions/autocomplete', [RetireRequisitionsController::class, 'autocomplete'])->name('retire-requisitions.search');
+        Route::post('retire-requisitions/search', [RetireRequisitionsController::class, 'search'])->name('retire-requisitions.search');
+        Route::resource('retire-requisitions', RetireRequisitionsController::class);
+
+        // Special Requisitions
+        Route::get('special-requisitions/{id}/process', [SpecialRequisitionsController::class, 'process'])->name('special-requisitions.process');
+        Route::put('special-requisitions/{id}/approve', [SpecialRequisitionsController::class, 'approve'])->name('special-requisitions.approve');
+        Route::get('special-requisitions/{id}/decline', [SpecialRequisitionsController::class, 'decline'])->name('special-requisitions.decline');
+        Route::get('special-requisitions/show-pay', [SpecialRequisitionsController::class, 'pay'])->name('special-requisitions.show-pay');
+        Route::put('special-requisitions/{id}/pay', [SpecialRequisitionsController::class, 'payStore'])->name('special-requisitions.pay');
+        Route::post('special-requisitions/pay/filter', [SpecialRequisitionsController::class, 'payFilter'])->name('special-requisitions.pay.filter');
+        Route::post('special-requisitions/filter', [SpecialRequisitionsController::class, 'filter'])->name('special-requisitions.filter');
+        Route::resource('special-requisitions', SpecialRequisitionsController::Class);
+    });
 
 });
 
