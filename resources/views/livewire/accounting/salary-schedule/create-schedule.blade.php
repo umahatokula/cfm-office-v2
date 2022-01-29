@@ -65,7 +65,7 @@
                                         <tr>
                                             <td scope="row">{{ $loop->iteration }}</td>
                                             <td>
-                                                <select wire:model.lazy="scheduleElements.{{$key}}.expense_head_id"
+                                                <select wire:model.lazy="scheduleElements.{{$key}}.salary_schedule_element_id"
                                                     class="form-select form-control" required>
                                                     <option value="">Please select one</option>
                                                     @foreach ($salaryScheduleElements as $k => $salaryScheduleElement)
