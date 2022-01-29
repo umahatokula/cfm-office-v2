@@ -11,7 +11,7 @@ use App\Models\Church;
 use App\Models\AgeProfile;
 use App\Models\Status;
 use App\Models\ServiceType;
-use App\Models\PostServiceAccount;
+// use App\Models\PostServiceAccount;
 use App\Models\AccountType;
 use Carbon\Carbon;
 
@@ -526,7 +526,7 @@ class ChurchServicesController extends Controller
         }
         
 
-        return redirect()->route('pages.church-services.index')->with('churchServices', $churchServices);
+        return redirect()->route('church-services.index')->with('churchServices', $churchServices);
         // return view('church-services.search-results', $data);
     }
 

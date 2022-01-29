@@ -4,7 +4,7 @@
             <div class="page-description d-flex align-items-center">
                 <div class="page-description-content flex-grow-1">
                     <h1>Target Reports</h1>
-                    <span>List of all Target Reports</span>
+                    <span>Reports for <b>{{ $target->name }}</b></span>
                 </div>
                 <div class="page-description-actions">
                     <button wire:click="onClickPastorReportForm" href="#" class="btn btn-dark"><i class="material-icons">add</i>Pastor's Comment</button>
@@ -60,7 +60,7 @@
         <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">{{ $showPastorReportForm ? 'Pastor\'s Comment' :  ($editReport ? 'Edit Report' : 'Coach\'s Report') }} </h5>
+                    <h5 class="card-title">{{ $showPastorReportForm ? 'Pastor\'s Comment' :  ($editReport ? 'Edit Report' : 'New Report by Life Coach') }} </h5>
                 </div>
                 <div class="card-body">
 

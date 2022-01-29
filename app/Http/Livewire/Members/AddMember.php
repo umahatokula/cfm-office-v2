@@ -61,6 +61,14 @@ class AddMember extends Component
         'fname' => 'required',
         'lname' => 'required',
         'email' => 'email',
+        'church_id' => 'required',
+    ];
+
+    protected $messages = [
+        'fname.required' => 'First name is required',
+        'lname.required' => 'Last name is required',
+        'email.email' => 'Enter a valid email address',
+        'church_id.required' => 'Church is required',
     ];
 
     public function mount()
@@ -141,13 +149,12 @@ class AddMember extends Component
                 ->toMediaCollection('member', 'public');
         }
         
-        session()->flash('message', 'Member successfully added.');
+        $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Member successfully added']);
 
         redirect()->route('members.index');
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.members.add-member');
     }
 

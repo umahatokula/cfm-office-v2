@@ -13,6 +13,15 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
+                
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                        <div class="alert alert-danger alert-style-light" role="alert">
+                            {{ $error }}
+                        </div>
+                    @endforeach
+                @endif
+
                 <div class="row my-3">
                     <div class="col-md-1"><b>Name</b></div>
                     <div class="col-md-8">{{ $lifeCoach->name  }}</div>
@@ -47,7 +56,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th class="text-right">Action(s)</th>
+                                    <th class="text-end">Action(s)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,7 +68,7 @@
                                             {{ $target->name }}
                                         </a>
                                     </td>
-                                    <td class="text-right">
+                                    <td class="text-end">
                                         <a href="{{ route('followup-reports.create', $target) }}" class="text-primary p-0" title="Report">
                                             <span class="material-icons-sharp">edit_note</span>
                                         </a>

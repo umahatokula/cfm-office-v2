@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\ExpenseHead;
 use App\Models\Requisition;
 use App\Models\RequisitionItem;
+use App\Events\RequisitionCreated;
 
 class CreateRequisition extends Component
 {
@@ -72,7 +73,7 @@ class CreateRequisition extends Component
         $total_cost = array_sum(array_column($this->requisitionItems, 'total_cost'));
     
         // ExpenseHead::create($request->all())->save();
-        $requisition                     = new Requisition;
+        $requisition = new Requisition;
         $requisition->requisition_number = $requisition->generateRequisitionNumber();
         $requisition->church_id          = auth()->user()->member->church_id;
         $requisition->requested_amount   = $total_cost;
@@ -93,7 +94,10 @@ class CreateRequisition extends Component
 
         $res = $requisition->requisitionItems()->saveMany($RequisitionItem);
 
-        $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Report deleted.']);
+        
+        RequisitionCreated::dispatch($requisition);
+
+        $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Requisition created']);
         redirect()->route('requisitions.index');
     }
 }

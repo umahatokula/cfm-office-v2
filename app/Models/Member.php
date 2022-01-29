@@ -72,6 +72,8 @@ class Member extends Model implements HasMedia
         'status_id',
     ];
 
+	protected $appends = ['name'];
+
     /**
      * Get the options for generating the slug.
      */
@@ -90,6 +92,19 @@ class Member extends Model implements HasMedia
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    /**
+     * Get name attribute
+     *
+     * @return bool
+     */
+    public function getNameAttribute()
+    {
+        $lname = isset($this->attributes['lname']) ? $this->attributes['lname'] : '';
+        $fname = isset($this->attributes['fname']) ? $this->attributes['fname'] : '';
+        
+        return $lname .' '.$fname;
     }
 
 

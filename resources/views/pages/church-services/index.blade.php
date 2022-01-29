@@ -63,98 +63,100 @@
 
                     <div class="row">
                         <div class="col-12">
-                            @if($churchServices->count() > 0)
-                            <table class="table table-bordered table-light table-responsive">
-                                <tr>
-                                    <thead>
-                                        <th class="text-center">#</th>
-                                        <th>Service Date</th>
-                                        @can('view all churches')
-                                        <th>Church</th>
-                                        @endcan
-                                        <th>Type</th>
-                                        <th class="text-center">Attendance</th>
-                                        <th class="text-center">First Time Guests</th>
-                                        <th class="text-center">Born Again</th>
-                                        <th class="text-right">Offering (&#8358;)</th>
-                                        <th class="text-center">Action(s)</th>
-                                    </thead>
-                                </tr>
-                                <tbody>
-                                    @php
-                                    $totalAttendance = 0;
-                                    $totalFirstTimers = 0;
-                                    $totalBornAgain = 0;
-                                    $totalOffering = 0;
-                                    @endphp
-                                    @foreach($churchServices as $churchService)
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-light">
                                     <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $churchService->service_date ?  $churchService->service_date->toFormattedDateString() : '' }}
-                                        </td>
-                                        @can('view all churches')
-                                        <td>{{ $churchService->church ? $churchService->church->name : '' }}</td>
-                                        @endcan
-                                        <td>{{ $churchService->serviceType->service_type }}</td>
-                                        <td class="text-center">{{ $churchService->attendance_total }}</td>
-                                        <td class="text-center">{{ $churchService->first_timers_total }}</td>
-                                        <td class="text-center">{{ $churchService->born_again_total }}</td>
-                                        <td class="text-right">{{ number_format($churchService->total_offering, 2) }}
-                                        </td>
-                                        <td class="text-center">
-
-                                            <div class="btn-group" role="group"
-                                                aria-label="Button group with nested dropdown">
-
-                                                <div class="btn-group" role="group">
-                                                    <button id="btnGroupDrop1" type="button"
-                                                        class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">
-                                                        Actions
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                        <a href="#" class="dropdown-item"
-                                                            data-remote="{{ route('church-services.show', $churchService->id) }}"
-                                                            data-target="#myModal" data-toggle="modal">View</a>
-                                                        <a href="{{ route('church-services.edit', $churchService->id) }}"
-                                                            class="dropdown-item">Edit</a>
-                                                        <a href="{{ route('church-services.delete', $churchService->id) }}"
-                                                            class="dropdown-item"
-                                                            onclick="return confirm('Are you sure?')">Delete</a>
+                                        <thead>
+                                            <th class="text-center">#</th>
+                                            <th>Service Date</th>
+                                            @can('view all churches')
+                                            <th>Church</th>
+                                            @endcan
+                                            <th>Type</th>
+                                            <th class="text-center">Attendance</th>
+                                            <th class="text-center">First Time Guests</th>
+                                            <th class="text-center">Born Again</th>
+                                            <th class="text-right">Offering (&#8358;)</th>
+                                            <th class="text-center">Action(s)</th>
+                                        </thead>
+                                    </tr>
+                                    <tbody>
+                                        @php
+                                        $totalAttendance = 0;
+                                        $totalFirstTimers = 0;
+                                        $totalBornAgain = 0;
+                                        $totalOffering = 0;
+                                        @endphp
+                                        @forelse($churchServices as $churchService)
+                                        <tr>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $churchService->service_date ?  $churchService->service_date->toFormattedDateString() : '' }}
+                                            </td>
+                                            @can('view all churches')
+                                            <td>{{ $churchService->church ? $churchService->church->name : '' }}</td>
+                                            @endcan
+                                            <td>{{ $churchService->serviceType->service_type }}</td>
+                                            <td class="text-center">{{ $churchService->attendance_total }}</td>
+                                            <td class="text-center">{{ $churchService->first_timers_total }}</td>
+                                            <td class="text-center">{{ $churchService->born_again_total }}</td>
+                                            <td class="text-right">{{ number_format($churchService->total_offering, 2) }}
+                                            </td>
+                                            <td class="text-center">
+                                                
+    
+                                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                                    <div class="btn-group" role="group">
+                                                        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Actions
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                            <li>
+                                                                <a data-toggle="modal" data-keyboard="false" data-remote="{{ route('church-services.show', $churchService->id) }}" href="#" class="dropdown-item" class="text-danger p-0" data-bs-toggle="modal" data-bs-target="#modal-large" title="Delete">View</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{{ route('church-services.edit', $churchService->id) }}" class="dropdown-item"
+                                                                    data-toggle="modal" data-target="#fixedModal">Edit</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{{ route('church-services.delete', $churchService->id) }}" class="dropdown-item"
+                                                                    data-toggle="modal" data-target="#fixedModal">Delete</a>
+                                                            </li>
+                                                        </ul>
                                                     </div>
                                                 </div>
-                                            </div>
-
-
-
-                                        </td>
-                                    </tr>
-                                    @php
-                                    $totalAttendance += $churchService->attendance_total;
-                                    $totalFirstTimers += $churchService->first_timers_total;
-                                    $totalBornAgain += $churchService->born_again_total;
-                                    $totalOffering += $churchService->total_offering;
-                                    @endphp
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        @if(auth()->user()->can('view all churches'))
-                                        <td class="text-center" colspan="4"><b>Total</b></td>
-                                        @else
-                                        <td class="text-center" colspan="3"><b>Total</b></td>
-                                        @endif
-                                        <td class="text-center"><b>{{ $totalAttendance }}</b></td>
-                                        <td class="text-center"><b>{{ $totalFirstTimers }}</b></td>
-                                        <td class="text-center"><b>{{ $totalBornAgain }}</b></td>
-                                        <td class="text-right"><b>{{ number_format($totalOffering, 2) }}</b></td>
-                                        <td class="text-center">&nbsp</td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                            @else
-                            <p>No records</p>
-                            @endif
+    
+    
+                                            </td>
+                                        </tr>
+                                        @php
+                                        $totalAttendance += $churchService->attendance_total;
+                                        $totalFirstTimers += $churchService->first_timers_total;
+                                        $totalBornAgain += $churchService->born_again_total;
+                                        $totalOffering += $churchService->total_offering;
+                                        @endphp
+                                        @empty
+                                        <tr>
+                                            <td colspan="8">No records</td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            @if(auth()->user()->can('view all churches'))
+                                            <td class="text-center" colspan="4"><b>Total</b></td>
+                                            @else
+                                            <td class="text-center" colspan="3"><b>Total</b></td>
+                                            @endif
+                                            <td class="text-center"><b>{{ $totalAttendance }}</b></td>
+                                            <td class="text-center"><b>{{ $totalFirstTimers }}</b></td>
+                                            <td class="text-center"><b>{{ $totalBornAgain }}</b></td>
+                                            <td class="text-right"><b>{{ number_format($totalOffering, 2) }}</b></td>
+                                            <td class="text-center">&nbsp</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -40,7 +40,7 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Church</th>
-                                <th class="text-center" scope="col">Assigned To</th>
+                                <th class="text-start" scope="col">Assigned To</th>
                                 <th class="text-center" scope="col">Action</th>
                             </tr>
                         </thead>
@@ -51,9 +51,9 @@
                                 <td> {{ $followupTarget->name }} </td>
                                 <td> {{ $followupTarget->phone }} </td>
                                 <td> {{ $followupTarget->church->name }} </td>
-                                <td class="text-center">
+                                <td class="text-start">
                                     @forelse ( $followupTarget->lifecoaches as $lifecoaches)
-                                        {{ $lifecoaches->name }}
+                                        <a href="{{ route('life-coaches.show', $lifecoaches) }}">{{ $lifecoaches->name }}</a>
                                     @empty
                                         <p>--</p>
                                     @endforelse

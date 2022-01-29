@@ -15,11 +15,6 @@
             <li class="{{ url()->current() == route('dashboard') ? 'active-page' : '' }}">
                 <a href="{{route('dashboard')}}" class="active"><i class="material-icons-two-tone">dashboard</i>Dashboard</a>
             </li>
-            
-            <li class="sidebar-title">
-                Church Mgt
-            </li>
-
             <li>
                 <a href=""><i class="material-icons-two-tone">star</i>Members<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                 <ul class="sub-menu">
@@ -33,7 +28,7 @@
             </li>
 
             <li>
-                <a href="{{ route('church-services.index') }}"><i class="material-icons-two-tone">done</i>Service Day</a>
+                <a href="{{ route('church-services.index') }}"><i class="material-icons-two-tone">star</i>Service Day</a>
             </li>
             
             <li>
@@ -64,9 +59,6 @@
                 <a href="#"><i class="material-icons-two-tone">star</i>Accounting<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a href="settings.html">Settings</a>
-                    </li>
-                    <li>
                         <a href="#">Requisitions<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                         <ul class="sub-menu">
                             <li>
@@ -78,7 +70,35 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="error.html">Error</a>
+                        <a href="#">Salaries<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ route('salaries-schedules.index') }}">Salary Schedule</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('salaries-schedule-elements.index') }}">Schedule Elements</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#"><i class="material-icons-two-tone">star</i>Settings<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="#">Users<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ route('users.index') }}">All Users</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('users.create') }}">New User</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Error</a>
                     </li>
                 </ul>
             </li>

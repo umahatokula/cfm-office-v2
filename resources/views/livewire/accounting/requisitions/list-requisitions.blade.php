@@ -29,7 +29,7 @@
                     <td class="text-center">
                         @if($requisition->status)
                         <span
-                            class="label {{ $requisition->status_id == 3 ? 'label-success' : '' }} {{ $requisition->status_id == 4 ? 'label-default' : '' }} {{ $requisition->status_id == 5 ? 'label-danger' : '' }} {{ $requisition->status_id == 6 ? 'label-info' : '' }} {{ $requisition->status_id == 7 ? 'label-danger' : '' }}">{{ $requisition->status->status }}</span>
+                            class="badge {{ $requisition->status_id == 3 ? 'badge-success' : '' }} {{ $requisition->status_id == 4 ? 'badge-dark' : '' }} {{ $requisition->status_id == 5 ? 'badge-danger' : '' }} {{ $requisition->status_id == 6 ? 'badge-info' : '' }} {{ $requisition->status_id == 7 ? 'badge-danger' : '' }}">{{ $requisition->status->status }}</span>
                         @endif
                     </td>
                     <td class="text-center">
@@ -44,12 +44,15 @@
                                     <li>
                                         <a data-toggle="modal" data-keyboard="false" data-remote="{{ route('requisitions.show', array($requisition)) }}" href="#" class="dropdown-item" class="text-danger p-0" data-bs-toggle="modal" data-bs-target="#modal-large" title="Delete">Details</a>
                                     </li>
-                                    <li><a href="{!! route('requisitions.edit', array($requisition)) !!}" class="dropdown-item"
+                                    <li>
+                                        <a href="{!! route('requisitions.edit', array($requisition)) !!}" class="dropdown-item"
                                             data-toggle="modal" data-target="#fixedModal">Edit</a>
                                     </li>
-                                    <li><a href="{{ route('requisitions.process', $requisition) }}" class="dropdown-item"
-                                            data-target="#myModal" data-toggle="modal">Approve</a></li>
-                                    <li><a href="{{ route('requisitions.decline', $requisition->id) }}">Decline</a>
+                                    <li>
+                                        <a wire:click="approve({{ $requisition }})" href="#" class="dropdown-item" data-target="#myModal" data-toggle="modal">Approve</a>
+                                    </li>
+                                    <li>
+                                        <a wire:click="disapprove({{ $requisition }})" href="#" class="dropdown-item" data-target="#myModal" data-toggle="modal">Disapprove</a>
                                     </li>
                                 </ul>
                             </div>

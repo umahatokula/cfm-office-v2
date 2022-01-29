@@ -52,6 +52,8 @@
 
     @include('imports.javascripts')
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $(document).ready(function () {
 
@@ -80,7 +82,7 @@
             "positionClass": "toast-top-right",
             "preventDuplicates": false,
             "onclick": null,
-            "showDuration": "300",
+            "showDuration": "3000",
             "hideDuration": "3000",
             "timeOut": "5000",
             "extendedTimeOut": "1000",

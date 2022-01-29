@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "865830621b5bf7a26e9f27be2b2948d6",
+    "content-hash": "6228a8c53f49b781bb37ca95f1cb54e1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3365,6 +3365,59 @@
                 }
             ],
             "time": "2021-09-25T23:10:38+00:00"
+        },
+        {
+            "name": "rezaamini-ir/migrator",
+            "version": "1.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rezaamini-ir/migrator.git",
+                "reference": "0dcbc8b401ab116f6da7c0b46e41814c7a341a33"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rezaamini-ir/migrator/zipball/0dcbc8b401ab116f6da7c0b46e41814c7a341a33",
+                "reference": "0dcbc8b401ab116f6da7c0b46e41814c7a341a33",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6.0|^7.0|^8.0",
+                "laravel/framework": "^6.0|^7.0|^8.0",
+                "livewire/livewire": "^1.0|^2.5",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.7|^4.0|^5.0|^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Migrator\\MigratorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Migrator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Reza Amini",
+                    "email": "rezaaminiroyal@gmail.com"
+                }
+            ],
+            "description": "Migrator is a GUI migration manager for Laravel.",
+            "support": {
+                "issues": "https://github.com/rezaamini-ir/migrator/issues",
+                "source": "https://github.com/rezaamini-ir/migrator/tree/1.5.2"
+            },
+            "time": "2022-01-10T12:35:05+00:00"
         },
         {
             "name": "spatie/image",

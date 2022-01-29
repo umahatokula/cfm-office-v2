@@ -39,21 +39,21 @@
                 <div class="col-md-3 mb-4">
                     <div class="form-group">
                         <label class="form-label">Description</label>
-                        <input type="text" class="form-control" wire:model.lazy="requisitionItems.{{$key}}.description">
+                        <input type="text" class="form-control" wire:model.lazy="requisitionItems.{{$key}}.description" required>
                         @error('description') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
                 <div class="col-md-1 mb-4">
                     <div class="form-group">
                         <label class="form-label">Qty</label>
-                        <input type="number" class="form-control" wire:model.lazy="requisitionItems.{{$key}}.qty">
+                        <input type="number" class="form-control" wire:model.lazy="requisitionItems.{{$key}}.qty" required>
                         @error('qty') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
                 <div class="col-md-2 mb-4">
                     <div class="form-group">
                         <label class="form-label">Unit Cost</label>
-                        <input type="number" class="form-control" wire:model.lazy="requisitionItems.{{$key}}.unit_cost">
+                        <input type="number" class="form-control" wire:model.lazy="requisitionItems.{{$key}}.unit_cost" required>
                         @error('unit_cost') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>

@@ -5,6 +5,7 @@ use App\Http\Controllers\SMSController;
 use App\Http\Controllers\CellsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\FamilyController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\RegionsController;
 use App\Http\Controllers\ReportsController;
@@ -13,7 +14,6 @@ use App\Http\Controllers\ChurchesController;
 use App\Http\Controllers\FollowupController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\FollowupTargetController;
 use App\Http\Controllers\LifeCoachController;
 use App\Http\Controllers\GrowthPathController;
 use App\Http\Controllers\MinistriesController;
@@ -27,14 +27,17 @@ use App\Http\Controllers\RequisitionsController;
 use App\Http\Controllers\ServiceTeamsController;
 use App\Http\Controllers\CellAttendanceController;
 use App\Http\Controllers\ChurchServicesController;
+use App\Http\Controllers\FollowupTargetController;
+use App\Http\Controllers\SalaryScheduleController;
 use App\Http\Controllers\FollowUpReasonsController;
+use App\Http\Controllers\FollowupReportsController;
+use App\Http\Controllers\LifeCoachTargetController;
 use App\Http\Controllers\RetireRequisitionsController;
 use App\Http\Controllers\WeeklyChurchReportController;
 use App\Http\Controllers\CfcKidsWeeklyReportController;
 use App\Http\Controllers\PostServiceAccountsController;
 use App\Http\Controllers\SpecialRequisitionsController;
-use App\Http\Controllers\LifeCoachTargetController;
-use App\Http\Controllers\FollowupReportsController;
+use App\Http\Controllers\SalaryScheduleElementController;
 
 
 /*
@@ -209,7 +212,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('life-coaches/assign-target/save', [LifeCoachController::class, 'assignStore'])->name('life-coaches.assign.store');
     Route::get('life-coaches/coach-targets', [LifeCoachController::class, 'index'])->name('coach-targets');
     Route::resource('life-coaches', LifeCoachController::class);
-    Route::delete('life-coach/coach-targets/{target}/reports/delete', [ReportController::class, 'destroy'])->name('delete-report');
+    // Route::delete('life-coach/coach-targets/{target}/reports/delete', [ReportController::class, 'destroy'])->name('delete-report');
 
     // followup targets
     Route::get('followup-targets/assign/{followupTarget}', [FollowupTargetController::class, 'assign'])->name('followup-targets.assign');
@@ -224,11 +227,20 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('followup-reports/{target}/edit', [FollowupReportsController::class, 'edit'])->name('followup-reports.edit');
     Route::put('followup-reports/{target}/update', [FollowupReportsController::class, 'update'])->name('followup-reports.update');
 
+    // Users
+    Route::resource('users', UsersController::class);
+
 
 
 
     // =========================================Accounting==============================================
     Route::prefix('accounting')->group(function () {
+
+        // salaries schedule
+        Route::resource('salaries-schedules', SalaryScheduleController::class);
+
+        // salaries schedule elements
+        Route::resource('salaries-schedule-elements', SalaryScheduleElementController::class);
 
         // Post Service Accounts
         Route::resource('post-service-accounts', PostServiceAccountsController::class);

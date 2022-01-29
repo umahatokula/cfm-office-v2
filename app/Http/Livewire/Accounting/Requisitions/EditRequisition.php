@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Accounting\Requisitions;
 
 use Livewire\Component;
 use App\Models\Requisition;
+use App\Models\RequisitionItem;
 
 class EditRequisition extends Component
 {
@@ -12,11 +13,11 @@ class EditRequisition extends Component
     public $requisitionItems = [];
 
     protected $rules=[
-        'expense_head_id' => 'required', 
-        'description'     => 'required', 
-        'qty'             => 'required', 
-        'unit_cost'       => 'required',
-        'total_cost'      => 'required',
+        'requisitionItems.*.expense_head_id' => 'required', 
+        'requisitionItems.*.description'     => 'required', 
+        'requisitionItems.*.qty'             => 'required', 
+        'requisitionItems.*.unit_cost'       => 'required',
+        'requisitionItems.*.total_cost'      => 'required',
     ];
 
 
@@ -33,8 +34,8 @@ class EditRequisition extends Component
      * @return void
      */
     public function mount(Requisition $requisition, $expenseHeads) {
-        $this->requisition = $requisition->load('requisitionItems');
-        $this->requisitionItems = $requisition->requisitionItems;
+        $this->requisition = $requisition;
+        $this->requisitionItems = $requisition->requisitionItems->toArray();
         
         // $this->expenseHeads = ExpenseHead::where(['status_id' => 1, 'church_id' => auth()->user()->member->church_id])->pluck('title', 'id');
         $this->expenseHeads = [
@@ -72,6 +73,7 @@ class EditRequisition extends Component
     }
 
     public function save() {
+
         $total_cost = array_sum(array_column($this->requisitionItems, 'total_cost'));
     
         // ExpenseHead::create($request->all())->save();
@@ -94,9 +96,10 @@ class EditRequisition extends Component
              ]);
         }
 
+        $res = $requisition->requisitionItems()->delete();
         $res = $requisition->requisitionItems()->saveMany($RequisitionItem);
 
-        $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Report deleted.']);
+        $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Requisition edited']);
         redirect()->route('requisitions.index');
     }
 }

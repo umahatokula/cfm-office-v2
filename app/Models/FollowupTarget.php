@@ -3,8 +3,12 @@
 namespace App\Models;
 
 use App\Models\Church;
+use App\Models\LifeCoach;
 use App\Models\AgeProfile;
+use App\Models\FTGInterest;
 use App\Models\FollowUpReport;
+use App\Models\FTGInvitationMode;
+use App\Models\FTGInformationNeed;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -70,5 +74,32 @@ class FollowupTarget extends Model
      */
     public function reports() {
         return $this->hasMany(FollowUpReport::class, 'followup_target_id', 'id');
+    }
+    
+    /**
+     * FTG interests
+     *
+     * @return void
+     */
+    public function interests() {
+        return $this->belongsToMany(FTGInterest::class, 'followup_target_ftginterest', 'followup_target_id', 'ftg_interest_id');
+    }
+    
+    /**
+     * FTG information needs
+     *
+     * @return void
+     */
+    public function information_needs() {
+        return $this->belongsToMany(FTGInformationNeed::class, 'followup_target_ftginformation_need', 'followup_target_id', 'ftg_information_need_id');
+    }
+    
+    /**
+     * FTG invitation modes
+     *
+     * @return void
+     */
+    public function invitation_modes() {
+        return $this->belongsToMany(FTGInvitationMode::class, 'followup_target_ftginvitation_mode', 'followup_target_id', 'ftg_invitation_mode_id');
     }
 }

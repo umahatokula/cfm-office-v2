@@ -21,31 +21,35 @@
                     <div class="row">
                         <div class="col-md-4">
                             <form>
-                                <input wire:model="search" type="search" name="search" id="search" class="form-control mb-3" placeholder="Search...">
+                                <input wire:model="search" type="search" name="search" id="search"
+                                    class="form-control mb-3" placeholder="Search...">
                             </form>
                         </div>
                         <div class="col-md-4">
                             <form>
-                                <select wire:change.prevent="filterByCenter($event.target.value)"  class="form-control mb-3">
+                                <select wire:change.prevent="filterByCenter($event.target.value)"
+                                    class="form-control mb-3">
                                     <option value="">Filter by Centre</option>
                                     @foreach ($churches as $church)
-                                        <option value="{{ $church->id }}">{{ $church->name }}</option>
+                                    <option value="{{ $church->id }}">{{ $church->name }}</option>
                                     @endforeach
                                 </select>
                             </form>
                         </div>
-                        <div class="col-md-4 d-flex justify-content-end">
-                            <a href="{{ route('members.create') }}" class="btn btn-primary btn-lg btn-md-block mb-3">Add member</a>
+                        <div class="col-md-4">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a href="{{ route('members.create') }}" class="btn btn-success">Add member</a>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    
+
                     <div>
                         @if (session()->has('message'))
-                            <div class="alert alert-success">
-                                {{ session('message') }}
-                            </div>
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
                         @endif
                     </div>
 
@@ -55,25 +59,41 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th class="text-center">Name and Role</th>
-                                        <th class="text-center">Church</th>
-                                        <th class="text-left">Phone</th>
-                                        <th class="text-center">Actions</th>
+                                        <th class="text-start">Name and Role</th>
+                                        <th class="text-start">Church</th>
+                                        <th class="text-start">Phone</th>
+                                        <th class="text-start">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-    
+
                                     @foreach($members as $member)
                                     <tr>
                                         <td class="text-center"> {{ $loop->iteration }} </td>
                                         <td>
                                             {{$member->fname. ' '. $member->lname}}
                                         </td>
-                                        <td class="text-left"> {{ $member->church ? $member->church->name : null }} </td>
+                                        <td class="text-left"> {{ $member->church ? $member->church->name : null }}
+                                        </td>
                                         <td class="text-left"> {{$member->phone}} </td>
                                         <td class="text-center">
-                                            <a href="{{ route('members.show', $member) }}" class="btn btn-primary btn-sm"> View Profile </a>
-                                            <a wire:click.prevent="destroy({{ $member->id }})" onclick="confirm('Are you sure?') || event.stopImmediatePropagation()"  class="btn btn-danger btn-sm"> Delete </a>
+
+                                            <a href="{{ route('members.show', $member) }}" class="text-primary p-0"
+                                                data-original-title="" title="Details">
+                                                <span class="material-icons-outlined">visibility</span>
+                                            </a>
+
+                                            <a href="{{ route('members.edit', $member)}}" class="text-success p-0"
+                                                data-original-title="" title="Delete">
+                                                <span class="material-icons-outlined">edit</span>
+                                            </a>
+
+                                            <a wire:click.prevent="destroy({{ $member->id }})"
+                                                onclick="confirm('Are you sure?') || event.stopImmediatePropagation()"
+                                                href="#" class="text-danger p-0" data-original-title="" title="Delete">
+                                                <span class="material-icons-outlined">delete</span>
+                                            </a>
+
                                         </td>
                                     </tr>
                                     @endforeach
@@ -85,7 +105,7 @@
                                     {{ $members->links() }}
                                 </div>
                             </div>
-                            
+
 
                         </div>
                     </div>

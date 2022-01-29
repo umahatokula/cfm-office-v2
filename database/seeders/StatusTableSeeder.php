@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use \App\Models\Status;
 
-use \App\Status;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class StatusTableSeeder extends Seeder
 {

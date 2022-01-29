@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Church;
 use App\Models\LifeCoach;
 use App\Models\AgeProfile;
+use App\Models\FTGInterest;
 use Illuminate\Http\Request;
+use App\Models\MaritalStatus;
 use App\Models\FollowupReason;
-use App\Models\LifeCoachTarget;
 use App\Models\FollowupTarget;
+use App\Models\LifeCoachTarget;
+use App\Models\FTGInvitationMode;
+use App\Models\FTGInformationNeed;
 use App\Http\Requests\FollowupTarget\Store;
 use App\Http\Requests\FollowupTarget\Update;
 use App\Http\Requests\FollowupTarget\StoreAssign;
@@ -36,6 +40,10 @@ class FollowupTargetController extends Controller
     {
         $data['ageProfiles'] = AgeProfile::pluck('name', 'id');
         $data['churches'] = Church::pluck('name', 'id');
+        $data['maritalStatuses'] = MaritalStatus::pluck('name', 'id');
+        $data['ftgInvitationModes'] = FTGInvitationMode::all();
+        $data['fTGInterests'] = FTGInterest::all();
+        $data['fTGInformationNeeds'] = FTGInformationNeed::all();
 
         if(request()->ajax()) {
             return view('pages.follow-up.targets.create-modal', $data);
@@ -52,11 +60,26 @@ class FollowupTargetController extends Controller
      */
     public function store(Store $request)
     {
+        // dd($request->all());
+
         $input = $request->input();
 
         $followupTarget = FollowupTarget::create($input);
 
+        if ($request->fTGInterests) {
+            $followupTarget->interests()->attach($request->fTGInterests);
+        }
+
+        if ($request->fTGInformationNeeds) {
+            $followupTarget->information_needs()->attach($request->fTGInformationNeeds);
+        }
+
+        if ($request->ftgInvitationModes) {
+            $followupTarget->invitation_modes()->attach($request->ftgInvitationModes);
+        }
+
         session()->flash('FollowupTarget successfully added.');
+        
         // return redirect()->route('followup-targets.index');
         return redirect()->back();
     }

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use DB;
 
-use App\Models\Member;
 use App\Models\Role;
 use App\Models\User;
-use DB;
+use App\Models\Member;
+use Illuminate\Http\Request;
+use App\Http\Requests\Users\Store;
+use App\Http\Requests\Users\Update;
 
 class UsersController extends Controller
 {
@@ -36,15 +38,13 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-    	$data['title'] = 'Manage Users';
-    	$data['manage_users'] = 1;
-    	$data['members'] = Member::pluck('full_name', 'id');
+    public function create() {
+    	$data['members'] = Member::orderBy('lname')->get();
     	$data['roles'] = Role::pluck('name', 'id');
     	$data['users'] = User::where('email', '!=', 'dev@ovalsofttechnologies.com')->get();
     	$data['permissions'] = [];
-    	return view('users.create', $data);
+
+		return view('pages.users.create', $data);
     }
 
     /**
@@ -53,70 +53,26 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Store $request) {
         // dd($request->all());
-
-    	$rules = [
-    	'assign_roles' => 'required',
-    	];
-
-    	$messages = [
-    	'assign_roles.required' => 'Select at least one role',
-    	];
-
-    	$validator = \Validator::make($request->all(), $rules, $messages);
-
-    	if($validator->fails()){
-
-    		if ($request->ajax()) {
-    			return response()->json(['success' => FALSE, 'message' => $validator->errors()->first('assign_roles') ]);
-    		}
-
-    		session()->put('flash_message', 'Something went wrong. User was not added.');
-    		return \Redirect::back()->withInput()->withErrors($validator);
-
-    	}
 
         //get the members details
     	$member = Member::find($request->member_id);
 
         //create new user
-    	try{
-    		$user = new User;
-    		$user->email 		= $member->email;
-    		$user->password     = \Hash::make($request->password);
-    		$user->name   		= $member->fname.' '.$member->lname;
-    		$user->member_id   	= $member->id;
-    		$user->save();
-    	} catch (\Illuminate\Database\QueryException $e){
-    		$errorCode = $e->errorInfo[1];
-    		if($errorCode == 1062){
+		$user = new User;
+		$user->email 		= $member->email;
+		$user->phone 		= $request->phone;
+		$user->password     = \Hash::make($request->password);
+		$user->name   		= $member->fname.' '.$member->lname;
+		$user->member_id   	= $member->id;
+		$user->save();
 
-    			if ($request->ajax()) {
-    				return response()->json(['success' => FALSE, 'message' => 'A user with this email already exist.' ]);
-    			}
-
-    			session()->flash('errorMessage', 'A user with this email already exist.');
-    			return redirect()->route('users.create')->withInput($request->except('fee_element_id', 'amount'));
-    		}
-    	}
-
-
-        //assign new user to role(s)
-    	foreach ($request->assign_roles as $role_id) {
-
-    		$role = Role::find($role_id);
-
-            //assign user this role
-    		$user->attachRole($role);
-    	}
-
-    	if($request->ajax()){
-    		return response()->json(['success' => true, 'message' => 'User added']);
-    	}
+		// assign roles
+		$user->syncRoles($request->assign_roles);
 
     	session()->flash('successMessage', 'User was successfully added.');
+
     	return redirect('users/create');
 
     }
@@ -127,13 +83,12 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $data['title'] = 'User details';
         $data['manage_users'] = 1;
         $data['user'] = User::find($id);
 
-        return view('users.show', $data);
+        return view('pages.users.show', $data);
     }
 
     /**
@@ -142,12 +97,10 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-    	$data['title'] = 'Edit Users';
-    	$data['manage_users'] = 1;
+    public function edit($id) {
+		
     	$data['user'] = User::find($id);
-    	$data['members'] = Member::pluck('full_name', 'id');
+    	$data['members'] = Member::all();
     	$data['roles'] = Role::pluck('name', 'id');
 
         //get the id(s) of the roles of this user in an array
@@ -158,7 +111,8 @@ class UsersController extends Controller
     	$data['user_roles'] = $roles;
 
     	$data['permissions'] = [];
-    	return view('users.edit', $data);
+		
+    	return view('pages.users.edit', $data);
     }
 
     /**
@@ -168,57 +122,21 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Update $request, $id) {
         // dd($request->all());
-
-    	$rules = [
-    	'assign_roles' => 'required',
-    	];
-
-    	$messages = [
-    	'assign_roles.required' => 'Select at least one role',
-    	];
-
-    	$validator = \Validator::make($request->all(), $rules, $messages);
-
-    	if($validator->fails()){
-
-    		if ($request->ajax()) {
-    			return response()->json(['success' => FALSE, 'message' => $validator->errors()->first('assign_roles') ]);
-    		}
-
-    		session()->put('flash_message', 'Something went wrong. User was not added.');
-    		return \Redirect::back()->withInput()->withErrors($validator);
-
-    	}
 
         //get the members details
     	$member = Member::find($request->member_id);
 
         //get user
     	$user = User::find($id);
+		$user->phone 		= $request->phone;
     	$user->password     = \Hash::make($request->password);
     	$user->save();
 
-    	//delete existing roles for this user
-    	DB::table('role_user')->where('user_id', $user->id)->delete();
+		// assign updated roles
+		$user->syncRoles($request->assign_roles);
 
-
-        //assign new user to role(s)
-    	foreach ($request->assign_roles as $role_id) {
-
-    		$role = Role::find($role_id);
-
-            //assign user this role
-    		$user->attachRole($role);
-    	}
-
-    	if($request->ajax()){
-    		return response()->json(['success' => true, 'message' => 'User added']);
-    	}
-
-    	session()->flash('successMessage', 'User was successfully updated.');
     	return redirect('users/create');
     }
 
@@ -257,14 +175,13 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-            public function activate($id)
-            {
-            	$user = User::find($id);
-            	$user->status_id = 1;
-            	$user->save();
+	public function activate($id) {
+		$user = User::find($id);
+		$user->status_id = 1;
+		$user->save();
 
-            	return redirect('users');
-            }
+		return redirect('users');
+	}
 
 
             /**
@@ -273,14 +190,13 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-            public function deactivate($id)
-            {
-            	$user = User::find($id);
-            	$user->status_id = 2;
-            	$user->save();
+	public function deactivate($id) {
+		$user = User::find($id);
+		$user->status_id = 2;
+		$user->save();
 
-            	return redirect('users');
-            }
+		return redirect('users');
+	}
 
 
         /**

@@ -21,7 +21,6 @@
             </div>
             @endif
 
-
             @forelse ($requisitionItems as $key => $requisitionItem)
             <div class="row" style="margin-bottom: 25px">
                 <div class="col-md-3 mb-4">
@@ -75,6 +74,7 @@
             @empty
             <p class="" colspan="5">No data</p>
             @endforelse
+
             <div class="row">
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-success">Submit</button>

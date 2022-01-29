@@ -37,8 +37,6 @@ class CreateMediaTable extends Migration
      */
     public function down()
     {
-        if (env('APP_ENV' == 'local')) {
-            Schema::dropIfExists('media');
-        }
+        Schema::dropIfExists('users');
     }
 }

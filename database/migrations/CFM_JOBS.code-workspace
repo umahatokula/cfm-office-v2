@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "..\\..\\..\\..\\..\\..\\..\\laragon\\www\\cfm"
+		},
+		{
+			"path": "..\\..\\..\\..\\apps\\adonis-chatly"
 		}
 	],
 	"settings": {}

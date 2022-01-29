@@ -8,10 +8,14 @@ use App\Models\Church;
 use App\Models\Member;
 use App\Models\LifeCoach;
 use App\Models\AgeProfile;
+use App\Models\FTGInterest;
 use Illuminate\Http\Request;
+use App\Models\MaritalStatus;
 use App\Models\FollowupReason;
 use App\Models\FollowupTarget;
 use App\Models\LifeCoachTarget;
+use App\Models\FTGInvitationMode;
+use App\Models\FTGInformationNeed;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LifeCoach\Store;
@@ -142,6 +146,10 @@ class LifeCoachController extends Controller
         $data['ageProfiles'] = AgeProfile::pluck('name', 'id');
         $data['churches'] = Church::pluck('name', 'id');
         $data['coach'] = LifeCoach::findOrfail($coachId);
+        $data['maritalStatuses'] = MaritalStatus::pluck('name', 'id');
+        $data['ftgInvitationModes'] = FTGInvitationMode::all();
+        $data['fTGInterests'] = FTGInterest::all();
+        $data['fTGInformationNeeds'] = FTGInformationNeed::all();
 
         return view('pages.life-coaches.create-modal', $data);
     }
@@ -157,6 +165,18 @@ class LifeCoachController extends Controller
         $input = $request->input();
 
         $target = FollowupTarget::create($input);
+
+        if ($request->fTGInterests) {
+            $target->interests()->attach($request->fTGInterests);
+        }
+
+        if ($request->fTGInformationNeeds) {
+            $target->information_needs()->attach($request->fTGInformationNeeds);
+        }
+
+        if ($request->ftgInvitationModes) {
+            $target->invitation_modes()->attach($request->ftgInvitationModes);
+        }
 
         LifeCoachTarget::where('followup_target_id', $request->target_id)->delete(); // delete existing attachments
         $target->lifecoaches()->attach($request->coach_id, ['reason_id' => $request->reason_id]);

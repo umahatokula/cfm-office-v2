@@ -62,6 +62,7 @@ class ListReports extends Component
         $report->life_coach_id = auth()->user()->id; #The coach id will be gotten from authenticated user id
         $report->save();
 
+        $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Report saved.']);
         redirect()->route('followup-reports.all-reports', $this->target);
     }
     
@@ -139,6 +140,7 @@ class ListReports extends Component
         $report->pastor_id = auth()->user()->id; #The coach id will be gotten from authenticated user id
         $report->save();
 
+        $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Report saved.']);
         redirect()->route('followup-reports.all-reports', $this->target);
         
     }

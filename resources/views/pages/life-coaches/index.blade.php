@@ -53,10 +53,10 @@
                               <td>{{$coach->phone}}</td>
                               <td>{{$coach->email}}</td>
                               <td class="text-center">
-                                  <a href="{{ route('life-coaches.show', $coach)}}" class="text-primary p-0" data-original-title="" title="Delete">
+                                  <a href="{{ route('life-coaches.show', $coach)}}" class="text-primary p-0" data-original-title="" title="Details">
                                       <span class="material-icons-outlined">visibility</span>
                                   </a>
-                                  <a href="{{ route('life-coaches.edit', $coach)}}" class="text-success p-0" data-original-title="" title="Delete">
+                                  <a href="{{ route('life-coaches.edit', $coach)}}" class="text-success p-0" data-original-title="" title="Edit">
                                       <span class="material-icons-outlined">edit</span>
                                   </a>
                                   <a href="{{ route('life-coaches.destroy', $coach)}}" class="text-danger p-0" data-original-title="" title="Delete">

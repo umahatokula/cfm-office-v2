@@ -12,12 +12,17 @@ use Database\Seeders\StateTableSeeder;
 use Database\Seeders\TitleTableSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Database\Seeders\ChurchTableSeeder;
+use Database\Seeders\FTGInterestSeeder;
 use Database\Seeders\GenderTableSeeder;
+use Database\Seeders\StatusTableSeeder;
 use Database\Seeders\RegionsTableSeeder;
 use Database\Seeders\AgeGroupTableSeeder;
 use Database\Seeders\FollowUpTargetSeeder;
+use Database\Seeders\FollowupReasonsSeeder;
+use Database\Seeders\FTGInvitationModeSeeder;
 use Database\Seeders\ServiceTeamsTableSeeder;
 use Database\Seeders\ServiceTypesTableSeeder;
+use Database\Seeders\FTGInformationNeedSeeder;
 use Database\Seeders\MaritalStatusTableSeeder;
 use Database\Seeders\RolesAndPermissionsTableSeeder;
 
@@ -50,6 +55,11 @@ class DatabaseSeeder extends Seeder
             CellsTableSeeder::class,
             ServiceTypesTableSeeder::class,
             RegionsTableSeeder::class,
+            StatusTableSeeder::class,
+            FTGInformationNeedSeeder::class,
+            FTGInterestSeeder::class,
+            FTGInvitationModeSeeder::class,
+            FollowupReasonsSeeder::class,
         ]);
     }
 }
