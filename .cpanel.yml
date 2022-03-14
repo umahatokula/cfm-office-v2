@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/christfa/public_html/staging.office
+    - /bin/cp -R * $DEPLOYPATH
