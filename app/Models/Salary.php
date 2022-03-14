@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Salary extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['staff_id', 'breakdown', 'month_of_salary'];
+
+    protected $casts = [
+        'breakdown' => 'array'
+    ];
 }

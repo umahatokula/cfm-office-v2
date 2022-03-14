@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SMSController;
 use App\Http\Controllers\CellsController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\SalaryController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\SalaryScheduleController;
 use App\Http\Controllers\FollowUpReasonsController;
 use App\Http\Controllers\FollowupReportsController;
 use App\Http\Controllers\LifeCoachTargetController;
+use App\Http\Controllers\StaffBankDetailController;
 use App\Http\Controllers\RetireRequisitionsController;
 use App\Http\Controllers\WeeklyChurchReportController;
 use App\Http\Controllers\CfcKidsWeeklyReportController;
@@ -67,6 +69,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     //Members
+    Route::get('members/{member}/notify', [MembersController::class, 'notify'])->name('members.notify');
+    Route::post('members/notify', [MembersController::class, 'notifyPost'])->name('members.notifyPost');
     Route::get('members/{id}/picture', 					[MembersController::class, 'getPicture'])->name('members.picture');
     // Route::get('members/delete/{id}', 					[MembersController::class, 'delete'])->name('members.delete');
     Route::get('members/cell/{member_id}/{cell_id}', 	[MembersController::class, 'addTocell'])->name('members.cell');
@@ -74,6 +78,19 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('members/autocomplete', 				[MembersController::class, 'search'])->name('members.search');
     Route::post('members/service-teams', 				[MembersController::class, 'addToServiceTeam'])->name('members.service-teams');
     Route::resource('members', MembersController::class);
+
+    // staff
+    Route::get('staff/{staff}/notify', [StaffController::class, 'notify'])->name('staff.notify');
+    Route::post('staff/notify', [StaffController::class, 'notifyPost'])->name('staff.notifyPost');
+    Route::resource('staff', StaffController::class);
+
+    // staff bank details
+    Route::get('staff/{staff}/bank-details', [StaffBankDetailController::class, 'create'])->name('staff.bankDetails');
+    Route::get('staff/{staff}/bank-details/create', [StaffBankDetailController::class, 'create'])->name('staff.bankDetails.create');
+    Route::post('staff/bank-details', [StaffBankDetailController::class, 'store'])->name('staff.bankDetails.store');
+    Route::get('staff/{staffBankDetail}/{staff}/bank-details/edit', [StaffBankDetailController::class, 'edit'])->name('staff.bankDetails.edit');
+    Route::put('staff/{staff}/bank-details', [StaffBankDetailController::class, 'update'])->name('staff.bankDetails.update');
+    Route::get('staff/bank-details/all', [StaffBankDetailController::class, 'allBankDetails']);
 
     // Cells
     Route::get('cells/leader-profile/{id}', 	[CellsController::class, 'leaderProfile'])->name('cell.leader-profile');
@@ -236,6 +253,10 @@ Route::group(['middleware' => 'auth'], function() {
     // =========================================Accounting==============================================
     Route::prefix('accounting')->group(function () {
 
+        // salaries
+        Route::get('salaries/staff/{staff}/edit', [SalaryController::class, 'editStaffSalary'])->name('salaries.staff.edit');
+        Route::resource('salaries', SalaryController::class);
+
         // salaries schedule
         Route::resource('salaries-schedules', SalaryScheduleController::class);
 
@@ -281,3 +302,27 @@ Route::group(['middleware' => 'auth'], function() {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+
+
+
+Route::get('/callback/temp', function() {
+    dd($http);
+});
+
+Route::get('/sage/auth', function() {
+
+    $baseUrl = 'https://www.sageone.com/oauth2/auth/central?filter=apiv3.1';
+    $params = [
+        'client_id' => 'c8f991ff-2de9-4fec-9a06-c9473707a70e/628e9a3e-bd6a-49b5-b480-c3467de652a5',
+        'response_type' => 'code',
+        'redirect_uri' => 'http://127.0.0.1:8000/callback/temp',
+    ];
+    
+    $http = new Client();
+
+    $response = $http->get($baseUrl, $params);
+    return $response->getBody()->getContents();
+});

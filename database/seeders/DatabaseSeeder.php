@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Database\Seeders\BankSeeder;
 use Database\Seeders\MemberSeeder;
 use Database\Seeders\CountriesSeeder;
 use Database\Seeders\CellsTableSeeder;
@@ -24,6 +25,7 @@ use Database\Seeders\ServiceTeamsTableSeeder;
 use Database\Seeders\ServiceTypesTableSeeder;
 use Database\Seeders\FTGInformationNeedSeeder;
 use Database\Seeders\MaritalStatusTableSeeder;
+use Database\Seeders\SalaryScheduleElementSeeder;
 use Database\Seeders\RolesAndPermissionsTableSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -60,6 +62,8 @@ class DatabaseSeeder extends Seeder
             FTGInterestSeeder::class,
             FTGInvitationModeSeeder::class,
             FollowupReasonsSeeder::class,
+            BankSeeder::class,
+            SalaryScheduleElementSeeder::class,
         ]);
     }
 }

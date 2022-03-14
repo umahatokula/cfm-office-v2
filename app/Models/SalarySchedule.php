@@ -20,8 +20,22 @@ class SalarySchedule extends Model
     {
         $query->where('status', 1);
     }
-    
+    	
+	/**
+	 * schedule Components
+	 *
+	 * @return void
+	 */
 	public function scheduleComponents(){
 		return $this->hasMany(SalaryScheduleComponent::class);
 	}
+    
+    /**
+     * Get Total On this Schedule
+     *
+     * @return void
+     */
+    public function getTotalOnSchedule() {
+        return $this->scheduleComponents()->sum('amount');
+    }
 }

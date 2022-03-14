@@ -94,7 +94,6 @@ class CreateRequisition extends Component
 
         $res = $requisition->requisitionItems()->saveMany($RequisitionItem);
 
-        
         RequisitionCreated::dispatch($requisition);
 
         $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Requisition created']);

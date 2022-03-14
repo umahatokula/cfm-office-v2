@@ -16,6 +16,7 @@
                 <div class="card-header">
                 </div>
                 <div class="card-body">
+                    <h5 class="mb-4">Schedule Information</h5>
 
                     <form wire:submit.prevent="save">
 
@@ -47,48 +48,51 @@
                         
                         <div class="row">
                             <div class="col-md-12">
-                                <table class="table table-bordered table-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Schedule Elements</th>
-                                            <th>Amoint</th>
-                                            <th class="text-center">
-                                                <a wire:click.prevent="addScheduleElement" href="#" class="text-white">
-                                                    <span class="badge badge-primary">Add</span> 
-                                                </a>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($scheduleElements as $key => $scheduleElement)
-                                        <tr>
-                                            <td scope="row">{{ $loop->iteration }}</td>
-                                            <td>
-                                                <select wire:model.lazy="scheduleElements.{{$key}}.salary_schedule_element_id"
-                                                    class="form-select form-control" required>
-                                                    <option value="">Please select one</option>
-                                                    @foreach ($salaryScheduleElements as $k => $salaryScheduleElement)
-                                                        <option value="{{ $salaryScheduleElement->id }}">{{ $salaryScheduleElement->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="number" class="form-control"
-                                                    wire:model.lazy="scheduleElements.{{$key}}.amount" required>
-                                                @error('amount') <span class="text-danger">{{ $message }}</span> @enderror
-                                            </td>
-                                            <td class="text-center">
-                                                <a wire:click.prevent="removeScheduleElement({{ $key }})" href="#" class="text-danger p-0" data-original-title="" title="Delete">
-                                                    <span class="material-icons-outlined">delete</span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        @empty
-                                        <p class="" colspan="5">No data</p>
-                                        @endforelse
-                                    </tbody>
-                                </table>
+                                <h5 class="mb-4">Schedule Elements</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Schedule Elements</th>
+                                                <th class="text-center">Percentage</th>
+                                                <th class="text-center">
+                                                    <a wire:click.prevent="addScheduleElement" href="#" class="text-white">
+                                                        <span class="badge badge-primary">Add</span> 
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($scheduleElements as $key => $scheduleElement)
+                                            <tr>
+                                                <td scope="row">{{ $loop->iteration }}</td>
+                                                <td>
+                                                    <select wire:model.lazy="scheduleElements.{{$key}}.salary_schedule_element_id"
+                                                        class="form-select form-control" required>
+                                                        <option value="">Please select one</option>
+                                                        @foreach ($salaryScheduleElements as $k => $salaryScheduleElement)
+                                                            <option value="{{ $salaryScheduleElement->id }}">{{ $salaryScheduleElement->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td class="d-flex justify-content-center">
+                                                    <input type="number" class="form-control text-center"
+                                                        wire:model.lazy="scheduleElements.{{$key}}.percentage" style="max-width: 100px" required>
+                                                    @error('percentage') <span class="text-danger">{{ $message }}</span> @enderror
+                                                </td>
+                                                <td class="text-center">
+                                                    <a wire:click.prevent="removeScheduleElement({{ $key }})" href="#" class="text-danger p-0" data-original-title="" title="Delete">
+                                                        <span class="material-icons-outlined">delete</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            @empty
+                                            <p class="" colspan="5">No data</p>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 

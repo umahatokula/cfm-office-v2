@@ -48,6 +48,7 @@
                                 <tr>
                                     <th class="text-center">#</th>
                                     <th class="text-start">Name</th>
+                                    <th class="text-center">Not a deduction</th>
                                     <th class="text-start">Status</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
@@ -59,6 +60,9 @@
                                     <td class="text-center"> {{ $loop->iteration }} </td>
                                     <td>
                                         {{$element->name}}
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-{{ $element->increase_net_salary ? 'primary' : 'danger' }}">{{ $element->increase_net_salary ? 'yes' : 'no' }}</span>
                                     </td>
                                     <td class="text-start"> <span class="badge bg-{{ $element->status ? 'primary' : 'danger' }}">{{ $element->status ? 'active' : 'disabled' }}</span>
                                     </td>

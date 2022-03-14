@@ -54,6 +54,17 @@
                     </li>
                 </ul>
             </li>
+            <li>
+                <a href=""><i class="material-icons-two-tone">star</i>Staff<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{ route('staff.index') }}" class="item">All Staff</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('staff.create') }}" class="item">Add Staff</a>
+                    </li>
+                </ul>
+            </li>
 
             <li>
                 <a href="#"><i class="material-icons-two-tone">star</i>Accounting<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
@@ -72,6 +83,9 @@
                     <li>
                         <a href="#">Salaries<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                         <ul class="sub-menu">
+                            <li>
+                                <a href="{{ route('salaries.index') }}">Staff Salaries</a>
+                            </li>
                             <li>
                                 <a href="{{ route('salaries-schedules.index') }}">Salary Schedule</a>
                             </li>

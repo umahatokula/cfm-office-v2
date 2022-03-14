@@ -37,7 +37,7 @@ class CreateSchedule extends Component
     public function addScheduleElement() {
         $this->scheduleElements[] = [
             'salary_schedule_element_id' => null,
-            'amount' => null,
+            'percentage' => null,
         ];
     }
     
@@ -52,7 +52,7 @@ class CreateSchedule extends Component
     }
 
     public function getTotal() {
-        return array_sum(array_column($this->scheduleElements, 'amount'));
+        return array_sum(array_column($this->scheduleElements, 'percentage'));
     }
 
     public function save() {
@@ -72,7 +72,7 @@ class CreateSchedule extends Component
             $salaryScheduleComponent[] = new SalaryScheduleComponent([
                 'salary_schedule_id'         => $salarySchedule->id,
                 'salary_schedule_element_id' => $scheduleElement['salary_schedule_element_id'],
-                'amount'                     => $scheduleElement['amount'],
+                'percentage'                 => $scheduleElement['percentage'],
              ]);
         }
 

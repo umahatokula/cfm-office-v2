@@ -39,8 +39,10 @@ class SalaryScheduleElementController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        // dd($request->all());
         $salaryScheduleElement = new SalaryScheduleElement;
         $salaryScheduleElement->name = $request->name;
+        $salaryScheduleElement->increase_net_salary = $request->has('increase_net_salary') ? 1 : 0;
         $salaryScheduleElement->status = $request->status;
         $salaryScheduleElement->save();
         
@@ -82,7 +84,9 @@ class SalaryScheduleElementController extends Controller
      */
     public function update(Request $request, SalaryScheduleElement $salaries_schedule_element)
     {
+        // dd($salaries_schedule_element);
         $salaries_schedule_element->name = $request->name;
+        $salaries_schedule_element->increase_net_salary = $request->has('increase_net_salary') ? 1 : 0;
         $salaries_schedule_element->status = $request->status;
         $salaries_schedule_element->save();
         

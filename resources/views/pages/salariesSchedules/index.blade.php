@@ -63,6 +63,10 @@
                                         </td>
                                         <td class="text-center">
 
+                                            <a data-toggle="modal" data-keyboard="false" data-remote="{{ route('salaries-schedules.show', $schedule) }}" href="#" class="text-primary p-0" data-bs-toggle="modal" data-bs-target="#modal-large">
+                                                <span class="material-icons-outlined">visibility</span>
+                                            </a>
+
                                             <a href="{{ route('salaries-schedules.edit', $schedule) }}" class="text-success p-0"
                                                 data-original-title="" title="Edit">
                                                 <span class="material-icons-outlined">edit</span>

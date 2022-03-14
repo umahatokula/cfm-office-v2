@@ -15,8 +15,8 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->integer('life_coach_id')->nullable();
-            $table->integer('follow_up_target_id')->nullable();
+            $table->foreignId('life_coach_id')->nullable();
+            $table->foreignId('follow_up_target_id')->nullable();
             $table->longText('report')->nullable();
             $table->longText('comment')->nullable();
             $table->softDeletes();

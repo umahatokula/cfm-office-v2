@@ -10,10 +10,13 @@
 			"path": "..\\..\\..\\..\\..\\..\\..\\laragon\\www\\cfm-wordshop-backend-v2"
 		},
 		{
-			"path": "..\\..\\..\\..\\..\\..\\..\\laragon\\www\\cfm"
+			"path": "..\\..\\..\\..\\..\\..\\..\\laragon\\www\\cfm-wordshop-backend"
 		},
 		{
-			"path": "..\\..\\..\\..\\apps\\adonis-chatly"
+			"path": "..\\..\\..\\..\\..\\..\\..\\laragon\\www\\ncbi"
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\..\\..\\laragon\\www\\fa21"
 		}
 	],
 	"settings": {}

@@ -36,9 +36,9 @@ class AllMembers extends Component
     public function render()
     {
         if ($this->churchId) {
-            $members = Member::where('church_id', $this->churchId)->where('slug', 'like', '%'.$this->search.'%')->paginate(50);
+            $members = Member::where('church_id', $this->churchId)->where('slug', 'like', '%'.$this->search.'%')->paginate(20);
         } else {
-            $members = Member::where('slug', 'like', '%'.$this->search.'%')->paginate(50);  
+            $members = Member::where('slug', 'like', '%'.$this->search.'%')->paginate(20);  
         }
         
 

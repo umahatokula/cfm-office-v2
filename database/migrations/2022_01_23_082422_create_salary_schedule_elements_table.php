@@ -16,6 +16,7 @@ class CreateSalaryScheduleElementsTable extends Migration
         Schema::create('salary_schedule_elements', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullabel();
+            $table->boolean('increase_net_salary')->nullable()->comment('Does this element increase on decrease the net pay');
             $table->boolean('status')->nullabel();
             $table->timestamps();
         });

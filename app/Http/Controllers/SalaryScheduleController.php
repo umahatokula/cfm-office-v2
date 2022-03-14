@@ -48,9 +48,12 @@ class SalaryScheduleController extends Controller
      * @param  \App\Models\SalarySchedule  $salarySchedule
      * @return \Illuminate\Http\Response
      */
-    public function show(SalarySchedule $salarySchedule)
+    public function show($id)
     {
-        //
+        $salarySchedule = SalarySchedule::where('id', $id)->with('scheduleComponents')->first();
+        $data['salarySchedule'] = $salarySchedule;
+
+        return view('pages.salariesSchedules.show', $data);
     }
 
     /**
@@ -59,9 +62,13 @@ class SalaryScheduleController extends Controller
      * @param  \App\Models\SalarySchedule  $salarySchedule
      * @return \Illuminate\Http\Response
      */
-    public function edit(SalarySchedule $salarySchedule)
+    public function edit($id)
     {
-        //
+        $salarySchedule = SalarySchedule::where('id', $id)->with('scheduleComponents.SalaryScheduleElement')->first();
+        $data['salarySchedule'] = $salarySchedule;
+        $data['schedulesElements'] = SalarySchedule::active()->paginate(20);
+
+        return view('pages.salariesSchedules.edit', $data);
     }
 
     /**

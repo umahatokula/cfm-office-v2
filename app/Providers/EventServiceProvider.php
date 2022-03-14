@@ -24,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\RequisitionApproved' => [
             'App\Listeners\RequisitionApprovedListener'
         ],
+        'App\Events\SalaryScheduleApproved' => [
+            'App\Listeners\SalaryScheduleApprovedListener'
+        ],
     ];
 
     /**

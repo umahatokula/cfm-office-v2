@@ -44,10 +44,18 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger alert-style-light" role="alert">
+                        @foreach ($errors->all() as $error)
+                        {{ $error }} <br>
+                        @endforeach
+                    </div>
+                    @endif
 
                     <div>
                         @if (session()->has('message'))
-                        <div class="alert alert-success">
+                        <div class="alert alert-success alert-style-light" role="alert">
                             {{ session('message') }}
                         </div>
                         @endif
@@ -88,6 +96,10 @@
                                                 <span class="material-icons-outlined">edit</span>
                                             </a>
 
+                                            <a data-bs-toggle="modal" data-bs-target="#modal-large" data-toggle="modal" data-keyboard="false" data-remote="{{ route('members.notify', $member) }}" href="#" class="text-dark p-0" title="SMS">
+                                                <span class="material-icons-outlined">sms</span>
+                                            </a>
+
                                             <a wire:click.prevent="destroy({{ $member->id }})"
                                                 onclick="confirm('Are you sure?') || event.stopImmediatePropagation()"
                                                 href="#" class="text-danger p-0" data-original-title="" title="Delete">
@@ -100,9 +112,16 @@
                                 </tbody>
                             </table>
 
-                            <div class="row my-5">
-                                <div class="col-12 d-flex justify-content-center">
-                                    {{ $members->links() }}
+                            <div class="row mt-4">
+                                <div class="col-sm-6">
+                                    <div class="pt-2">
+                                        <p class="mb-sm-0">Showing {{ $members->currentPage() }} to {{ $members->perPage() }} of {{ $members->total() }} entries</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="float-sm-end">
+                                        {{ $members->appends(request()->input())->links() }}
+                                    </div>
                                 </div>
                             </div>
 

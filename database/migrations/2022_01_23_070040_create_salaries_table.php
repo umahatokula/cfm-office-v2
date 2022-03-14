@@ -15,7 +15,9 @@ class CreateSalariesTable extends Migration
     {
         Schema::create('salaries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('staff_id')->nullabel();
+            $table->string('month_of_salary')->nullable();
+            $table->foreignId('staff_id')->nullable();
+            $table->json('breakdown')->nullable();
             $table->timestamps();
         });
     }
