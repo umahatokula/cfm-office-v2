@@ -1,0 +1,1 @@
+<livewire:accounting.requisitions.show-requisition :requisition="$requisition">

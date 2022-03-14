@@ -29,17 +29,16 @@ class AllMembers extends Component
     public function destroy($id) {
         Member::findOrFail($id)->delete();
 
-        session('message', 'Member deleted successfully');
+        $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Member successfully deleted']);
 
-        redirect()->route('members.index');
     }
 
     public function render()
     {
         if ($this->churchId) {
-            $members = Member::where('church_id', $this->churchId)->where('slug', 'like', '%'.$this->search.'%')->paginate(10);
+            $members = Member::where('church_id', $this->churchId)->where('slug', 'like', '%'.$this->search.'%')->paginate(20);
         } else {
-            $members = Member::where('slug', 'like', '%'.$this->search.'%')->paginate(10);  
+            $members = Member::where('slug', 'like', '%'.$this->search.'%')->paginate(20);  
         }
         
 

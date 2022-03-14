@@ -66,6 +66,7 @@ class EditMember extends Component
     ];
 
     public function mount(Member $member) {
+        $this->member = $member;
 
         $this->fname          = $member->fname;
         $this->lname          = $member->lname;
@@ -136,29 +137,28 @@ class EditMember extends Component
             $dob = Carbon::parse($dob);
         }
 
-        $member = new Member;
-        $member->unique_id      = $member->generateUniqueId(); 
-        $member->fname          = $this->fname;
-        $member->lname          = $this->lname;
-        $member->mname          = $this->mname;
-        $member->gender_id      = $this->gender_id;
-        $member->email          = $this->email;
-        $member->phone          = $this->phone;
-        $member->occupation     = $this->occupation;
-        $member->country_id     = $this->country_id;
-        $member->state_id       = $this->state_id;
-        $member->local_id       = $this->local_id;
-        $member->dob            = $dob ?? null;
-        $member->age_profile_id = $this->age_profile_id;
-        $member->church_id      = $this->church_id;
-        $member->address        = $this->address;
-        $member->region_id      = $this->region_id;
-        $member->cell_id        = $this->cell_id;
-        $member->facebook       = $this->facebook;
-        $member->whatsapp       = $this->whatsapp;
-        $member->twitter        = $this->twitter;
-        $member->instagram      = $this->instagram;
-        $member->save();
+        $this->member->unique_id      = $this->member->generateUniqueId(); 
+        $this->member->fname          = $this->fname;
+        $this->member->lname          = $this->lname;
+        $this->member->mname          = $this->mname;
+        $this->member->gender_id      = $this->gender_id;
+        $this->member->email          = $this->email;
+        $this->member->phone          = $this->phone;
+        $this->member->occupation     = $this->occupation;
+        $this->member->country_id     = $this->country_id;
+        $this->member->state_id       = $this->state_id;
+        $this->member->local_id       = $this->local_id;
+        $this->member->dob            = $dob ?? null;
+        $this->member->age_profile_id = $this->age_profile_id;
+        $this->member->church_id      = $this->church_id;
+        $this->member->address        = $this->address;
+        $this->member->region_id      = $this->region_id;
+        $this->member->cell_id        = $this->cell_id;
+        $this->member->facebook       = $this->facebook;
+        $this->member->whatsapp       = $this->whatsapp;
+        $this->member->twitter        = $this->twitter;
+        $this->member->instagram      = $this->instagram;
+        $this->member->save();
 
         if ($this->picture) {
             $member
@@ -167,7 +167,7 @@ class EditMember extends Component
                 ->toMediaCollection('member', 'public');
         }
         
-        session()->flash('message', 'Member successfully added.');
+        $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Member successfully updated']);
 
         redirect()->route('members.index');
     }

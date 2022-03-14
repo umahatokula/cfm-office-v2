@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Helpers\Sms;
 
-use App\Models\User;
-use App\Models\Role;
-use App\Models\State;
-use App\Models\Gender;
-use App\Models\AgeProfile;
-use App\Models\Country;
-use App\Models\Member;
-use App\Models\Local;
-use App\Models\Church;
 use App\Models\Cell;
-use App\Models\ServiceTeam;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\Local;
+use App\Models\State;
+use App\Models\Church;
+use App\Models\Gender;
+use App\Models\Member;
 use App\Models\Region;
+use App\Models\Country;
+use App\Models\AgeProfile;
+use App\Models\ServiceTeam;
+use Illuminate\Http\Request;
 use App\Models\MemberServiceTeam;
 
 class MembersController extends Controller
@@ -37,7 +38,7 @@ class MembersController extends Controller
      */
     public function index() {      
 
-    	return view('frontend.pages.members.index');
+    	return view('pages.members.index');
         
     }
 
@@ -48,7 +49,7 @@ class MembersController extends Controller
      */
     public function create() {
 
-    	return view('frontend.pages.members.create');
+    	return view('pages.members.create');
     }
 
     /**
@@ -61,7 +62,7 @@ class MembersController extends Controller
     {
         $data['member'] = $member;
 
-    	return view('frontend.pages.members.show', $data);
+    	return view('pages.members.show', $data);
     }
 
     /**
@@ -74,7 +75,7 @@ class MembersController extends Controller
     {
         $data['member'] = $member;
 
-    	return view('frontend.pages.members.edit', $data);
+    	return view('pages.members.edit', $data);
     }
 
 
@@ -98,5 +99,81 @@ class MembersController extends Controller
         }
 
         return $member->serviceTeams;
+    }
+    
+    /**
+     * notify
+     *
+     * @param  mixed $staff
+     * @return void
+     */
+    public function notify(Member $member) {
+        $data['member'] = $member;
+        
+        return view('pages.members.notify', $data);
+    }
+    
+    /**
+     * notifyPost
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function notifyPost(Request $request) {
+        // dd($request->all());
+
+        $rules = [
+            'sms' => 'required_without:email',
+            'email' => 'required_without:sms',
+            'message' => 'required',
+        ];
+    
+        $messages = [
+            'sms.required_without' => 'Either SMS or Email must be checked',
+            'email.required_without' => 'Either SMS or Email must be checked',
+            'message.required' => 'Enter a message',
+        ];
+
+        $this->validate($request, $rules, $messages);
+
+        $member = Member::findOrFail($request->member_id);
+
+        // send SMS
+        if ($request->has('sms')) {        
+            if ($member->phone) {
+
+                $response = Sms::sendSMSMessage($member->phone, $request->message);
+                // dd($response);
+
+                if (!$response['status']) {
+                    session()->flash('error', $response['message']);
+                    return redirect()->back();
+                }
+
+            }
+        }
+        
+
+        // send whatsapp
+        if ($request->has('whatsapp')) {        
+            if ($member->phone) {
+
+                Sms::sendWhatsAppMessage($member->phone, $request->message);
+
+            }
+        }
+        
+
+        // send email
+        if ($request->has('email')) {
+            if ($member->email) {
+                Mail::to($member->email)
+                ->send(new CustomMailable($request->subject, $request->message));
+            }
+        }
+
+        session()->flash('message', 'Notification sent to member');
+        return redirect()->back();
+        
     }
 }

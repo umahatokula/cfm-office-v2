@@ -18,11 +18,10 @@ class RolesAndPermissionsTableSeeder extends Seeder
     {
         // CREATE AND ATTACH PERMISSIONS
         $createrequisition = Permission::create(['name' => 'create requisition']);
-        $readrequisition = Permission::create(['name' => 'read requisition']);
-        $updaterequisition = Permission::create(['name' => 'update requisition']);
+        $readrequisition = Permission::create(['name' => 'view requisitions']);
+        $updaterequisition = Permission::create(['name' => 'edit requisition']);
         $deleterequisition = Permission::create(['name' => 'delete requisition']);
-        $approverequisition = Permission::create(['name' => 'approve requisition']);
-        $disapproverequisition = Permission::create(['name' => 'disapprove requisition']);
+        $processrequisition = Permission::create(['name' => 'process requisition']);
 
         $makeservicedataentry = Permission::create(['name' => 'make service data entry']);
         $makechildrenchurchdataentry = Permission::create(['name' => 'make children church data entry']);
@@ -51,13 +50,13 @@ class RolesAndPermissionsTableSeeder extends Seeder
 
 
         // ASSIGN PERMISSIONS TO ROLES
-        $generaloverseer->givePermissionTo([$readrequisition, $updaterequisition, $deleterequisition, $approverequisition, $disapproverequisition, $makeservicedataentry, $makechildrenchurchdataentry, $managecells, $viewallattendance, $viewownattendance, $viewallfinances, $viewownfinances, $viewallchurches, $viewownchurch, $generatereports]);
+        $generaloverseer->givePermissionTo([$readrequisition, $updaterequisition, $deleterequisition, $processrequisition, $makeservicedataentry, $makechildrenchurchdataentry, $managecells, $viewallattendance, $viewownattendance, $viewallfinances, $viewownfinances, $viewallchurches, $viewownchurch, $generatereports]);
         
-        $coordinatorchurches->givePermissionTo([$readrequisition, $updaterequisition, $deleterequisition, $approverequisition, $disapproverequisition, $makeservicedataentry, $makechildrenchurchdataentry, $managecells, $viewallattendance, $viewownattendance, $viewallfinances, $viewownfinances, $viewallchurches, $viewownchurch, $generatereports]);
+        $coordinatorchurches->givePermissionTo([$readrequisition, $updaterequisition, $deleterequisition, $processrequisition, $makeservicedataentry, $makechildrenchurchdataentry, $managecells, $viewallattendance, $viewownattendance, $viewallfinances, $viewownfinances, $viewallchurches, $viewownchurch, $generatereports]);
 
-        $residentpastor->givePermissionTo([$readrequisition, $updaterequisition, $deleterequisition, $approverequisition, $disapproverequisition, $makeservicedataentry, $makechildrenchurchdataentry, $managecells, $viewownattendance, $viewownfinances, $viewownchurch]);
+        $residentpastor->givePermissionTo([$readrequisition, $updaterequisition, $deleterequisition, $processrequisition, $makeservicedataentry, $makechildrenchurchdataentry, $managecells, $viewownattendance, $viewownfinances, $viewownchurch]);
 
-        $associatepastor->givePermissionTo([$readrequisition, $updaterequisition, $approverequisition, $disapproverequisition, $makeservicedataentry, $makechildrenchurchdataentry, $managecells, $viewownattendance, $viewownfinances, $viewownchurch]);
+        $associatepastor->givePermissionTo([$readrequisition, $updaterequisition, $processrequisition, $makeservicedataentry, $makechildrenchurchdataentry, $managecells, $viewownattendance, $viewownfinances, $viewownchurch]);
 
         $secretary->givePermissionTo([$readrequisition, $updaterequisition, $makeservicedataentry, $makechildrenchurchdataentry, $viewownattendance, $viewownfinances, $viewownchurch, $viewallchurches, $generatereports]);
 

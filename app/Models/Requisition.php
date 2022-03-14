@@ -23,16 +23,16 @@ class Requisition extends Model
 	];
     
 	public function requisitionBy(){
-		return $this->belongsTo(Member::class, 'requisition_by', 'id', 'members');
+		return $this->belongsTo(Member::class, 'requisition_by', 'id', 'members')->withDefault();
 	}
     
 	public function approvedBy(){
-		return $this->belongsTo(Member::class, 'processed_by', 'id', 'members');
+		return $this->belongsTo(Member::class, 'processed_by', 'id', 'members')->withDefault();
 	}
 
     
 	public function status(){
-		return $this->belongsTo(Status::class);
+		return $this->belongsTo(Status::class)->withDefault();
 	}
     
 	public function requisitionItems(){

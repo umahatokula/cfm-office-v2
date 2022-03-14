@@ -10,7 +10,7 @@ class ChurchService extends Model
 	protected $dates = ['service_date'];
 
 	public function serviceType(){
-		return $this->belongsTo('\App\ServiceType');
+		return $this->belongsTo('\App\Models\ServiceType');
 	}
 
 	public function church()
@@ -20,6 +20,6 @@ class ChurchService extends Model
 
 	public function submittedBy()
 	{
-			return $this->belongsTo('App\Member', 'submitted_by', 'id');
+			return $this->belongsTo('App\Models\Member', 'submitted_by', 'id');
 	}
 }

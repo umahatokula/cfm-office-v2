@@ -125,7 +125,7 @@
                 <label for="" class="col-sm-2 col-form-label">Date of birth</label>
                 <div class="col-sm-3 mb-1">
                     <select wire:model="day"  class="form-control mb-3">
-                        <option value="">Select one...</option>
+                        <option value="">Day</option>
                         @foreach (range(1,31) as $day)
                             <option value="{{ $day }}">{{ $day }}</option>
                         @endforeach
@@ -134,7 +134,7 @@
                 </div>
                 <div class="col-sm-3 mb-1">
                     <select wire:model="month"  class="form-control mb-3">
-                        <option value="">Select one...</option>
+                        <option value="">Month</option>
                         @foreach (range(1,12) as $month)
                             <option value="{{ $month }}">{{ $month }}</option>
                         @endforeach
@@ -142,7 +142,7 @@
                     @error('month') <span class="error">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-sm-3 mb-1">
-                    <input wire:model="year" type="text" class="form-control" id="year">
+                    <input wire:model="year" type="text" class="form-control" id="year" placeholder="Year">
                     @error('year') <span class="error">{{ $message }}</span> @enderror
                 </div>
             </div>
