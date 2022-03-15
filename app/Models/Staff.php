@@ -86,7 +86,7 @@ class Staff extends Model implements HasMedia
     }
 
     public function primaryBankDetails() {
-        return $this->hasMany(StaffBankDetail::class, 'staff_id', 'id')->where('is_primary');
+        return StaffBankDetail::where(['staff_id' => $this->id, 'is_primary' => true])->first();
     }
     
 	public function church(){

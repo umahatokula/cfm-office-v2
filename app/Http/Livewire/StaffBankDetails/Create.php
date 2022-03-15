@@ -72,6 +72,8 @@ class Create extends Component
     public function save() {
         $this->validate();
 
+        $staffBankDetails = StaffBankDetail::where('staff_id', $this->staff_id)->get();
+
         // if incoming request is_primary, set all other bank details is_primary = false. There can be only one is_primary
         if ($this->is_primary) {
             StaffBankDetail::where('staff_id', $this->staff_id)->update([
@@ -84,7 +86,7 @@ class Create extends Component
             'bank_id'        => $this->bank_id,
             'account_number' => $this->account_number,
             'account_name'   => $this->account_name,
-            'is_primary'     => $this->is_primary,
+            'is_primary'     => $staffBankDetails->isEmpty() ? true : $this->is_primary,
         ]);
 
         return redirect()->route('staff.show', $this->staff);

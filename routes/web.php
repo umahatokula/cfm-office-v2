@@ -255,6 +255,9 @@ Route::group(['middleware' => 'auth'], function() {
 
         // salaries
         Route::get('salaries/staff/{staff}/edit', [SalaryController::class, 'editStaffSalary'])->name('salaries.staff.edit');
+        Route::get('salaries/{month_of_salary}/{year_of_salary}/{salary_schedule_id}/preview', [SalaryController::class, 'preview'])->name('salaries.staff.preview');
+        Route::get('salaries/{month_of_salary}/{year_of_salary}/{salary_schedule_id}/export', [SalaryController::class, 'export'])->name('salaries.staff.export');
+        Route::get('salaries/{month_of_salary}/{year_of_salary}/{salary_schedule_id}/pdf', [SalaryController::class, 'pdf'])->name('salaries.staff.pdf');
         Route::resource('salaries', SalaryController::class);
 
         // salaries schedule

@@ -1,9 +1,4 @@
 <div>
-    <style>
-        .table td, .table th {
-            padding: 5px 20px!important;
-        }
-    </style>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -17,28 +12,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    
-                    @if (session()->has('error'))
-                        <div class="alert alert-danger alert-style-light" role="alert">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-                    
-                    @if (session()->has('success'))
-                        <div class="alert alert-success alert-style-light" role="alert">
-                            {{ session('success') }}
-                        </div>
-                    @endif
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="d-flex justify-content-end">
-                                <a href="{{ route('salaries.staff.export', [$month_of_salary, $year_of_salary, $salary_schedule_id]) }}" class="btn btn-success btn-sm float-end mb-3 mx-2" type="submit">CSV</a>
-                                <a href="{{ route('salaries.staff.pdf', [$month_of_salary, $year_of_salary, $salary_schedule_id]) }}" class="btn btn-danger btn-sm float-end mb-3" type="submit">PDF</a>
-                            </div>
-                        </div>
-                    </div>
-                    
                     <div class="row mb-4">
                         <div class="col-md-12">
                             <div class="table-responsive">
