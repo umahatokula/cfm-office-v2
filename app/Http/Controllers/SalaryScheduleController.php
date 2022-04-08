@@ -50,7 +50,7 @@ class SalaryScheduleController extends Controller
      */
     public function show($id)
     {
-        $salarySchedule = SalarySchedule::where('id', $id)->with('scheduleComponents')->first();
+        $salarySchedule = SalarySchedule::where('id', $id)->with('scheduleDetails')->first();
         $data['salarySchedule'] = $salarySchedule;
 
         return view('pages.salariesSchedules.show', $data);
@@ -64,7 +64,7 @@ class SalaryScheduleController extends Controller
      */
     public function edit($id)
     {
-        $salarySchedule = SalarySchedule::where('id', $id)->with('scheduleComponents.SalaryScheduleElement')->first();
+        $salarySchedule = SalarySchedule::where('id', $id)->with('scheduleDetails.SalaryScheduleElement')->first();
         $data['salarySchedule'] = $salarySchedule;
         $data['schedulesElements'] = SalarySchedule::active()->paginate(20);
 

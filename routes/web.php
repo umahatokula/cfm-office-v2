@@ -255,9 +255,9 @@ Route::group(['middleware' => 'auth'], function() {
 
         // salaries
         Route::get('salaries/staff/{staff}/edit', [SalaryController::class, 'editStaffSalary'])->name('salaries.staff.edit');
-        Route::get('salaries/{month_of_salary}/{year_of_salary}/{salary_schedule_id}/preview', [SalaryController::class, 'preview'])->name('salaries.staff.preview');
-        Route::get('salaries/{month_of_salary}/{year_of_salary}/{salary_schedule_id}/export', [SalaryController::class, 'export'])->name('salaries.staff.export');
-        Route::get('salaries/{month_of_salary}/{year_of_salary}/{salary_schedule_id}/pdf', [SalaryController::class, 'pdf'])->name('salaries.staff.pdf');
+        Route::get('salaries/{salaryId}/preview', [SalaryController::class, 'preview'])->name('salaries.staff.preview');
+        Route::get('salaries/{salaryId}/export', [SalaryController::class, 'export'])->name('salaries.staff.export');
+        Route::get('salaries/{salaryId}/pdf', [SalaryController::class, 'pdf'])->name('salaries.staff.pdf');
         Route::resource('salaries', SalaryController::class);
 
         // salaries schedule
@@ -306,26 +306,3 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
-
-
-
-
-Route::get('/callback/temp', function() {
-    dd($http);
-});
-
-Route::get('/sage/auth', function() {
-
-    $baseUrl = 'https://www.sageone.com/oauth2/auth/central?filter=apiv3.1';
-    $params = [
-        'client_id' => 'c8f991ff-2de9-4fec-9a06-c9473707a70e/628e9a3e-bd6a-49b5-b480-c3467de652a5',
-        'response_type' => 'code',
-        'redirect_uri' => 'http://127.0.0.1:8000/callback/temp',
-    ];
-    
-    $http = new Client();
-
-    $response = $http->get($baseUrl, $params);
-    return $response->getBody()->getContents();
-});

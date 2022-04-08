@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Accounting\SalarySchedule;
 use Livewire\Component;
 use App\Models\SalarySchedule;
 use App\Models\SalaryScheduleElement;
-use App\Models\SalaryScheduleComponent;
+use App\Models\SalaryScheduleDetail;
 
 class EditSchedule extends Component
 {
@@ -17,19 +17,19 @@ class EditSchedule extends Component
     protected $rules=[
         'name'     => 'required',
     ];
-    
+
     /**
      * mount
      *
      * @return void
      */
     public function mount(SalarySchedule $salarySchedule) {
-        
+
         $this->name = $salarySchedule->name;
         $this->status = $salarySchedule->status;
         $this->salarySchedule = $salarySchedule;
 
-        $this->scheduleElements = $salarySchedule->scheduleComponents->map(function($element) {
+        $this->scheduleElements = $salarySchedule->scheduleDetails->map(function($element) {
             return [
                 'salary_schedule_element_id' => $element->salary_schedule_element_id,
                 'percentage' => $element->percentage,
@@ -39,7 +39,7 @@ class EditSchedule extends Component
         $this->salaryScheduleElements = SalaryScheduleElement::all();
 
     }
-    
+
     /**
      * add requisition
      *
@@ -51,7 +51,7 @@ class EditSchedule extends Component
             'percentage' => null,
         ];
     }
-    
+
     /**
      * remove requisition
      *
@@ -62,7 +62,7 @@ class EditSchedule extends Component
         if (!is_array($this->scheduleElements)) {
             $this->scheduleElements = $this->scheduleElements->toArray();
         }
-        
+
         array_key_exists($key, $this->scheduleElements) ? array_splice($this->scheduleElements, $key, 1) : null;
     }
 
@@ -75,27 +75,27 @@ class EditSchedule extends Component
 
     public function save() {
         $this->validate();
-        
+
         $total = $this->getTotal();
-    
+
         $this->salarySchedule->name       = $this->name;
         $this->salarySchedule->status     = $this->status;
         $this->salarySchedule->created_by = auth()->user()->member->church_id;
         $this->salarySchedule->save();
 
         // delete existing schedule components
-        $this->salarySchedule->scheduleComponents()->delete();
-        
-        $salaryScheduleComponent = [];
+        $this->salarySchedule->scheduleDetails()->delete();
+
+        $salaryScheduleDetail = [];
         foreach ($this->scheduleElements as $key => $scheduleElement) {
-            $salaryScheduleComponent[] = new SalaryScheduleComponent([
+            $salaryScheduleDetail[] = new SalaryScheduleDetail([
                 'salary_schedule_id'         => $this->salarySchedule->id,
                 'salary_schedule_element_id' => $scheduleElement['salary_schedule_element_id'],
                 'percentage'                 => $scheduleElement['percentage'],
              ]);
         }
 
-        $res = $this->salarySchedule->scheduleComponents()->saveMany($salaryScheduleComponent);
+        $res = $this->salarySchedule->scheduleDetails()->saveMany($salaryScheduleDetail);
 
         $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Salaray Schedule created']);
         redirect()->route('salaries-schedules.index');

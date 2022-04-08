@@ -6,36 +6,36 @@ use App\Models\Salary;
 use Livewire\Component;
 use App\Models\SalarySchedule;
 
-class NewSalarySchedulePreview extends Component
+class NewSalaryPreview extends Component
 {
 
-    public $month_of_salary, $year_of_salary, $salary_schedule_id;
-    public $salaries, $salarySchedule, $scheduleComponentsElements;
-    
+    public $salaryId;
+    public $salary, $salaries, $salarySchedule, $scheduleDetailsElements;
+
     protected  $months;
-    
+
     /**
      * mount
      *
      * @param  mixed $salary
      * @return void
      */
-    public function mount($month_of_salary, $year_of_salary, $salary_schedule_id) {
-        $this->month_of_salary = $month_of_salary;
-        $this->year_of_salary = $year_of_salary;
-        $this->salary_schedule_id = $salary_schedule_id;
+    public function mount($salaryId) {
 
-        $this->salarySchedule = SalarySchedule::where('id', $salary_schedule_id)->with('scheduleComponents.salaryScheduleElement')->first();
+        $this->salaryId = $salaryId;
+        $this->salary = Salary::find($salaryId);
+        $this->salaries = $this->salary->salaryDetails;
+
+        $this->salarySchedule = SalarySchedule::where('id', $this->salary->salary_schedule_id)->with('scheduleDetails.salaryScheduleElement')->first();
         if (!$this->salarySchedule) {
             abort(404);
         }
-        $this->salaries = Salary::where(['month_of_salary' => $this->month_of_salary, 'salary_schedule_id' => $this->salary_schedule_id])->get();
 
-        $this->scheduleComponentsElements = $this->salarySchedule->scheduleComponents->map(function($item) {
+        $this->scheduleDetailsElements = $this->salarySchedule->scheduleDetails->map(function($item) {
             return $item->salaryScheduleElement ? $item->salaryScheduleElement->name : null;
         })->toArray();
     }
-    
+
     public function render()
     {
 

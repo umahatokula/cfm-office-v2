@@ -21,11 +21,11 @@
                                         <tr>
                                             <th><b>Staff</b></th>
                                             <th class="text-end"><b>Gross Salary</b></th>
-                                            @forelse ($salarySchedule->scheduleComponents as $scheduleComponent)
-                                            <th class="text-center">{{ $scheduleComponent->SalaryScheduleElement->name }}({{ $scheduleComponent->percentage }}%)</th>
+                                            @forelse ($salarySchedule->scheduleDetails as $scheduleDetail)
+                                            <th class="text-center">{{ $scheduleDetail->SalaryScheduleElement->name }}({{ $scheduleDetail->percentage }}%)</th>
                                             @empty
-                                            <th colspan="{{ count($lastSalarySchedule->scheduleComponents) }}">No schedule elements</th>
-                                            @endforelse 
+                                            <th colspan="{{ count($lastSalarySchedule->scheduleDetails) }}">No schedule elements</th>
+                                            @endforelse
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -36,15 +36,15 @@
 
                                             @forelse ($salary->breakdown as $k => $breakdown)
 
-                                                @if (in_array($k, $scheduleComponentsElements))
+                                                @if (in_array($k, $scheduleDetailsElements))
                                                     <td class="text-center">
                                                         {{ number_format($breakdown, 2) }}
-                                                    </td>   
+                                                    </td>
                                                 @endif
 
                                             @empty
                                                 <td colspan="">No schedule elements</td>
-                                            @endforelse 
+                                            @endforelse
 
                                         </tr>
                                         @empty

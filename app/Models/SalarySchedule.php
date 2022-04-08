@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\SalaryScheduleComponent;
+use App\Models\SalaryScheduleDetail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -20,22 +20,22 @@ class SalarySchedule extends Model
     {
         $query->where('status', 1);
     }
-    	
+
 	/**
 	 * schedule Components
 	 *
 	 * @return void
 	 */
-	public function scheduleComponents(){
-		return $this->hasMany(SalaryScheduleComponent::class);
+	public function scheduleDetails(){
+		return $this->hasMany(SalaryScheduleDetail::class);
 	}
-    
+
     /**
      * Get Total On this Schedule
      *
      * @return void
      */
     public function getTotalOnSchedule() {
-        return $this->scheduleComponents()->sum('amount');
+        return $this->scheduleDetails()->sum('amount');
     }
 }

@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         \App\Models\Member::factory(500)->create();
+        \App\Models\Staff::factory(15)->create();
 
         $this->call([
             // MemberSeeder::class,

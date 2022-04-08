@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSalaryScheduleComponentsTable extends Migration
+class CreateSalaryScheduleDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSalaryScheduleComponentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('salary_schedule_components', function (Blueprint $table) {
+        Schema::create('salary_schedule_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('church_id')->nullable();
             $table->foreignId('salary_schedule_id')->nullable();
@@ -32,6 +32,6 @@ class CreateSalaryScheduleComponentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('salary_schedule_components');
+        Schema::dropIfExists('salary_schedule_details');
     }
 }

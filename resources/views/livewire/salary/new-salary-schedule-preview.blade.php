@@ -11,19 +11,19 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                                <h3> <b>{{ $salarySchedule->name }}</b> - {{ $months[$month_of_salary] }}, {{ $year_of_salary }} </h3>
+                                <h3> <b>{{ $salarySchedule->name }}</b> - {{ $months[$salary->month_of_salary] }}, {{ $salary->year_of_salary }} </h3>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    
+
                     @if (session()->has('error'))
                         <div class="alert alert-danger alert-style-light" role="alert">
                             {{ session('error') }}
                         </div>
                     @endif
-                    
+
                     @if (session()->has('success'))
                         <div class="alert alert-success alert-style-light" role="alert">
                             {{ session('success') }}
@@ -33,12 +33,12 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="d-flex justify-content-end">
-                                <a href="{{ route('salaries.staff.export', [$month_of_salary, $year_of_salary, $salary_schedule_id]) }}" class="btn btn-success btn-sm float-end mb-3 mx-2" type="submit">CSV</a>
-                                <a href="{{ route('salaries.staff.pdf', [$month_of_salary, $year_of_salary, $salary_schedule_id]) }}" class="btn btn-danger btn-sm float-end mb-3" type="submit">PDF</a>
+                                <a href="{{ route('salaries.staff.export', [$salary->id]) }}" class="btn btn-success btn-sm float-end mb-3 mx-2" type="submit">CSV</a>
+                                <a href="{{ route('salaries.staff.pdf', [$salary->id]) }}" class="btn btn-danger btn-sm float-end mb-3" type="submit">PDF</a>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row mb-4">
                         <div class="col-md-12">
                             <div class="table-responsive">
@@ -47,30 +47,30 @@
                                         <tr>
                                             <th><b>Staff</b></th>
                                             <th class="text-end"><b>Gross Salary</b></th>
-                                            @forelse ($salarySchedule->scheduleComponents as $scheduleComponent)
-                                            <th class="text-center">{{ $scheduleComponent->SalaryScheduleElement->name }}({{ $scheduleComponent->percentage }}%)</th>
+                                            @forelse ($salarySchedule->scheduleDetails as $scheduleDetail)
+                                            <th class="text-center">{{ $scheduleDetail->SalaryScheduleElement->name }}({{ $scheduleDetail->percentage }}%)</th>
                                             @empty
-                                            <th colspan="{{ count($lastSalarySchedule->scheduleComponents) }}">No schedule elements</th>
-                                            @endforelse 
+                                            <th colspan="{{ count($lastSalarySchedule->scheduleDetails) }}">No schedule elements</th>
+                                            @endforelse
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($salaries as $key => $salary)
                                         <tr>
-                                            <td><b>{{ $salary->staff->name }}</b></td>
-                                            <td class="text-end"><b>{{ number_format($salary->staff->gross_salary, 2) }}</b></td>
+                                            <td><b>{{ $salary?->staff?->name }}</b></td>
+                                            <td class="text-end"><b>{{ number_format($salary?->staff?->gross_salary, 2) }}</b></td>
 
-                                            @forelse ($salary->breakdown as $k => $breakdown)
+                                            @forelse ($salary?->breakdown as $k => $breakdown)
 
-                                                @if (in_array($k, $scheduleComponentsElements))
+                                                @if (in_array($k, $scheduleDetailsElements))
                                                     <td class="text-center">
                                                         {{ number_format($breakdown, 2) }}
-                                                    </td>   
+                                                    </td>
                                                 @endif
 
                                             @empty
                                                 <td colspan="">No schedule elements</td>
-                                            @endforelse 
+                                            @endforelse
 
                                         </tr>
                                         @empty

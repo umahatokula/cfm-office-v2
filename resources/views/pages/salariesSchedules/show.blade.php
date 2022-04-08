@@ -11,14 +11,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($salarySchedule->scheduleComponents as $key => $scheduleComponent)
+                    @forelse ($salarySchedule->scheduleDetails as $key => $scheduleDetail)
                     <tr>
                         <td  class="text-center">{{ $loop->iteration }}</td>
                         <td>
-                            {{ $scheduleComponent->SalaryScheduleElement->name }}
+                            {{ $scheduleDetail->SalaryScheduleElement->name }}
                         </td>
                         <td class="text-center">
-                            {{ $scheduleComponent->percentage }}
+                            {{ $scheduleDetail->percentage }}
                         </td>
                     </tr>
                     @empty

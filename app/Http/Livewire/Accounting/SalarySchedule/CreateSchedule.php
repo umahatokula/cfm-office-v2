@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Accounting\SalarySchedule;
 use Livewire\Component;
 use App\Models\SalarySchedule;
 use App\Models\SalaryScheduleElement;
-use App\Models\SalaryScheduleComponent;
+use App\Models\SalaryScheduleDetail;
 
 class CreateSchedule extends Component
 {
@@ -16,19 +16,19 @@ class CreateSchedule extends Component
     protected $rules=[
         'name'     => 'required',
     ];
-    
+
     /**
      * mount
      *
      * @return void
      */
     public function mount() {
-        
+
         $this->salaryScheduleElements = SalaryScheduleElement::all();
         $this->addScheduleElement();
 
     }
-    
+
     /**
      * add requisition
      *
@@ -40,7 +40,7 @@ class CreateSchedule extends Component
             'percentage' => null,
         ];
     }
-    
+
     /**
      * remove requisition
      *
@@ -57,26 +57,26 @@ class CreateSchedule extends Component
 
     public function save() {
         $this->validate();
-        
+
         $total = $this->getTotal();
-    
+
         // ExpenseHead::create($request->all())->save();
         $salarySchedule = new SalarySchedule;
         $salarySchedule->name       = $this->name;
         $salarySchedule->status     = $this->status;
         $salarySchedule->created_by = auth()->user()->member->church_id;
         $salarySchedule->save();
-        
-        $salaryScheduleComponent = [];
+
+        $salaryScheduleDetail = [];
         foreach ($this->scheduleElements as $key => $scheduleElement) {
-            $salaryScheduleComponent[] = new SalaryScheduleComponent([
+            $salaryScheduleDetail[] = new SalaryScheduleDetail([
                 'salary_schedule_id'         => $salarySchedule->id,
                 'salary_schedule_element_id' => $scheduleElement['salary_schedule_element_id'],
                 'percentage'                 => $scheduleElement['percentage'],
              ]);
         }
 
-        $res = $salarySchedule->scheduleComponents()->saveMany($salaryScheduleComponent);
+        $res = $salarySchedule->scheduleDetails()->saveMany($salaryScheduleDetail);
 
         $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Salaray Schedule created']);
         redirect()->route('salaries-schedules.index');

@@ -30,7 +30,7 @@ class Edit extends Component
         'account_name.required' => 'This field is required',
         'is_primary.required' => 'This field is required',
     ];
-    
+
     /**
      * mount
      *
@@ -38,7 +38,7 @@ class Edit extends Component
      * @return void
      */
     public function mount(StaffBankDetail $staffBankDetail, Staff $staff) {
-        
+
         $this->staff = $staff;
         $this->staffBankDetail = $staffBankDetail;
 
@@ -52,13 +52,14 @@ class Edit extends Component
         $this->banks = Bank::all();
 
     }
-    
+
     /**
      * save
      *
      * @return void
      */
     public function save() {
+
         $this->validate();
 
         // if incoming request is_primary, set all other bank details is_primary = false. There can be only one is_primary

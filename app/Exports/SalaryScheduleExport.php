@@ -9,24 +9,22 @@ use Maatwebsite\Excel\Concerns\FromView;
 
 class SalaryScheduleExport implements FromView
 {
-    public $month_of_salary, $year_of_salary, $salary_schedule_id;
+    public $salaryId;
 
-    public function __construct($month_of_salary, $year_of_salary, $salary_schedule_id) {
-        $this->month_of_salary = $month_of_salary;
-        $this->year_of_salary = $year_of_salary;
-        $this->salary_schedule_id = $salary_schedule_id;
+    public function __construct($salaryId) {
+        $this->salary = Salary::find($salaryId);
     }
 
     public function view(): View {
 
-        $salarySchedule = SalarySchedule::where('id', $this->salary_schedule_id)->with('scheduleComponents.salaryScheduleElement')->first();
+        $salarySchedule = SalarySchedule::where('id', $this->salary->salary_schedule_id)->with('scheduleDetails.salaryScheduleElement')->first();
 
         if (!$salarySchedule) {
             abort(404);
         }
-        $salaries = Salary::where(['month_of_salary' => $this->month_of_salary, 'salary_schedule_id' => $this->salary_schedule_id])->get();
+        $salaries = $this->salary->salaryDetails;
 
-        $scheduleComponentsElements = $salarySchedule->scheduleComponents->map(function($item) {
+        $scheduleDetailsElements = $salarySchedule->scheduleDetails->map(function($item) {
             return $item->salaryScheduleElement ? $item->salaryScheduleElement->name : null;
         })->toArray();
 
@@ -46,10 +44,10 @@ class SalaryScheduleExport implements FromView
         ];
 
         return view('exports.salarySchedule', [
-            'month_of_salary'            => $this->month_of_salary,
-            'year_of_salary'             => $this->year_of_salary,
+            'month_of_salary'            => $this->salary->month_of_salary,
+            'year_of_salary'             => $this->salary->year_of_salary,
             'salarySchedule'             => $salarySchedule,
-            'scheduleComponentsElements' => $scheduleComponentsElements,
+            'scheduleDetailsElements' => $scheduleDetailsElements,
             'salaries'                   => $salaries,
             'months'                     => $months,
         ]);

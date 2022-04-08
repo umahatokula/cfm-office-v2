@@ -11,6 +11,7 @@
                 <a href="#" class="btn btn-dark"><i class="material-icons-outlined">file_download</i>Download</a>
                 <a href="{{ route('life-coaches.create') }}" class="btn btn-primary"><i class="material-icons">add</i>Create</a>
             </div>
+            </div>
         </div>
     </div>
 </div>
@@ -31,7 +32,7 @@
                   </ul>
                 </div>
                 @endif
-                
+
                 <div class="table-responsive">
                   <table class="table table-striped">
                       <thead>

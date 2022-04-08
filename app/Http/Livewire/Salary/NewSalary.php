@@ -5,21 +5,23 @@ namespace App\Http\Livewire\Salary;
 use Carbon\Carbon;
 use App\Models\Staff;
 use App\Models\Salary;
+use App\Models\SalaryDetail;
 use Livewire\Component;
 use App\Models\SalarySchedule;
 
-class NewSalarySchedule extends Component
+class NewSalary extends Component
 {
-    public  $salaryMonth,
+    public  $salaries,
+            $salaryMonth,
             $salaryYear,
-            $lastSalarySchedule, 
-            $staffs, 
+            $lastSalarySchedule,
+            $staffs,
             $salarySchedulesForTheMonth,
             $bank,
             $salary_schedule_id,
-            $scheduleComponentsElements,
+            $scheduleDetailsElements,
             $salarySchedule;
-    
+
     protected  $months;
 
     public $rules = [
@@ -31,7 +33,7 @@ class NewSalarySchedule extends Component
         'salaryMonth.required' => 'This field is required',
         'salary_schedule_id.required' => 'This field is required',
     ];
-    
+
     /**
      * mount
      *
@@ -44,41 +46,52 @@ class NewSalarySchedule extends Component
         $this->salaryYear = date('Y');
 
         $this->salarySchedules = SalarySchedule::all();
+
+        $this->salaries = Salary::where('year_of_salary', $this->salaryYear)->get();
+
     }
-    
+
     /**
      * mount
      *
      * @return void
      */
-    public function onSelectSalarySchedule() {
+    public function generateSalarySheet() {
 
         $this->validate();
 
         $this->staffs = Staff::with('bankDetails.bank')->get();
-        $this->salarySchedule = SalarySchedule::where('id', $this->salary_schedule_id)->with('scheduleComponents')->first();
+        $this->salarySchedule = SalarySchedule::where('id', $this->salary_schedule_id)->with('scheduleDetails')->first();
 
         $this->salarySchedulesForTheMonth = [];
         foreach ($this->staffs as $key => $staff) {
             if ($this->salarySchedule) {
-                foreach ($this->salarySchedule->scheduleComponents as $k => $scheduleComponent) {
-                    $this->salarySchedulesForTheMonth[$key][$scheduleComponent->salaryScheduleElement->name] = $this->calAmount($staff->gross_salary, $scheduleComponent->percentage);
+                foreach ($this->salarySchedule->scheduleDetails as $k => $scheduleDetail) {
+                    $this->salarySchedulesForTheMonth[$key][$scheduleDetail->salaryScheduleElement->name] = $this->calAmount($staff->gross_salary, $scheduleDetail->percentage);
                 }
             }
         }
 
-        $this->scheduleComponentsElements = $this->salarySchedule->scheduleComponents->map(function($item) {
+        $this->scheduleDetailsElements = $this->salarySchedule->scheduleDetails->map(function($item) {
             return $item->salaryScheduleElement ? $item->salaryScheduleElement->name : null;
         })->toArray();
-        
+
     }
-    
+
     /**
      * saveSalarySchedule
      *
      * @return void
      */
     public function saveSalaries() {
+
+        $salary = Salary::updateOrCreate(
+            [
+                'month_of_salary'    => $this->salaryMonth,
+                'year_of_salary'     => $this->salaryYear,
+                'salary_schedule_id' => $this->salary_schedule_id,
+            ]
+        );
 
         foreach ($this->staffs as $key => $staff) {
 
@@ -90,11 +103,9 @@ class NewSalarySchedule extends Component
                 $this->salarySchedulesForTheMonth[$key]['account_number'] = $staff->primaryBankDetails() ? $staff->primaryBankDetails()->account_number : null;
                 $this->salarySchedulesForTheMonth[$key]['account_name'] = $staff->primaryBankDetails() ? $staff->primaryBankDetails()->account_name : null;
 
-                $salary = Salary::updateOrCreate(
+                $salaryDetails = SalaryDetail::updateOrCreate(
                     [
-                        'month_of_salary'    => $this->salaryMonth,
-                        'year_of_salary'     => $this->salaryYear,
-                        'salary_schedule_id' => $this->salary_schedule_id,
+                        'salary_id'          => $salary->id,
                         'staff_id'           => $staff->id
                     ],
                     [
@@ -108,9 +119,9 @@ class NewSalarySchedule extends Component
         session()->flash('message', 'Salary Schedule saved');
         $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Salary Schedule saved']);
 
-        redirect()->route('salaries.staff.preview', [$this->salaryMonth, $this->salaryYear, $this->salary_schedule_id]);
+        redirect()->route('salaries.staff.preview', [$this->salary->id]);
     }
-    
+
     /**
      * calAmount
      *
@@ -124,7 +135,6 @@ class NewSalarySchedule extends Component
 
     public function render()
     {
-
         $months = [
             '01' => 'January',
             '02' => 'February',
@@ -140,7 +150,7 @@ class NewSalarySchedule extends Component
             '12' => 'December',
         ];
 
-        return view('livewire.salary.new-salary-schedule', [
+        return view('livewire.salary.new-salary', [
             'months' => $months
         ]);
     }
