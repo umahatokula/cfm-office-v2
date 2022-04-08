@@ -15,12 +15,10 @@ class CreateChartOfAccountsTable extends Migration
     {
         Schema::create('chart_of_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title')->nullable();
-            $table->string('code')->nullable();
-            $table->integer('radix_no')->nullable();
-            $table->integer('parent_radix_id')->nullable();
-            $table->integer('level')->nullable();
-            $table->integer('parent_id')->nullable();
+            $table->string('name');
+            $table->string('code');
+            $table->unsignedBigInteger('chart_of_account_id')->nullable();
+            $table->foreign('chart_of_account_id')->references('id')->on('chart_of_accounts');
             $table->string('type')->nullable();
             $table->boolean('status')->nullable()->default(true);
             $table->timestamps();

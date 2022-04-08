@@ -55,12 +55,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($salaries as $key => $salary)
+                                        @forelse ($salaries as $key => $sal)
                                         <tr>
-                                            <td><b>{{ $salary?->staff?->name }}</b></td>
-                                            <td class="text-end"><b>{{ number_format($salary?->staff?->gross_salary, 2) }}</b></td>
+                                            <td><b>{{ $sal?->staff?->name }}</b></td>
+                                            <td class="text-end"><b>{{ number_format($sal?->staff?->gross_salary, 2) }}</b></td>
 
-                                            @forelse ($salary?->breakdown as $k => $breakdown)
+                                            @forelse ($sal?->breakdown as $k => $breakdown)
 
                                                 @if (in_array($k, $scheduleDetailsElements))
                                                     <td class="text-center">
@@ -80,6 +80,14 @@
                                         @endforelse
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="d-flex justify-content-end">
+                                <a wire:click.prevent="approvePayment({{ $salary->id }})"
+                                    onclick="confirm('Are you sure?') || event.stopImmediatePropagation()" class="btn btn-primary btn-sm float-end mb-3" type="submit">Approve payment</a>
                             </div>
                         </div>
                     </div>

@@ -30,6 +30,7 @@ use App\Http\Controllers\CellAttendanceController;
 use App\Http\Controllers\ChurchServicesController;
 use App\Http\Controllers\FollowupTargetController;
 use App\Http\Controllers\SalaryScheduleController;
+use App\Http\Controllers\ChartOfAccountsController;
 use App\Http\Controllers\FollowUpReasonsController;
 use App\Http\Controllers\FollowupReportsController;
 use App\Http\Controllers\LifeCoachTargetController;
@@ -298,6 +299,9 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('special-requisitions/pay/filter', [SpecialRequisitionsController::class, 'payFilter'])->name('special-requisitions.pay.filter');
         Route::post('special-requisitions/filter', [SpecialRequisitionsController::class, 'filter'])->name('special-requisitions.filter');
         Route::resource('special-requisitions', SpecialRequisitionsController::Class);
+
+        // coa
+        Route::resource('coa', ChartOfAccountsController::class);
     });
 
 });

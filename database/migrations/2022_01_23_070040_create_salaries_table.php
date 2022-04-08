@@ -18,6 +18,7 @@ class CreateSalariesTable extends Migration
             $table->string('month_of_salary')->nullable();
             $table->string('year_of_salary')->nullable();
             $table->foreignId('salary_schedule_id')->nullable();
+            $table->boolean('approved')->default(false)->nullable();
             $table->timestamps();
         });
     }

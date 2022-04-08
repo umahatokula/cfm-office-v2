@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Salary;
 use App\Models\Salary;
 use Livewire\Component;
 use App\Models\SalarySchedule;
+use App\Events\SalaryPaymentApproved;
 
 class NewSalaryPreview extends Component
 {
@@ -34,6 +35,25 @@ class NewSalaryPreview extends Component
         $this->scheduleDetailsElements = $this->salarySchedule->scheduleDetails->map(function($item) {
             return $item->salaryScheduleElement ? $item->salaryScheduleElement->name : null;
         })->toArray();
+    }
+
+    /**
+     * approve salaries payment
+     *
+     * @param  mixed $salaryId
+     * @return void
+     */
+    public function approvePayment($salaryId) {
+        $salary = Salary::find($salaryId);
+        $salary->approved = true;
+        $salary->save();
+
+        // fire event
+        event(new SalaryPaymentApproved($salary));
+
+        $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Salary payment approved']);
+
+        return redirect()->route('salaries.index');
     }
 
     public function render()

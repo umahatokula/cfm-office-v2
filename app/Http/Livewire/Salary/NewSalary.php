@@ -5,8 +5,9 @@ namespace App\Http\Livewire\Salary;
 use Carbon\Carbon;
 use App\Models\Staff;
 use App\Models\Salary;
-use App\Models\SalaryDetail;
 use Livewire\Component;
+use App\Models\SalaryDetail;
+use App\Events\SalaryCreated;
 use App\Models\SalarySchedule;
 
 class NewSalary extends Component
@@ -58,6 +59,22 @@ class NewSalary extends Component
      */
     public function generateSalarySheet() {
 
+        // check for existing salaries for selected month, year and shedule
+        $existing = Salary::where([
+            'month_of_salary'    => $this->salaryMonth,
+            'year_of_salary'     => $this->salaryYear,
+            'salary_schedule_id' => $this->salary_schedule_id,
+        ])->first();
+
+        if ($existing) {
+
+            session()->flash('message', 'Salary Schedule already created');
+            $this->dispatchBrowserEvent('showToastr', ['type' => 'danger', 'message' => 'Salary Schedule already created']);
+
+            return redirect()->route('salaries.index');
+        }
+
+        // validate request
         $this->validate();
 
         $this->staffs = Staff::with('bankDetails.bank')->get();
@@ -84,6 +101,21 @@ class NewSalary extends Component
      * @return void
      */
     public function saveSalaries() {
+
+        // check for existing salaries for selected month, year and shedule
+        $existing = Salary::where([
+            'month_of_salary'    => $this->salaryMonth,
+            'year_of_salary'     => $this->salaryYear,
+            'salary_schedule_id' => $this->salary_schedule_id,
+        ])->first();
+
+        if ($existing) {
+
+            session()->flash('message', 'Salary Schedule already created');
+            $this->dispatchBrowserEvent('showToastr', ['type' => 'danger', 'message' => 'Salary Schedule already created']);
+
+            return redirect()->route('salaries.index');
+        }
 
         $salary = Salary::updateOrCreate(
             [
@@ -116,10 +148,13 @@ class NewSalary extends Component
             }
         }
 
+        // fire event
+        event(new SalaryCreated($salary));
+
         session()->flash('message', 'Salary Schedule saved');
         $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Salary Schedule saved']);
 
-        redirect()->route('salaries.staff.preview', [$this->salary->id]);
+        redirect()->route('salaries.staff.preview', [$salary->id]);
     }
 
     /**

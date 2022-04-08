@@ -10,25 +10,13 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                                <h3>Staff Salaries </h3>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                                <h5>Staff Salaries </h5>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-
-                    @if (session()->has('error'))
-                        <div class="alert alert-danger alert-style-light" role="alert">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-
-                    @if (session()->has('success'))
-                        <div class="alert alert-success alert-style-light" role="alert">
-                            {{ session('success') }}
-                        </div>
-                    @endif
 
                     <form wire:submit.prevent="generateSalarySheet">
                         <div class="row my-3">
@@ -72,6 +60,33 @@
                         </div>
                     </form>
 
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    @if (session()->has('error'))
+                        <div class="alert alert-danger alert-style-light" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    @if (session()->has('success'))
+                        <div class="alert alert-success alert-style-light" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                     @if (!$salarySchedulesForTheMonth)
                     <table class="table table-bordered table-inverse table-nowrap" style="font-size: 0.8rem">
                         <thead>
@@ -80,18 +95,20 @@
                                 <th>Month</th>
                                 <th class="text-center">Year</th>
                                 <th class="text-center">Schedule</th>
+                                <th class="text-center">Status</th>
                                 <th class="text-center">Action(s)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($salaries as $salary)
+                            @forelse ($salaries as $sal)
                                 <tr>
                                     <td class="text-center" scope="row">{{ $loop->iteration }}</td>
-                                    <td>{{ $months[$salary->month_of_salary] }}</td>
-                                    <td class="text-center">{{ $salary->year_of_salary }}</td>
-                                    <td class="text-center">{{ $salary->salarySchedule->name }}</td>
+                                    <td>{{ $months[$sal->month_of_salary] }}</td>
+                                    <td class="text-center">{{ $sal->year_of_salary }}</td>
+                                    <td class="text-center">{{ $sal->salarySchedule->name }}</td>
+                                    <td class="text-center"><span class="badge badge-{{ $sal->approved ? 'success' : 'danger' }}">{{ $sal->approved ? 'approved' : 'unapproved' }}</span></td>
                                     <td class="text-center">
-                                        <a href="{{ route('salaries.staff.preview', $salary)}}" class="text-primaryp-0" data-original-title="" title="Details">
+                                        <a href="{{ route('salaries.staff.preview', $sal)}}" class="text-primaryp-0" data-original-title="" title="Details">
                                             Preview
                                         </a>
                                     </td>
@@ -168,8 +185,6 @@
                         </div>
                     </form>
                     @endif
-
-
                 </div>
             </div>
         </div>

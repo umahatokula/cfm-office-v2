@@ -2,10 +2,20 @@
 
 namespace App\Providers;
 
+use App\Events\RequisitionCreated;
+use App\Events\RequisitionApproved;
+use App\Events\SalaryCreated;
+use App\Events\SalaryPaymentApproved;
+use App\Events\TransactionOccured;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
+use App\Listeners\RequisitionCreatedListener;
+use App\Listeners\RequisitionApprovedListener;
+use App\Listeners\SalaryCreatedListener;
+use App\Listeners\SalaryPaymentApprovedListener;
+use App\Listeners\SaveToLedgerTrxn;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,17 +25,20 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        RequisitionCreated::class => [
+            RequisitionCreatedListener::class
         ],
-        'App\Events\RequisitionCreated' => [
-            'App\Listeners\RequisitionCreatedListener'
+        RequisitionApproved::class => [
+            RequisitionApprovedListener::class
         ],
-        'App\Events\RequisitionApproved' => [
-            'App\Listeners\RequisitionApprovedListener'
+        SalaryCreated::class => [
+            SalaryCreatedListener::class
         ],
-        'App\Events\SalaryScheduleApproved' => [
-            'App\Listeners\SalaryScheduleApprovedListener'
+        SalaryPaymentApproved::class => [
+            SalaryPaymentApprovedListener::class
+        ],
+        TransactionOccured::class => [
+            SaveToLedgerTrxn::class,
         ],
     ];
 

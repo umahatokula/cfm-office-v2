@@ -20,13 +20,16 @@ use Database\Seeders\RegionsTableSeeder;
 use Database\Seeders\AgeGroupTableSeeder;
 use Database\Seeders\FollowUpTargetSeeder;
 use Database\Seeders\FollowupReasonsSeeder;
+use Database\Seeders\TransactionTypeSeeder;
 use Database\Seeders\FTGInvitationModeSeeder;
 use Database\Seeders\ServiceTeamsTableSeeder;
 use Database\Seeders\ServiceTypesTableSeeder;
 use Database\Seeders\FTGInformationNeedSeeder;
 use Database\Seeders\MaritalStatusTableSeeder;
+use Database\Seeders\ChartOfAccountsTableSeeder;
 use Database\Seeders\SalaryScheduleElementSeeder;
 use Database\Seeders\RolesAndPermissionsTableSeeder;
+use Database\Seeders\TransactionTypeDoubleEntrySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -65,6 +68,9 @@ class DatabaseSeeder extends Seeder
             FollowupReasonsSeeder::class,
             BankSeeder::class,
             SalaryScheduleElementSeeder::class,
+            TransactionTypeSeeder::class,
+            TransactionTypeDoubleEntrySeeder::class,
+            ChartOfAccountsTableSeeder::class,
         ]);
     }
 }
