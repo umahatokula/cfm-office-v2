@@ -25,7 +25,7 @@
                         {{ $requisition->requisitionBy->lname }}
                         @endif
                     </td>
-                    <td class="text-end">{{ number_format($requisition->approved_amount, 2) }}</td>
+                    <td class="text-end">{{ number_format($requisition->requisitionItems->sum('total_cost'), 2) }}</td>
                     <td class="text-center">
                         @if($requisition->status)
                         <span
