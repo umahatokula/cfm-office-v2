@@ -2,9 +2,11 @@
 
 namespace App\Listeners;
 
+use Carbon\Carbon;
+use App\Models\Transaction;
 use App\Events\TransactionOccured;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SaveToLedgerTrxn
 {
@@ -26,6 +28,17 @@ class SaveToLedgerTrxn
      */
     public function handle(TransactionOccured $event)
     {
-        //
+        Transaction::create([
+            'code_cr'     => $event->code_cr,
+            'code_dr'     => $event->code_dr,
+            'amount'      => $event->amount,
+            'description' => $event->description,
+            'value_date'  => $event->value_date,
+            'created_at'  => Carbon::now(),
+        ]);
+
+
+
+
     }
 }

@@ -254,6 +254,9 @@ Route::group(['middleware' => 'auth'], function() {
     // =========================================Accounting==============================================
     Route::prefix('accounting')->group(function () {
 
+        // coa
+        Route::resource('dashboard', AccountingController::class);
+
         // salaries
         Route::get('salaries/staff/{staff}/edit', [SalaryController::class, 'editStaffSalary'])->name('salaries.staff.edit');
         Route::get('salaries/{salaryId}/preview', [SalaryController::class, 'preview'])->name('salaries.staff.preview');

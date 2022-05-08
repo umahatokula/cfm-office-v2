@@ -4,8 +4,7 @@
     <div class="col">
         <div class="page-description d-flex align-items-center">
             <div class="page-description-content flex-grow-1">
-                <h1>Accounting - Requisitions</h1>
-                <span>List of requisitions</span>
+                <h1>Accounting - Chart of Accounts</h1>
             </div>
             <div class="page-description-actions">
                 <a href="{{ route('requisitions.create') }}" class="btn btn-primary"><i class="material-icons">add</i>Create Requisition</a>

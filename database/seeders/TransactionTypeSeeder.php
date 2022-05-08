@@ -17,9 +17,9 @@ class TransactionTypeSeeder extends Seeder
         TransactionType::truncate();
 
         TransactionType::insert([
-            'name' => 'pay_staff_salary',
-            'description' => 'Pay staff salary',
-            'dr_cr_codes' => json_encode (json_decode ('{"cr": "210000", "dr": "121000"}')),
+            'name' => 'offering',
+            'description' => 'Service offering',
+            'dr_cr_codes' => json_encode (json_decode ('{"cr": "2110", "dr": "4103"}')),
         ]);
     }
 }

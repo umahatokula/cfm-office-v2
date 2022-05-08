@@ -30,7 +30,7 @@
             <li>
                 <a href="{{ route('church-services.index') }}"><i class="material-icons-two-tone">star</i>Service Day</a>
             </li>
-            
+
             <li>
                 <a href=""><i class="material-icons-two-tone">star</i>Follow Up<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                 <ul class="sub-menu">
@@ -91,6 +91,14 @@
                             </li>
                             <li>
                                 <a href="{{ route('salaries-schedule-elements.index') }}">Schedule Elements</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Chart of Accounts<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ route('coa.index') }}">COA</a>
                             </li>
                         </ul>
                     </li>

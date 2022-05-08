@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Helpers\Sms;
 use App\Models\User;
+use App\Models\Transaction;
 use App\Events\RequisitionApproved;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -30,17 +31,20 @@ class RequisitionApprovedListener
     {
         // \Log::info($event->requisition);
 
+        // fire event
+        Transaction::prepTransactionEvent(name: 'requisition', amount: $event->requisition->approved_amount, description: 'Requistion', date: $event->requisition->created_at);
+
         $users = User::role('generaloverseer')->get();
-        
-        
+
+
         foreach ($users as $user) {
-            if ($user->phone) {    
+            if ($user->phone) {
                 $to = $user->phone;
                 $message = 'Requisition #'.$event->requisition->requisition_number.' created. Awaiting approval.';
                 Sms::sendSMSMessage($to, $message);
             }
         }
 
-        
+
     }
 }

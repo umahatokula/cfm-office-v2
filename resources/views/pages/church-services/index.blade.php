@@ -64,7 +64,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-light">
+                                <table class="table table-bordered table-light" style="font-size: 0.85rem">
                                     <tr>
                                         <thead>
                                             <th class="text-center">#</th>
@@ -102,8 +102,8 @@
                                             <td class="text-right">{{ number_format($churchService->total_offering, 2) }}
                                             </td>
                                             <td class="text-center">
-                                                
-    
+
+
                                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                                     <div class="btn-group" role="group">
                                                         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle"
@@ -125,8 +125,8 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-    
-    
+
+
                                             </td>
                                         </tr>
                                         @php

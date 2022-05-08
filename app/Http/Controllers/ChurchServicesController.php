@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Church;
+use App\Models\Status;
+use App\Models\FollowUp;
+use App\Models\AgeProfile;
+use App\Models\AccountType;
+use App\Models\ServiceType;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+// use App\Models\PostServiceAccount;
 use App\Models\ChurchService;
 use App\Models\FollowupReason;
-use App\Models\FollowUp;
-use App\Models\Church;
-use App\Models\AgeProfile;
-use App\Models\Status;
-use App\Models\ServiceType;
-// use App\Models\PostServiceAccount;
-use App\Models\AccountType;
-use Carbon\Carbon;
+use App\Models\TransactionType;
+use App\Events\TransactionOccured;
+use Illuminate\Support\Facades\Auth;
 
 define('TITHE', 10);
 define('WELFARE', 25);
@@ -27,7 +30,7 @@ class ChurchServicesController extends Controller
         $this->middleware('auth');
     }
 
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -63,11 +66,11 @@ class ChurchServicesController extends Controller
         }
 
 
-        if ($request->date_from) {    
+        if ($request->date_from) {
             $date_from = $request->date_from;
-            $date_to = $request->date_to; 
+            $date_to = $request->date_to;
         }
-        
+
         if ($date_from == $date_to) {
             $q->where('service_date', '=', Carbon::parse($date_from));
         } else {
@@ -78,7 +81,7 @@ class ChurchServicesController extends Controller
         $data['date_from'] = $date_from;
         $data['date_to'] = $date_to;
         // dd($data['churchServices']->take(3));
-        
+
 
         return view('pages.church-services.index', $data);
     }
@@ -192,12 +195,14 @@ class ChurchServicesController extends Controller
         $churchService->head_pastor_approval      = 4;
         $churchService->ref_number                = $data['ref_number'];
         $churchService->save();
-            // dd('error');
+
+        // fire event
+        Transaction::prepTransactionEvent(name: 'offering', amount: $total_offering, description: 'Offerings', date: $churchService->service_date);
 
         // Apply financial policy - Post to different accounts
-        $this->financialPolicyEngine($churchService);
+        // $this->financialPolicyEngine($churchService);
 
-        flash('Save was successful.')->success();
+        // flash('Save was successful.')->success();
         return redirect()->route('church-services.index');
     }
 
@@ -237,7 +242,7 @@ class ChurchServicesController extends Controller
         if ($flag == 1) {
             $accountTypes[0]->decrement('account_balance', $tithe->amount);
         }
-        
+
 
         // WELFARE
         try{
@@ -349,7 +354,7 @@ class ChurchServicesController extends Controller
         $data['churchServiceInfoMenu']            = 1;
         $data['service_types']                    = ServiceType::pluck('service_type', 'id');
         $data['churchService']                    = ChurchService::find($id);
-        
+
         return view('pages.church-services.edit', $data);
     }
 
@@ -524,7 +529,7 @@ class ChurchServicesController extends Controller
         {
             $churchServices = $q->where('church_id', \Auth::user()->member->church_id)->get();
         }
-        
+
 
         return redirect()->route('church-services.index')->with('churchServices', $churchServices);
         // return view('church-services.search-results', $data);
@@ -599,13 +604,13 @@ class ChurchServicesController extends Controller
             $q->where('service_type_id', $service_type_id);
             $data['service_type_id'] = $service_type_id;
         }
-        
+
         $q->whereBetween('service_date', [$date_from, $date_to]);
 
         $data['churchServices'] = $q->orderBy('service_date', 'desc')->get();
         $data['date_from'] = $date_from;
         $data['date_to'] = $date_to;
-        
+
         $pdf = \PDF::loadView('pdf.churchService', $data)->setPaper('a4', 'landscape');
         if (\Auth::user()->hasPermissionTo('view all churches')) {
             return $pdf->download('SERVICE_REPORTS.pdf');
@@ -618,6 +623,6 @@ class ChurchServicesController extends Controller
      * Export church service summary as PDF
      */
     function churchServiceDetailsPDF($id, $date_from, $date_to) {
-        
+
     }
 }

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Requisition;
-use App\Models\RequisitionItem;
-use App\Models\ExpenseHead;
-use App\Models\AccountType;
-use Carbon\Carbon;
 use DateTime;
+use Carbon\Carbon;
+use App\Models\AccountType;
+use App\Models\ExpenseHead;
+use App\Models\Requisition;
+use App\Models\Transaction;
+use Illuminate\Http\Request;
+use App\Models\RequisitionItem;
 
 class RequisitionsController extends Controller
 {
@@ -17,7 +18,7 @@ class RequisitionsController extends Controller
         $this->middleware('auth');
     }
 
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +47,7 @@ class RequisitionsController extends Controller
      */
     public function store(Request $request)
     {
-        //        
+        //
     }
 
     /**
@@ -88,9 +89,9 @@ class RequisitionsController extends Controller
         // dd($request->all());
 
         $rules=[
-        'expense_head_id' => 'required', 
-        'description'     => 'required', 
-        'qty'             => 'required', 
+        'expense_head_id' => 'required',
+        'description'     => 'required',
+        'qty'             => 'required',
         'unit_cost'       => 'required',
         'total_cost'      => 'required',
         ];
@@ -116,8 +117,8 @@ class RequisitionsController extends Controller
         $requisition->requested_amount   = array_sum($request->total_cost);
         $requisition->requisition_by     = \Auth::user()->member->id;
         $requisition->save();
-        
-        for ($i=0; $i < count($request->expense_head_id); $i++) { 
+
+        for ($i=0; $i < count($request->expense_head_id); $i++) {
             $requisitionItem                  = new RequisitionItem;
             $requisitionItem->requisition_id  = $id;
             $requisitionItem->expense_head_id = $request->expense_head_id[$i];
@@ -154,6 +155,13 @@ class RequisitionsController extends Controller
         return view('accounting.requisitions.process', $data);
     }
 
+    /**
+     * approve
+     *
+     * @param  mixed $request
+     * @param  mixed $id
+     * @return void
+     */
     public function approve(Request $request, $id) {
         // dd($request->all(), $id);
 
@@ -168,12 +176,15 @@ class RequisitionsController extends Controller
         $church_accounts = AccountType::where(['church_id' => \Auth::user()->member->church_id])->get();
         $church_accounts[3]->decrement('account_balance', $requisition->approved_amount);
 
+        // fire event
+        Transaction::prepTransactionEvent(name: 'requisition', amount: $requisition->approved_amount, description: 'Requistion', date: $requisition->created_at);
+
         session()->flash('successMessage', 'Requisition approved.');
 
         if ($request->ajax()) {
             return response()->json(['success' => true, 'message' => 'Requisition approved.' ]);
         }
-        
+
         return redirect('requisitions');
     }
 
@@ -214,13 +225,13 @@ class RequisitionsController extends Controller
             $requisition->status_id = 6;
             $requisition->is_paid = 1;
             $requisition->save();
-            
+
             session()->flash('successMessage', 'Requisition paid.');
-            
+
             if ($request->ajax()) {
                 return response()->json(['success' => true, 'message' => 'Requisition paid.' ]);
             }
-            
+
             return redirect('requisitions/show-pay');
         } else {
             $requisition = Requisition::find($id);
@@ -233,13 +244,13 @@ class RequisitionsController extends Controller
             // increase balance of operations account
             $account_type_operations = AccountType::where(['id' => 4, 'church_id' => \Auth::user()->member->church_id])->first();
             $account_type_operations->increment('account_balance', $requisition->approved_amount);
-            
+
             session()->flash('successMessage', 'Requisition not paid.');
-            
+
             if ($request->ajax()) {
                 return response()->json(['success' => true, 'message' => 'Requisition not paid.' ]);
             }
-            
+
             return redirect('requisitions/show-pay');
 
         }

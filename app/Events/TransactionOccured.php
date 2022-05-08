@@ -14,23 +14,20 @@ class TransactionOccured
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $code_cr, $code_dr, $amount, $description, $value_date;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($code_cr, $code_dr, $amount, $description, $value_date)
     {
-        //
+        $this->code_cr = $code_cr;
+        $this->code_dr = $code_dr;
+        $this->amount = $amount;
+        $this->description = $description;
+        $this->value_date = $value_date;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
-    }
 }

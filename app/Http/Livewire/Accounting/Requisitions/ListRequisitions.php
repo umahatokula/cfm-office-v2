@@ -8,9 +8,9 @@ use App\Models\Requisition;
 use App\Events\RequisitionApproved;
 
 class ListRequisitions extends Component
-{    
+{
     public $requisitions, $operationsAccbalance;
-    
+
     public function render()
     {
         return view('livewire.accounting.requisitions.list-requisitions');
@@ -22,11 +22,11 @@ class ListRequisitions extends Component
      * @return void
      */
     public function mount() {
-        
+
         $this->requisitions = Requisition::where(['church_id' => auth()->user()->member->church_id])->get();
         $this->operationsAccbalance = AccountType::where(['id' => 4, 'church_id' => \Auth::user()->member->church_id])->first();
     }
-    
+
     /**
      * approve
      *
@@ -44,7 +44,7 @@ class ListRequisitions extends Component
 
         $this->dispatchBrowserEvent('showToastr', ['type' => 'success', 'message' => 'Requisition approved']);
     }
-    
+
     /**
      * disapprove
      *
