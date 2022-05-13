@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AccountSettingController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SMSController;
 use App\Http\Controllers\CellsController;
@@ -255,7 +257,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::prefix('accounting')->group(function () {
 
         // coa
-        Route::resource('dashboard', AccountingController::class);
+        Route::resource('dashboard', AccountsController::class);
 
         // salaries
         Route::get('salaries/staff/{staff}/edit', [SalaryController::class, 'editStaffSalary'])->name('salaries.staff.edit');
@@ -304,6 +306,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::resource('special-requisitions', SpecialRequisitionsController::Class);
 
         // coa
+        Route::resource('coa/settings', AccountSettingController::class);
         Route::resource('coa', ChartOfAccountsController::class);
     });
 
