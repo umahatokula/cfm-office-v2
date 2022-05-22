@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - staging
+      - migration_from_old
 name: 🚀 Deploying to staging
 jobs:
   web-deploy:
