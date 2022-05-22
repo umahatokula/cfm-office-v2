@@ -18,6 +18,6 @@ class TransactionType extends Model
 
         $account = ChartOfAccount::where('code', $this->dr_cr_codes[$trxn_type])->first();
 
-        return $account ? $account->code : null;
+        return $account ? $account->code : 0;
     }
 }

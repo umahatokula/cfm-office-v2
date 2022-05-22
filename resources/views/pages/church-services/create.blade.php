@@ -195,7 +195,7 @@
                             <div class="col-12">
                                 <h5>Offerings</h5>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 {!! Form::label('regular_offering', 'Regular', array('class' => 'control-label', 'for'
                                 => 'regular_offering')) !!}
 
@@ -203,7 +203,7 @@
                                 'regular_offering')) !!}
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 {!! Form::label('tithes', 'Tithes', array('class' => 'control-label', 'for' =>
                                 'tithes')) !!}
 
@@ -211,7 +211,7 @@
                                 'tithes')) !!}
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 {!! Form::label('connection', 'Connection', array('class' => 'control-label', 'for' =>
                                 'connection')) !!}
 
@@ -220,21 +220,21 @@
                             </div>
 
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 {!! Form::label('first_fruit', 'First Fruit', array('class' => 'control-label', 'for' =>
                                 'first_fruit')) !!}
 
                                 {!! Form::input('number','first_fruit', 0, array('class' => 'form-control', 'id' =>
                                 'first_fruit')) !!}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 {!! Form::label('thanksgiving_offering', 'Thanksgiving', array('class' => '
                                 control-label', 'for' => 'thanksgiving_offering')) !!}
 
                                 {!! Form::input('number','thanksgiving_offering', 0, array('class' => 'form-control',
                                 'id' => 'thanksgiving_offering')) !!}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 {!! Form::label('special_offering', 'Special', array('class' => 'control-label', 'for'
                                 => 'special_offering')) !!}
 
@@ -243,7 +243,7 @@
                             </div>
 
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 {!! Form::label('project_offering', 'Project', array('class' => 'control-label', 'for'
                                 => 'project_offering')) !!}
 
@@ -251,12 +251,12 @@
                                 'project_offering')) !!}
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 {!! Form::label('pos', 'POS', array('class' => 'control-label', 'for' => 'pos')) !!}
 
                                 {!! Form::input('number','pos', 0, array('class' => 'form-control', 'id' => 'pos')) !!}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 {!! Form::label('honourarium', 'Honourarium', array('class' => 'control-label', 'for' =>
                                 'honourarium')) !!}
 
@@ -266,7 +266,7 @@
 
 
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 {!! Form::label('others', 'Others', array('class' => 'control-label', 'for' =>
                                 'others')) !!}
 
