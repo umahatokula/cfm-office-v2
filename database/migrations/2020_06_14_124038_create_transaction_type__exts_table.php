@@ -18,6 +18,7 @@ class CreateTransactionTypeExtsTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->json('dr_cr_codes')->nullable();
+            $table->timestamps();
         });
     }
 

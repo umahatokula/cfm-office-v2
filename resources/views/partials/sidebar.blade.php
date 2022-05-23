@@ -100,6 +100,9 @@
                             <li>
                                 <a href="{{ route('coa.index') }}">COA</a>
                             </li>
+                            <li>
+                                <a href="{{ url('accounting/coa/settings/create') }}">Link Accounts</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

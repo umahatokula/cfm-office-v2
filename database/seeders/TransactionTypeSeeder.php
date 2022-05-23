@@ -75,5 +75,11 @@ class TransactionTypeSeeder extends Seeder
             'description' => 'Requisition',
             'dr_cr_codes' => json_encode (json_decode ('{"cr": "2110", "dr": "4103"}')),
         ]);
+
+        TransactionType::insert([
+            'name' => 'salaries_paid',
+            'description' => 'Salaries Paid',
+            'dr_cr_codes' => json_encode (json_decode ('{"cr": "2110", "dr": "4103"}')),
+        ]);
     }
 }

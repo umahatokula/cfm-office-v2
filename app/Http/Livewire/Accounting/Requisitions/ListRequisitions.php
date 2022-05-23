@@ -34,9 +34,14 @@ class ListRequisitions extends Component
      * @return void
      */
     public function approve(Requisition $requisition) {
+//        dd($requisition);
+//        $total_cost = array_sum(array_column($this->requisitionItems, 'total_cost'));
+//
+//        $requisition->approved_amount = $total_cost;
         $requisition->status_id = 3;
         $requisition->save();
 
+//        fire event
         RequisitionApproved::dispatch($requisition);
 
         // reload requisitions

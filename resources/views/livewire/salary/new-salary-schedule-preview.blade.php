@@ -83,6 +83,8 @@
                             </div>
                         </div>
                     </div>
+
+                        @if(!$salary->approved)
                     <div class="row">
                         <div class="col-md-12">
                             <div class="d-flex justify-content-end">
@@ -91,6 +93,7 @@
                             </div>
                         </div>
                     </div>
+                        @endif
 
                 </div>
             </div>

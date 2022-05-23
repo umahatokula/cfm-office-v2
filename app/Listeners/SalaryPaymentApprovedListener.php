@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\SalaryPaymentApproved;
+use App\Models\Transaction;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -26,6 +27,11 @@ class SalaryPaymentApprovedListener
      */
     public function handle(SalaryPaymentApproved $event)
     {
-        // dd($event->salary);
+
+        $total = $event->salary->getSalaryTotal();
+
+        // fire event
+        Transaction::prepTransactionEvent(name: 'salaries_paid', amount: $total, description: 'Salary approved', date: $event->salary->created_at);
+
     }
 }

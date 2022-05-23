@@ -10,6 +10,8 @@ class TransactionType extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['dr_cr_codes->dr', 'dr_cr_codes->cr'];
+
     protected $casts = [
         'dr_cr_codes' => 'array',
     ];

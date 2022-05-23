@@ -24,6 +24,7 @@ class Transaction extends Model
 
         $trxnType = TransactionType::where('name', $name)->first();
 
+
         if (!$trxnType || count($trxnType->dr_cr_codes) == 0) {
             return 0;
         }

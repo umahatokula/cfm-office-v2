@@ -29,7 +29,7 @@ class RequisitionApprovedListener
      */
     public function handle(RequisitionApproved $event)
     {
-        // \Log::info($event->requisition);
+         dd($event->requisition);
 
         // fire event
         Transaction::prepTransactionEvent(name: 'requisition', amount: $event->requisition->approved_amount, description: 'Requistion', date: $event->requisition->created_at);
@@ -41,7 +41,7 @@ class RequisitionApprovedListener
             if ($user->phone) {
                 $to = $user->phone;
                 $message = 'Requisition #'.$event->requisition->requisition_number.' created. Awaiting approval.';
-                Sms::sendSMSMessage($to, $message);
+//                Sms::sendSMSMessage($to, $message);
             }
         }
 
