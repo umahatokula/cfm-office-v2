@@ -20,10 +20,10 @@
                             <h5 class="card-title">&nbsp</h5>
                         </div>
                         <div class="card-body">
-                            
+
                             {!! Form::open(['route' => 'followup-targets.store', 'class' => 'row g-3']) !!}
 
-                            
+
                                 <div class="row mb-3">
                                     <label for="fname" class="col-sm-2 col-form-label">First Name</label>
                                     <div class="col-sm-10">
@@ -31,7 +31,7 @@
                                         @error('fname') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
-                            
+
                                 <div class="row mb-3">
                                     <label for="lname" class="col-sm-2 col-form-label">First Name</label>
                                     <div class="col-sm-10">
@@ -39,7 +39,7 @@
                                         @error('lname') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
-                            
+
                                 <div class="row mb-3">
                                     <label for="email" class="col-sm-2 col-form-label">Email</label>
                                     <div class="col-sm-10">
@@ -47,7 +47,7 @@
                                         @error('email') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
-                            
+
                                 <div class="row mb-3">
                                     <label for="phone" class="col-sm-2 col-form-label">Phone Number</label>
                                     <div class="col-sm-10">
@@ -55,7 +55,7 @@
                                         @error('phone') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
-                            
+
                                 <div class="row mb-3">
                                     <label for="address" class="col-sm-2 col-form-label">Residential Address</label>
                                     <div class="col-sm-10">
@@ -63,15 +63,15 @@
                                         @error('address') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
-                            
+
                                 <div class="row mb-3">
                                     <label for="marital_status_id" class="col-sm-2 col-form-label">Marital Status</label>
                                     <div class="col-sm-10">
-                                        {!! Form::select('marital_status_id', $ageProfiles, null, ['class' => 'form-control', 'id' => 'marital_status_id', 'placeholder' => 'Select one']) !!}
+                                        {!! Form::select('marital_status_id', $maritalStatuses, null, ['class' => 'form-control', 'id' => 'marital_status_id', 'placeholder' => 'Select one']) !!}
                                         @error('marital_status_id') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
-                            
+
                                 <div class="row mb-3">
                                     <label for="age_profile_id" class="col-sm-2 col-form-label">Age Profile</label>
                                     <div class="col-sm-10">
@@ -79,7 +79,7 @@
                                         @error('age_profile_id') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
-                            
+
                                 <div class="row mb-3">
                                     <label for="who_invited_you" class="col-sm-2 col-form-label">Who Invited you?</label>
                                     <div class="col-sm-10">
@@ -126,20 +126,20 @@
                                     <legend class="col-form-label col-sm-2 pt-0">Would you appreciate a visit?</legend>
                                     <div class="col-sm-10">
                                         <div class="form-check">
-                                            <input name="appreciate_a_visit" value="1" class="form-check-input" type="radio" id="inte_yes" value="option1" checked>
-                                            <label class="form-check-label" for="inte_yes">
+                                            <input name="appreciate_a_visit" value="1" class="form-check-input" type="radio" id="appreciate_yes" value="option1" checked>
+                                            <label class="form-check-label" for="appreciate_yes">
                                                 Yes
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input name="appreciate_a_visit" value="0" class="form-check-input" type="radio" id="inte_no" value="option1" checked>
-                                            <label class="form-check-label" for="inte_no">
+                                            <input name="appreciate_a_visit" value="0" class="form-check-input" type="radio" id="appreciate_no" value="option1" checked>
+                                            <label class="form-check-label" for="appreciate_no">
                                                 No
                                             </label>
                                         </div>
                                     </div>
                                 </fieldset>
-                            
+
                                 <div class="row mb-3">
                                     <label for="day_of_week_for_visit" class="col-sm-2 col-form-label">What day of the week?</label>
                                     <div class="col-sm-10">
@@ -165,7 +165,7 @@
                                         </div>
                                     </div>
                                 </fieldset>
-                            
+
                                 <div class="row mb-3">
                                     <label for="day_of_week_for_call" class="col-sm-2 col-form-label">What day of the week?</label>
                                     <div class="col-sm-10">
@@ -175,7 +175,7 @@
                                 </div>
 
                                 <p><b>Do you want us to pray for you?</b></p>
-                            
+
                                 <div class="row mb-3">
                                     <label for="prayer_request" class="col-sm-2 col-form-label">Request</label>
                                     <div class="col-sm-10">
@@ -189,8 +189,8 @@
                                     <div class="col-sm-10">
                                         @forelse ($fTGInterests as $fTGInterest)
                                         <div class="form-check">
-                                            <input name="fTGInterests[]" value="{{ $fTGInterest->id }}" class="form-check-input" type="checkbox" id="{{ $fTGInterest->id }}">
-                                            <label class="form-check-label" for="{{ $fTGInterest->id }}">
+                                            <input name="fTGInterests[]" value="{{ $fTGInterest->id }}" class="form-check-input" type="checkbox" id="interested-in-{{ $fTGInterest->id }}">
+                                            <label class="form-check-label" for="interested-in-{{ $fTGInterest->id }}">
                                                 {{ $fTGInterest->name }}
                                             </label>
                                         </div>
@@ -205,8 +205,8 @@
                                     <div class="col-sm-10">
                                         @forelse ($fTGInformationNeeds as $fTGInformationNeed)
                                         <div class="form-check">
-                                            <input name="fTGInformationNeeds[]" value="{{ $fTGInformationNeed->id }}" class="form-check-input" type="checkbox" id="{{ $fTGInformationNeed->id }}">
-                                            <label class="form-check-label" for="{{ $fTGInformationNeed->id }}">
+                                            <input name="fTGInformationNeeds[]" value="{{ $fTGInformationNeed->id }}" class="form-check-input" type="checkbox" id="more-info-{{ $fTGInformationNeed->id }}">
+                                            <label class="form-check-label" for="more-info-{{ $fTGInformationNeed->id }}">
                                                 {{ $fTGInformationNeed->name }}
                                             </label>
                                         </div>
@@ -215,7 +215,7 @@
                                         @endforelse
                                     </div>
                                 </fieldset>
-                            
+
                                 <div class="row mb-3">
                                     <label for="church_id" class="col-sm-2 col-form-label">Church</label>
                                     <div class="col-sm-10">
@@ -223,7 +223,7 @@
                                         @error('church_id') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
-                            
+
                                 <div class="row mb-3">
                                     <label for="notes" class="col-sm-2 col-form-label">Notes</label>
                                     <div class="col-sm-10">

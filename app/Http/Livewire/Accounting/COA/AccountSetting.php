@@ -46,7 +46,7 @@ class AccountSetting extends Component
 
         $this->reset(['dr', 'cr']);
 
-        session()->flash('message', $trxnType->description.' successfully linked.');
+        session()->flash('message', ' successfully linked.');
     }
 
     public function render()
