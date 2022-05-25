@@ -46,6 +46,7 @@ class FollowupTargetController extends Controller
         $data['fTGInformationNeeds'] = FTGInformationNeed::all();
 
         if(request()->ajax()) {
+            // return view('pages.follow-up.targets.create-modal', $data);
             return view('pages.follow-up.targets.create-modal', $data);
         }
 
@@ -79,7 +80,7 @@ class FollowupTargetController extends Controller
         }
 
         session()->flash('FollowupTarget successfully added.');
-        
+
         // return redirect()->route('followup-targets.index');
         return redirect()->back();
     }
