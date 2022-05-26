@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Cell;
 use App\Models\User;
 use App\Models\Church;
+use App\Models\Gender;
 use App\Models\Member;
 use App\Models\LifeCoach;
 use App\Models\AgeProfile;
 use App\Models\FTGInterest;
+use App\Models\ServiceTeam;
 use Illuminate\Http\Request;
 use App\Models\MaritalStatus;
 use App\Models\FollowupReason;
 use App\Models\FollowupTarget;
 use App\Models\LifeCoachTarget;
+use App\Models\CellChurchColony;
 use App\Models\FTGInvitationMode;
 use App\Models\FTGInformationNeed;
 use Illuminate\Support\Facades\DB;
@@ -43,8 +47,14 @@ class LifeCoachController extends Controller
      */
     public function create()
     {
-        //
-        return view('pages.life-coaches.create');
+        $data['genders'] = Gender::all();
+        $data['maritalStatuses'] = MaritalStatus::all();
+        $data['cells'] = Cell::church()->get();
+        $data['c3s'] = CellChurchColony::all();
+        $data['serviceTeams'] = ServiceTeam::all();
+        $data['churches'] = Church::all();
+
+        return view('pages.life-coaches.create', $data);
     }
 
     /**
@@ -58,7 +68,7 @@ class LifeCoachController extends Controller
 
         $input = $request->input();
 
-        $lifeCoach = LifeCoach::create($input);
+        $lifeCoach = LifeCoach::create($request->all());
 
         return redirect()->route('life-coaches.index');
     }
@@ -88,7 +98,16 @@ class LifeCoachController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(LifeCoach $lifeCoach) {
-        return view('pages.life-coaches.edit' , [ 'lifeCoach' => $lifeCoach ]);
+
+        $data['lifeCoach'] = $lifeCoach;
+        $data['genders'] = Gender::all();
+        $data['maritalStatuses'] = MaritalStatus::all();
+        $data['cells'] = Cell::church()->get();
+        $data['c3s'] = CellChurchColony::all();
+        $data['serviceTeams'] = ServiceTeam::all();
+        $data['churches'] = Church::all();
+
+        return view('pages.life-coaches.edit' , $data);
     }
 
     /**
@@ -135,7 +154,7 @@ class LifeCoachController extends Controller
         }
         return redirect('/')->with($respStatus, $respMsg);
     }
-    
+
     /**
      * createTarget
      *
@@ -153,7 +172,7 @@ class LifeCoachController extends Controller
 
         return view('pages.life-coaches.create-modal', $data);
     }
-    
+
     /**
      * createTargetStore
      *
@@ -218,7 +237,7 @@ class LifeCoachController extends Controller
 
         LifeCoachTarget::where('followup_target_id', $request->target_id)->delete(); // delete existing attachments
         $res = $lifeCoach->followuptargets()->attach($request->target_id, ['reason_id' => $request->reason_id]);
-        
+
         // DB::table('life_coach_targets')->insert([
         //     'life_coach_id'      => $request->coach_id,
         //     'followup_target_id' => $request->target_id,

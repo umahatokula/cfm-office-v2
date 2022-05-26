@@ -13,7 +13,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                
+
                 @if ($errors->any())
                     @foreach ($errors->all() as $error)
                         <div class="alert alert-danger alert-style-light" role="alert">
@@ -22,17 +22,49 @@
                     @endforeach
                 @endif
 
-                <div class="row my-3">
-                    <div class="col-md-1"><b>Name</b></div>
-                    <div class="col-md-8">{{ $lifeCoach->name  }}</div>
-                </div>
-                <div class="row my-3">
-                    <div class="col-md-1"><b>Email</b></div>
-                    <div class="col-md-8">{{ $lifeCoach->email }}</div>
-                </div>
-                <div class="row my-3">
-                    <div class="col-md-1"><b>Phone</b></div>
-                    <div class="col-md-8">{{ $lifeCoach->phone }}</div>
+                <div class="row">
+                    <div class="col-md-4">
+                         <div class="row my-3">
+                             <div class="col-md-4"><b>Name</b></div>
+                             <div class="col-md-8">{{ $lifeCoach->name  }}</div>
+                         </div>
+                         <div class="row my-3">
+                             <div class="col-md-4"><b>Email</b></div>
+                             <div class="col-md-8">{{ $lifeCoach->email }}</div>
+                         </div>
+                         <div class="row my-3">
+                             <div class="col-md-4"><b>Phone</b></div>
+                             <div class="col-md-8">{{ $lifeCoach->phone }}</div>
+                         </div>
+                    </div>
+                    <div class="col-md-4">
+                         <div class="row my-3">
+                             <div class="col-md-4"><b>Gender</b></div>
+                             <div class="col-md-8">{{ $lifeCoach->gender->name  }}</div>
+                         </div>
+                         <div class="row my-3">
+                             <div class="col-md-4"><b>Marital Status</b></div>
+                             <div class="col-md-8">{{ $lifeCoach->maritalStatus->name }}</div>
+                         </div>
+                         <div class="row my-3">
+                             <div class="col-md-4"><b>Occupation</b></div>
+                             <div class="col-md-8">{{ $lifeCoach->occupation }}</div>
+                         </div>
+                    </div>
+                   <div class="col-md-4">
+                        <div class="row my-3">
+                            <div class="col-md-4"><b>Cell</b></div>
+                            <div class="col-md-8">{{ $lifeCoach->cell->name  }}</div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-md-4"><b>C3</b></div>
+                            <div class="col-md-8">{{ $lifeCoach->colony->name }}</div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-md-4"><b>Church)</b></div>
+                            <div class="col-md-8">{{ $lifeCoach->church->name }}</div>
+                        </div>
+                   </div>
                 </div>
             </div>
         </div>
@@ -79,9 +111,9 @@
                                             <span class="material-icons-sharp">more_vert</span>
                                         </a>
                                     </td>
-                                </tr>                                    
+                                </tr>
                                 @empty
-                                    
+
                                 @endforelse
                             </tbody>
                         </table>
@@ -93,7 +125,7 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-body">
-                
+
             </div>
         </div>
     </div>

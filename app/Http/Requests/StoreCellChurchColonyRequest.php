@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\LifeCoach;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Store extends FormRequest
+class StoreCellChurchColonyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class Store extends FormRequest
      */
     public function authorize()
     {
-        return 1;
+        return false;
     }
 
     /**
@@ -24,11 +24,7 @@ class Store extends FormRequest
     public function rules()
     {
         return [
-            'fname'             => 'required',
-            'lname'             => 'required',
-            'phone'             => 'required',
-            'gender_id'         => 'required',
-            'marital_status_id' => 'required',
+            //
         ];
     }
 }

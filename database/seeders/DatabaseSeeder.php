@@ -21,6 +21,7 @@ use Database\Seeders\AgeGroupTableSeeder;
 use Database\Seeders\FollowUpTargetSeeder;
 use Database\Seeders\FollowupReasonsSeeder;
 use Database\Seeders\TransactionTypeSeeder;
+use Database\Seeders\CellChurchColonySeeder;
 use Database\Seeders\FTGInvitationModeSeeder;
 use Database\Seeders\ServiceTeamsTableSeeder;
 use Database\Seeders\ServiceTypesTableSeeder;
@@ -41,7 +42,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        \App\Models\Member::factory(500)->create();
+        \App\Models\Member::factory(50)->create();
         \App\Models\Staff::factory(15)->create();
 
         $this->call([
@@ -71,6 +72,7 @@ class DatabaseSeeder extends Seeder
             TransactionTypeSeeder::class,
             TransactionTypeDoubleEntrySeeder::class,
             ChartOfAccountsTableSeeder::class,
+            CellChurchColonySeeder::class,
         ]);
     }
 }

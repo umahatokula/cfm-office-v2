@@ -19,6 +19,13 @@ class CreateLifeCoachesTable extends Migration
             $table->string('lname')->nullable()->comment('Last name of the person who follows targets up');
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
+            $table->foreignId('gender_id')->nullable();
+            $table->foreignId('marital_status_id')->nullable();
+            $table->string('residential_address')->nullable();
+            $table->foreignId('cell_id')->nullable();
+            $table->foreignId('c3_id')->nullable();
+            $table->foreignId('service_team_id')->nullable();
+            $table->string('occupation')->nullable();
             $table->foreignId('church_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
