@@ -39,7 +39,7 @@
                             $associated_trxns_cr = isset($type->dr_cr_codes['cr']) ? $type->dr_cr_codes['cr'] : null;
                         @endphp
                         <tr>
-                            <td>{{ $type->description }}</td>
+                            <td><div class="pt-2">{{ $type->description }}</div></td>
                             <td>
                                 <select wire:change="$set('dr', $event.target.value)" class="form-control select2">
                                     <option value="">Select one</option>
@@ -57,7 +57,9 @@
                                 </select>
                             </td>
                             <td>
-                                <a wire:click.prevent="accountLinked('{{$type->name}}')" class="btn btn-xs btn-primary" href="#">Link</a>
+                                <div class="pt-2">
+                                    <a wire:click.prevent="accountLinked('{{$type->name}}')" class="btn btn-xs btn-primary" href="#">Link</a>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

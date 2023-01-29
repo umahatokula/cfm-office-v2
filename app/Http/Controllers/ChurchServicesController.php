@@ -18,6 +18,9 @@ use App\Models\TransactionType;
 use App\Events\TransactionOccured;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Requests\ChurchService\Store as StoreRequest;
+use App\Http\Requests\ChurchService\Update as UpdateRequest;
+
 define('TITHE', 10);
 define('WELFARE', 25);
 define('SAVINGS', 25);
@@ -36,8 +39,7 @@ class ChurchServicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $data['churchServiceInfoMenu'] = 1;
         $data['churches'] = Church::pluck('name', 'id');
         $data['serviceTypes'] = ServiceType::pluck('service_type', 'id');
@@ -94,8 +96,8 @@ class ChurchServicesController extends Controller
     public function create()
     {
 
-        $data['churchServiceInfoMenu']            = 1;
-        $data['service_types']                    = ServiceType::pluck('service_type', 'id');
+        $data['churchServiceInfoMenu'] = 1;
+        $data['service_types'] = ServiceType::pluck('service_type', 'id');
 
         return view('pages.church-services.create', $data);
     }
@@ -106,46 +108,8 @@ class ChurchServicesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(StoreRequest $request) {
         // dd($request->all());
-
-        $rules                 = [
-        'service_type_id'      => 'numeric|required',
-        'service_date'         => 'required',
-        'attendance_men'       => 'numeric|required',
-        'attendance_women'     => 'numeric|required',
-        'attendance_children'  => 'numeric|required',
-        'first_timers_men'     => 'numeric|required',
-        'first_timers_women'   => 'numeric|required',
-        'first_timers_children'=> 'numeric|required',
-        'born_again_men'       => 'numeric|required',
-        'born_again_women'     => 'numeric|required',
-        'born_again_children'  => 'numeric|required',
-        'filled_men'           => 'numeric|required',
-        'filled_women'         => 'numeric|required',
-        'filled_children'      => 'numeric|required',
-        'regular_offering'     => 'numeric|required',
-        'tithes'               => 'numeric|required',
-        'connection'           => 'numeric|required',
-        'first_fruit'          => 'numeric|required',
-        'thanksgiving_offering'=> 'numeric|required',
-        'special_offering'     => 'numeric|required',
-        'project_offering'     => 'numeric|required',
-        'pos'                  => 'numeric|required',
-        'honourarium'          => 'numeric|required',
-        'others'               => 'numeric|required',
-        ];
-
-        $validator = \Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            if ($request->ajax()) {
-                return response()->json(['success'=> FALSE, 'message' => $validator->errors() ]);
-            }
-            return \Redirect::back()->withInput()->withErrors($validator);
-
-        }
 
         $data['ref_number']                       = $this->randomString(5);
 
@@ -197,7 +161,18 @@ class ChurchServicesController extends Controller
         $churchService->save();
 
         // fire event
-        Transaction::prepTransactionEvent(name: 'offering', amount: $total_offering, description: 'Offerings', date: $churchService->service_date);
+        Transaction::prepTransactionEvent(
+            'offering',
+            $total_offering,
+            'Offerings',
+            $churchService->service_date
+        );
+        Transaction::prepTransactionEvent(
+            'offering',
+            $total_offering,
+            'Offerings',
+            $churchService->service_date
+        );
 
         // Apply financial policy - Post to different accounts
         // $this->financialPolicyEngine($churchService);
@@ -365,47 +340,8 @@ class ChurchServicesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        // dd(\Input                              ::all());
-
-        $rules                                    = [
-        'service_type_id'                         => 'numeric|required',
-        'service_date'                            => 'required',
-        'attendance_men'                          => 'numeric|required',
-        'attendance_women'                        => 'numeric|required',
-        'attendance_children'                     => 'numeric|required',
-        'first_timers_men'                        => 'numeric|required',
-        'first_timers_women'                      => 'numeric|required',
-        'first_timers_children'                   => 'numeric|required',
-        'born_again_men'                          => 'numeric|required',
-        'born_again_women'                        => 'numeric|required',
-        'born_again_children'                     => 'numeric|required',
-        'filled_men'                              => 'numeric|required',
-        'filled_women'                            => 'numeric|required',
-        'filled_children'                         => 'numeric|required',
-        'regular_offering'                        => 'numeric|required',
-        'tithes'                                  => 'numeric|required',
-        'connection'                              => 'numeric|required',
-        'first_fruit'                             => 'numeric|required',
-        'thanksgiving_offering'                   => 'numeric|required',
-        'special_offering'                        => 'numeric|required',
-        'project_offering'                        => 'numeric|required',
-        'pos'                                     => 'numeric|required',
-        'honourarium'                             => 'numeric|required',
-        'others'                                  => 'numeric|required',
-        ];
-
-        $validator                                = \Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            if ($request->ajax()) {
-                return response()->json(['success'=> FALSE, 'message' => $validator->errors() ]);
-            }
-            return \Redirect                      ::back()->withInput()->withErrors($validator);
-
-        }
-
+    public function update(UpdateRequest $request, $id) {
+        // dd(\Input::all());
 
         //save total monies to church account table as income
         $attendance_total                         = $request->attendance_men + $request->attendance_women + $request->attendance_children;
@@ -453,7 +389,7 @@ class ChurchServicesController extends Controller
         $churchService->ref_number                = $churchService->ref_number;
         $churchService->save();
 
-        flash('Save was successful.')->success();
+        session()->flash('Update successfull');
         return redirect()->route('church-services.index');
     }
 
@@ -475,8 +411,7 @@ class ChurchServicesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
-    {
+    public function delete($id) {
         $churchService                            = ChurchService::find($id);
 
         // Apply financial policy - Decrease from different accounts
@@ -484,7 +419,7 @@ class ChurchServicesController extends Controller
 
 
         if ($churchService) {
-            $churchService                        = $churchService->delete();
+            $churchService = $churchService->delete();
 
             if (\Request::ajax()) {
                 return response()->json(['message'=> 'Church Service Information deleted']);
@@ -511,8 +446,7 @@ class ChurchServicesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
-    {
+    public function search(Request $request) {
         // dd($request->all());
 
         $q = ChurchService::query();

@@ -28,6 +28,7 @@ class SaveToLedgerTrxn
      */
     public function handle(TransactionOccured $event)
     {
+        dd($event);
         Transaction::create([
             'code_cr'     => $event->code_cr,
             'code_dr'     => $event->code_dr,
